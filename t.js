@@ -25,7 +25,7 @@ Grafo.prototype.addNode = function(n1,n2,value){
 
 
 
-Grafo.prototype.max_time = function () {
+Grafo.prototype.T = function () {
 	var time = new Array(this.n);
 	for (var k = 0; k < this.n; k++){
 		time[k]= new Array(this.n);
@@ -59,7 +59,7 @@ Grafo.prototype.max_time = function () {
 
 
 
-Grafo.prototype.min_time = function () {
+Grafo.prototype.t = function () {
 	var time = new Array(this.n);
 	for (var k = 0; k < this.n; k++){
 		time[k]= new Array(this.n);
@@ -121,3 +121,8 @@ var min_time = function (n) {
 	}
 	
 }
+
+
+
+
+
