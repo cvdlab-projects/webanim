@@ -20,6 +20,7 @@ function Edge (from, to, value) {
 
 function Graph (nodes, edges) {
 	this.nodes = nodes;
+	this.sortNodes();
 	this.edges = edges;
 }
 
@@ -39,6 +40,7 @@ Graph.prototype.sortNodes = function() {
 
 Graph.prototype.addNode = function (node) {
 	this.nodes.push(node);
+	this.sortNodes();
 	return this.nodes;
 }
 
@@ -89,13 +91,11 @@ var maxtime = function (graph, node) {
 /* Si assumono come nodo sorgente e nodo pozzo, rispettivamente,
 i nodi con number più piccolo e più grande */
 Graph.prototype.mintime = function () {
-	this.sortNodes();
 	var last = this.nodes.length - 1;
 	return mintime(this,this.nodes[last]);
 }
 
 Graph.prototype.maxtime = function () {
-	this.sortNodes();
 	return maxtime(this,this.nodes[0]);
 }
 
@@ -103,4 +103,3 @@ Graph.prototype.computeCPM = function() {
 	this.mintime();
 	this.maxtime();
 }
-
