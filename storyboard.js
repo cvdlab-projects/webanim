@@ -1,7 +1,8 @@
-function Node (number, t, T) {
+function Node (number, t, T, tm) {
 	this.number = number;
 	this.t = t || 0;
 	this.T = T || 0;
+	this.tm = tm || 0;
 }
 
 Node.prototype.sett = function (t) {
@@ -10,6 +11,10 @@ Node.prototype.sett = function (t) {
 
 Node.prototype.setT = function (T) {
 	this.T = T;
+}
+
+Node.prototype.setTm = function (tm) {
+	this.tm = tm;
 }
 
 function Edge (from, to, value) {
@@ -47,9 +52,9 @@ Graph.prototype.addNode = function (node) {
 
 var mintime = function (graph, node) {
 	var predecessori = graph.edges.filter(function(item, index) {
-		return (item.to == node);
+		return (item.to === node);
 	});
-	if(predecessori.length == 0) {
+	if(predecessori.length === 0) {
 		node.sett(0);
 		return node.t; 
 	}
@@ -69,9 +74,9 @@ var mintime = function (graph, node) {
 
 var maxtime = function (graph, node) {
 	var successori = graph.edges.filter(function(item, index) {
-		return (item.from == node);
+		return (item.from === node);
 	});
-	if(successori.length == 0) {
+	if(successori.length === 0) {
 		node.setT(node.t);
 		return node.T; 
 	}
@@ -95,11 +100,35 @@ Graph.prototype.mintime = function () {
 	return mintime(this,this.nodes[last]);
 }
 
+/* Nel caso si voglia specificare quale sia il nodo pozzo */
+Graph.prototype.mintime = function (node) {
+	return mintime(this,node);
+}
+
 Graph.prototype.maxtime = function () {
 	return maxtime(this,this.nodes[0]);
+}
+
+/* Nel caso si voglia specificare quale sia il nodo sorgente */
+Graph.prototype.maxtime = function (node) {
+	return maxtime(this,node);
+}
+
+Graph.prototype.meantime = function() {
+	this.nodes.forEach(function(item, index) {
+		var tm = (item.t + item.T)/2;
+		item.setTm(tm);
+	}); 
 }
 
 Graph.prototype.computeCPM = function() {
 	this.mintime();
 	this.maxtime();
+	this.meantime();
+}
+
+Graph.prototype.computeCPM = function(source, target) {
+	this.mintime(target);
+	this.maxtime(source);
+	this.meantime();
 }
