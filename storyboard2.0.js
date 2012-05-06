@@ -5,7 +5,7 @@ Event = function() {
 	this.outgoingSegments = [];
 	this.tMin = Number.NEGATIVE_INFINITY;
 	this.tMax = Number.POSITIVE_INFINITY;
-	this.tMean = Number.POSITIVE_INFINITY; // @
+	this.startTime = Number.POSITIVE_INFINITY; // @
 };
 
 Event.prototype.setId = function(id) {
@@ -54,8 +54,8 @@ Event.prototype.setTMax = function(t) {
 	this.tMax = t;
 };
 
-Event.prototype.setTMean = function(t) { // @
-	this.tMean = t;
+Event.prototype.setStartTime = function(t) { // @
+	this.startTime = t;
 };
 
 
