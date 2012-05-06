@@ -130,6 +130,15 @@ Graph.prototype.meantime = function () {
 	}); 
 }
 
+/* Utile nel caso si voglia ricalcolare il CPM a seguito dell'aggiunta di nodi ed archi */
+Graph.prototype.clear = function () {
+	this.nodes.forEach(function (item, index) {
+		item.sett(0);
+		item.setT(0);
+		item.setTm(0);
+	})
+}
+
 Graph.prototype.computeCPM = function () {
 	this.mintime();
 	this.maxtime();
@@ -137,6 +146,7 @@ Graph.prototype.computeCPM = function () {
 }
 
 Graph.prototype.computeCPM = function (source, target) {
+	this.clear();
 	this.mintime(target);
 	this.maxtime(source);
 	this.meantime();
