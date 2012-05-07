@@ -277,8 +277,7 @@ AnimationSegment = function (description, startTime, endTime) { // @
 	this.description = description; // assumiamo, come sopra, che contenga informazioni su attore e azione da eseguire
 	this.startTime = startTime;
 	this.endTime = endTime;
-}
-
+};
 
 Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	var timeline = [];
@@ -293,3 +292,11 @@ Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	});
 	return timeline;
 };
+
+Storyboard.prototype.clearTimes = function() {
+	this.events.forEach(function (item, index) {
+		item.setTMin(Number.NEGATIVE_INFINITY);
+		item.setTMax(Number.NEGATIVE_INFINITY);
+		item.setStartTime(Number.NEGATIVE_INFINITY);
+	})
+}
