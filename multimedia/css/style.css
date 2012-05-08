@@ -1,33 +1,11 @@
-div {
-	display: inline;
-}
-
-.top_container {
-}
-
-.horizontal_container {
-	display: inline;
-}
-
-.vertical_container {
-	display: block;
-}
-
 #leftPanel {
-	float: right;
-}
-
-#controls {
-}
-
-#startStop, #getFrameButton {
-	display: inline;
+	float: right; // move menu on right
 }
 
 canvas {
-	display: block;
+	display: block; // align two canvas vertically (remove when deleting lower canvas)
 }
 
 ul {
-	text-align: right;
+	text-align: right; // align menu items on right
 }
