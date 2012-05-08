@@ -1,87 +1,76 @@
 var querystring = require("querystring"),
-    fs = require("fs"),
-    path = require("path"),
-    nodeVideo = require ("video");
-    formidable = require("formidable");
+  fs = require("fs"),
+  path = require("path"),
+  nodeVideo = require("video");
+formidable = require("formidable");
 
 
-function encodeVideo(response,request){
+function encodeVideo(response, request) {
   var data = request.data;
   var video = new FixedVideo(data.width, data.height);
-  video.setOutputFile('./media/video/'+data.name+'.ogv');
-  for(rgbFrame in data.capturedFrames){
+  video.setOutputFile('./media/video/' + data.name + '.ogv');
+  for (rgbFrame in data.capturedFrames) {
     video.newFrame(data.capturedFrames[rgbFrame]);
   }
   video.end();
-  
-
-
-
 }
 
 
-function index(response){
+function index(response) {
   fs.readFile('./index.htm', function(error, content) {
-        if (error) {
-            response.writeHead(500);
-            response.end();
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end(content, 'utf-8');
-        }
-    });
+    if (error) {
+      response.writeHead(500);
+      response.end();
+    } else {
+      response.writeHead(200, {
+        'Content-Type': 'text/html'
+      });
+      response.end(content, 'utf-8');
+    }
+  });
 }
 
-function loader(response, request){
+function loader(response, request) {
   var filePath = '.' + request.url;
-  contType = {'.js':'text/javascript','.css':'text/css'};
-    if (filePath == './')
-        filePath = './index.html';
-    var extname = path.extname(filePath);
-    var contentType = contType[extname]||'text/html';
+  contType = {
+    '.js': 'text/javascript',
+    '.css': 'text/css'
+  };
+  if (filePath == './') filePath = './index.html';
+  var extname = path.extname(filePath);
+  var contentType = contType[extname] || 'text/html';
 
-    path.exists(filePath, function(exists) {
-     
-        if (exists) {
-            fs.readFile(filePath, function(error, content) {
-                if (error) {
-                    response.writeHead(500);
-                    response.end();
-                }
-                else {
-                    response.writeHead(200, { 'Content-Type': contentType });
-                    response.end(content, 'utf-8');
-                }
-            });
+  path.exists(filePath, function(exists) {
+
+    if (exists) {
+      fs.readFile(filePath, function(error, content) {
+        if (error) {
+          response.writeHead(500);
+          response.end();
+        } else {
+          response.writeHead(200, {
+            'Content-Type': contentType
+          });
+          response.end(content, 'utf-8');
         }
-        else {
-            response.writeHead(404);
-            response.end();
-        }
-    });
+      });
+    } else {
+      response.writeHead(404);
+      response.end();
+    }
+  });
 }
 
 function start(response) {
   console.log("Request handler 'start' was called.");
 
-  var body = '<html>'+
-    '<head>'+
-    '<meta http-equiv="Content-Type" '+
-    'content="text/html; charset=UTF-8" />'+
-    '</head>'+
-    '<body>'+
-    '<form action="/upload" enctype="multipart/form-data" '+
-    'method="post">'+
-    '<input type="file" name="upload" multiple="multiple">'+
-    '<input type="submit" value="Upload file" />'+
-    '</form>'+
-    '</body>'+
-    '</html>';
+  var body = '<html>' + '<head>' + '<meta http-equiv="Content-Type" ' + 'content="text/html; charset=UTF-8" />' + '</head>' + '<body>' + '<form action="/upload" enctype="multipart/form-data" ' + 'method="post">' + '<input type="file" name="upload" multiple="multiple">' + '<input type="submit" value="Upload file" />' + '</form>' + '</body>' + '</html>';
 
-    response.writeHead(200, {"Content-Type": "text/html"});
-    response.write(body);
-    response.end();
+  response.writeHead(200, {
+    "Content-Type": "text/html"
+  });
+  response.write(body);
+  response.end();
 }
 
 function upload(response, request) {
@@ -100,7 +89,9 @@ function upload(response, request) {
         fs.rename(files.upload.path, "/tmp/test.png");
       }
     });
-    response.writeHead(200, {"Content-Type": "text/html"});
+    response.writeHead(200, {
+      "Content-Type": "text/html"
+    });
     response.write("received image:<br/>");
     response.write("<img src='/show' />");
     response.end();
@@ -110,12 +101,16 @@ function upload(response, request) {
 function show(response) {
   console.log("Request handler 'show' was called.");
   fs.readFile("/tmp/test.png", "binary", function(error, file) {
-    if(error) {
-      response.writeHead(500, {"Content-Type": "text/plain"});
+    if (error) {
+      response.writeHead(500, {
+        "Content-Type": "text/plain"
+      });
       response.write(error + "\n");
       response.end();
     } else {
-      response.writeHead(200, {"Content-Type": "image/png"});
+      response.writeHead(200, {
+        "Content-Type": "image/png"
+      });
       response.write(file, "binary");
       response.end();
     }
@@ -125,5 +120,7 @@ function show(response) {
 
 exports.index = index;
 exports.start = start;
+exports.loader = loader;
+exports.encodeVideo = encodeVideo;
 exports.upload = upload;
 exports.show = show;
