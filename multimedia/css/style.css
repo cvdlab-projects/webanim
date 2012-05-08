@@ -1,11 +1,11 @@
 .top_container {
-	display: inline-block;
+	display: inline;
+	margin: auto;
 }
 
 .container {
-}
-
-#controls {
+	display: inline;
+	margin: auto;
 }
 
 #controls {
