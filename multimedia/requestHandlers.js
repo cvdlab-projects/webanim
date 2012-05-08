@@ -1,25 +1,41 @@
 var querystring = require("querystring"),
     fs = require("fs"),
-	path = require("path"),
+    path = require("path"),
+    nodeVideo = require ("video");
     formidable = require("formidable");
 
 
+function encodeVideo(response,request){
+  var data = request.data;
+  var video = new FixedVideo(data.width, data.height);
+  video.setOutputFile('./media/video/'+data.name+'.ogv');
 
-function index(response, request){
-var filePath = '.' + request.url;
+
+
+}
+
+
+function index(response){
+  fs.readFile('./index.htm', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end(content, 'utf-8');
+        }
+    });
+}
+
+function loader(response, request){
+  var filePath = '.' + request.url;
+  contType = {'.js':'text/javascript','.css':'text/css'};
     if (filePath == './')
         filePath = './index.html';
-         
     var extname = path.extname(filePath);
-    var contentType = 'text/html';
-    switch (extname) {
-        case '.js':
-            contentType = 'text/javascript';
-            break;
-        case '.css':
-            contentType = 'text/css';
-            break;
-    }
+    var contentType = contType[extname]||'text/html';
+
     path.exists(filePath, function(exists) {
      
         if (exists) {
