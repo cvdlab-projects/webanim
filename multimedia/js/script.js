@@ -3,6 +3,10 @@
 	var button = $('#getFrameButton');
 	var startStop = $('#startStop');
 
+	var videoName = $('#videoName');
+	var videoFPS = $('#videoFPS');
+	var encodeVideo = $('#encodeVideo');
+
 	var canvas = $('#canvas')[0];
 	var c2d = canvas.getContext('2d');
 	c2d.fillStyle = "#FF8800";
@@ -46,4 +50,6 @@
 
 	button.on('click', getFrame);
 	startStop.on('click', startStopRecording);
+
+	
 }(this));

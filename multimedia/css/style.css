@@ -1,19 +1,19 @@
-.top_container {
+div {
 	display: inline;
 }
 
-.container {
+.top_container {
+}
+
+.horizontal_container {
 	display: inline;
+}
+
+.vertical_container {
+	display: block;
 }
 
 #controls {
-	display: inline;
-}
-
-canvas {
-	display: inline;
-}
-
-input {
-	display: inline;
+	display: block;
+	float: right;
 }
