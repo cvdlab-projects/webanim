@@ -15,6 +15,16 @@
 	var data;
 	var angle = 0;
 
+	/*
+	 *Object that contains all the information for video encoding
+	 */
+	var videoObject = {
+		'width': canvas.width,
+		'height': canvas.height,
+		'videoName': "",
+		capturedFrames: {}
+	};
+
 	var squarePosition = {
 		s: canvas.height / 20,
 		x: canvas.width / 4,
@@ -22,7 +32,9 @@
 	};
 
 	var getFrame = function(e) {
+			console.log(e);
 			data = c2d.getImageData(0, 0, canvas.width, canvas.height);
+			videoObject.capturedFrames[e.timeStamp] = data;
 			var c2df = frame.getContext('2d');
 			c2df.putImageData(data, 0, 0);
 		};
@@ -35,21 +47,22 @@
 				timingGetFrame = undefined;
 			} else {
 				timingGetFrame = setInterval(function(e) {
-			data = c2d.getImageData(0, 0, canvas.width, canvas.height);
-			var c2df = frame.getContext('2d');
-			c2df.putImageData(data, 0, 0);
-		}, 30);
+					data = c2d.getImageData(0, 0, canvas.width, canvas.height);
+					var c2df = frame.getContext('2d');
+					c2df.putImageData(data, 0, 0);
+				}, 30);
 			}
 		}
 
 	var timingAnimation = setInterval(function() {
-			c2d.clearRect(0, 0, canvas.width, canvas.height);
-			c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
-			c2d.rotate(angle + Math.PI / 512);
-		}, 30);
+		c2d.clearRect(0, 0, canvas.width, canvas.height);
+		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
+		c2d.rotate(angle + Math.PI / 512);
+	}, 30);
 
 	button.on('click', getFrame);
 	startStop.on('click', startStopRecording);
 
-	
+	//TODO: add button to send videoOject to node.js server
+
 }(this));
