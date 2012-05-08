@@ -1,13 +1,19 @@
 .top_container {
-	display: inline-block;
+	display: inline;
 }
 
 .container {
+	display: inline;
 }
 
 #controls {
+	display: inline;
 }
 
-#controls {
+canvas {
+	display: inline;
+}
+
+input {
 	display: inline;
 }
