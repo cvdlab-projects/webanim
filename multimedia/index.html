@@ -7,27 +7,25 @@
         <link rel="stylesheet" type="text/css" href="css/reset.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script type="text/javascript" src="js/jquery.js">
-                                                                                                
+                                                                                                                
         </script>
     </head>
     
     <body>
         <div class="container">
-            <ul id="controls">
+            <ul id="leftPanel">
                 <li>
-                    <input id="startStop" type="button" value="Start/Stop Recording">
+                    File Name: <input id="fileName" type="text" value=""></input>
+                </li>
+                <li>
+                    Tag: <input id="idTag" type="text" value=""></input>
+                </li>
+                <li>
+                    FPS: <input id="fpsVideo" type="text" value="30">
                     </input>
                 </li>
                 <li>
-                    <input id="getFrameButton" type="button" value="GetFrame">
-                    </input>
-                </li>
-                <li>
-                    <input id="fooButton3" type="button" value="Foo Button 3">
-                    </input>
-                </li>
-                <li>
-                    <input id="fooButton4" type="button" value="Foo Button 4">
+                    <input id="createVideo" type="button" value="Create Video">
                     </input>
                 </li>
                 <li>
@@ -55,14 +53,19 @@
                     </input>
                 </li>
             </ul>
-            <canvas id="canvas" width="200" height="200" style="background-color: #2B2B2B;">
+            <canvas id="canvas" width="300" height="300" style="background-color: #2B2B2B;">
             </canvas>
-            <br />
-            <canvas id="frame" width="200" height="200" style="background-color: #888888;">
+            <canvas id="frame" width="300" height="300" style="background-color: #888888;">
             </canvas>
+            <div class="controls">
+                <input id="startStop" type="button" value="Start/Stop Recording">
+                </input>
+                <input id="getFrameButton" type="button" value="GetFrame">
+                </input>
+            </div>
         </div>
         <script type="text/javascript" src='./js/script.js'>
-                                                                                                
+                                                                                                                
         </script>
     </body>
 

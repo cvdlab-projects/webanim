@@ -13,7 +13,21 @@ div {
 	display: block;
 }
 
-#controls {
-	display: block;
+#leftPanel {
 	float: right;
+}
+
+#controls {
+}
+
+#startStop, #getFrameButton {
+	display: inline;
+}
+
+canvas {
+	display: block;
+}
+
+ul {
+	text-align: right;
 }
