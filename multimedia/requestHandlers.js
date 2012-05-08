@@ -9,6 +9,11 @@ function encodeVideo(response,request){
   var data = request.data;
   var video = new FixedVideo(data.width, data.height);
   video.setOutputFile('./media/video/'+data.name+'.ogv');
+  for(rgbFrame in data.capturedFrames){
+    video.newFrame(data.capturedFrames[rgbFrame]);
+  }
+  video.end();
+  
 
 
 
