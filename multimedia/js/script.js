@@ -6,6 +6,7 @@
 	var videoName = $('#videoName');
 	var fpsVideo = $('#fpsVideo');
 	var createVideo = $('#createVideo');
+	var idTag = $('#idTag');
 
 	var canvas = $('#canvas')[0];
 	var c2d = canvas.getContext('2d');
@@ -21,9 +22,13 @@
 	var videoObject = {
 		'width': canvas.width,
 		'height': canvas.height,
-		'videoName': "",
+		'videoName': videoName.val(),
 		capturedFrames: {}
 	};
+
+	videoName.keyup(function () {
+      videoObject['videoName']=$(this).val();
+    }).keyup();
 
 	var squarePosition = {
 		s: canvas.height / 20,
@@ -35,6 +40,7 @@
 			console.log(e);
 			data = c2d.getImageData(0, 0, canvas.width, canvas.height);
 			videoObject.capturedFrames[e.timeStamp] = data;
+			console.log(videoObject);
 			var c2df = frame.getContext('2d');
 			c2df.putImageData(data, 0, 0);
 		};
