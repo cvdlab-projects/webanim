@@ -2,7 +2,7 @@ var querystring = require("querystring"),
   fs = require("fs"),
   path = require("path"),
   nodeVideo = require("video");
-formidable = require("formidable");
+  formidable = require("formidable");
 
 
 function encodeVideo(response, request) {
@@ -17,7 +17,7 @@ function encodeVideo(response, request) {
 
 
 function index(response) {
-  fs.readFile('./index.htm', function(error, content) {
+  fs.readFile('./index.html', function(error, content) {
     if (error) {
       response.writeHead(500);
       response.end();

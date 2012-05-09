@@ -4,8 +4,8 @@
 	var startStop = $('#startStop');
 
 	var videoName = $('#videoName');
-	var videoFPS = $('#videoFPS');
-	var encodeVideo = $('#encodeVideo');
+	var fpsVideo = $('#fpsVideo');
+	var createVideo = $('#createVideo');
 
 	var canvas = $('#canvas')[0];
 	var c2d = canvas.getContext('2d');
