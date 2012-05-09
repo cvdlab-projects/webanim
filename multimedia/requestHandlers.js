@@ -1,13 +1,15 @@
 var querystring = require("querystring"),
   fs = require("fs"),
   path = require("path"),
-  //nodeVideo = require("video"),
+  nodeVideo = require("video"),
   formidable = require("formidable");
 
 
 function encodeVideo(response, request) {
+
   var data = request.data;
-  var video = new FixedVideo(data.width, data.height);
+  console.log(data);
+  var video = new nodeVideo.FixedVideo(data.width, data.height);
   video.setOutputFile('./media/video/' + data.name + '.ogv');
   for (rgbFrame in data.capturedFrames) {
     video.newFrame(data.capturedFrames[rgbFrame]);
