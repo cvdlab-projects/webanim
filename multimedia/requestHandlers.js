@@ -1,7 +1,7 @@
 var querystring = require("querystring"),
   fs = require("fs"),
   path = require("path"),
-  nodeVideo = require("video");
+  nodeVideo = require("node-video"),
   formidable = require("formidable");
 
 

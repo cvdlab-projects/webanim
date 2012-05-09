@@ -11,6 +11,7 @@ handle["/index"] = requestHandlers.index;
 handle["/js"] = requestHandlers.loader;
 handle["/css"] = requestHandlers.loader;
 
+handle["/encodeVideo"] = requestHandlers.encodeVideo;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
 handle["/show"] = requestHandlers.show;

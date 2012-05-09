@@ -15,6 +15,7 @@
 
 	var data;
 	var angle = 0;
+	var idFrame = 0;
 
 	/*
 	 *Object that contains all the information for video encoding
@@ -54,6 +55,7 @@
 			} else {
 				timingGetFrame = setInterval(function(e) {
 					data = c2d.getImageData(0, 0, canvas.width, canvas.height);
+					videoObject.capturedFrames[idFrame++] = data;
 					var c2df = frame.getContext('2d');
 					c2df.putImageData(data, 0, 0);
 				}, 30);
@@ -68,6 +70,15 @@
 
 	button.on('click', getFrame);
 	startStop.on('click', startStopRecording);
+
+	createVideo.on('click', $.ajax({
+		type:"POST",
+		url:"http://localhost:8080/encodeVideo",
+		data: videoObject,
+		success: function(){
+			alert("Video caricato correttamente :D")
+		}
+	}));
 
 	//TODO: add button to send videoOject to node.js server
 
