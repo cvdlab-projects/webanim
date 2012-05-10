@@ -43,6 +43,7 @@
 	}, 30);
 	// END
 
+
 	// Add Event Handlers
 	videoNameTextBox.on('keyup', function() {
 		videoObject.videoName = $(this).val();
