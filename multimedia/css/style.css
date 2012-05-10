@@ -1,11 +1,11 @@
 #leftPanel {
-	float: right; // move menu on right
+	float: right;
 }
 
 canvas {
-	display: block; // align two canvas vertically (remove when deleting lower canvas)
+	display: block;
 }
 
 ul {
-	text-align: right; // align menu items on right
+	text-align: right;
 }
