@@ -39,8 +39,8 @@
 	var timingAnimation = setInterval(function() {
 		c2d.clearRect(0, 0, canvas.width, canvas.height);
 		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
-		c2d.rotate(angle + Math.PI / 512);
-	}, 30);
+		c2d.rotate(angle + Math.PI / 256);
+	}, 40);
 	// END
 
 	// Add Event Handlers
@@ -67,7 +67,7 @@
 				videoObject.capturedFrames[videoObject.frameNumber++] = imageData;
 				var c2df = frame.getContext('2d');
 				c2df.putImageData(imageData, 0, 0);
-			}, 30);
+			}, 40);
 		}
 	});
 
