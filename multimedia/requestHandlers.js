@@ -6,15 +6,34 @@ var querystring = require("querystring"),
 
 
 function encodeVideo(response, request) {
+	console.log("Request handler 'encodeVideo' was called.");
+	var form = new formidable.IncomingForm();
+	console.log("about to parse");
+	form.parse(request, function(error, fields, files) {
+    console.log("parsing done");
+	if(fields.videoName !== ""){
+		console.log("i'm in da house");
+		console.log(fields);
+		console.log(files);
+		console.log(parseInt(fields.width) + " "  +typeof(parseInt(fields.width)));
+	  	var video = new nodeVideo.FixedVideo(parseInt(fields.width), parseInt(fields.height));
+		console.log(fields.capturedFrames + " " + typeof(fields.capturedFrames));
+	  	video.setOutputFile('./media/video/' + fields.videoName + '.ogv');
+	  	for (rgbFrame in fields.capturedFrames) {
+	  	  video.newFrame(fields.capturedFrames[rgbFrame]);
+	  	}
+	  	video.end();
+	}
+    response.writeHead(200, {
+      "Content-Type": "text/html"
+    });
+    response.write("received image:<br/>");
+    response.write("<img src='/show' />");
+    response.end();
+  });
 
-  var data = request.data;
-  console.log(data);
-  var video = new nodeVideo.FixedVideo(data.width, data.height);
-  video.setOutputFile('./media/video/' + data.name + '.ogv');
-  for (rgbFrame in data.capturedFrames) {
-    video.newFrame(data.capturedFrames[rgbFrame]);
-  }
-  video.end();
+
+
 }
 
 
@@ -82,6 +101,7 @@ function upload(response, request) {
   console.log("about to parse");
   form.parse(request, function(error, fields, files) {
     console.log("parsing done");
+	console.log(fields);
 
     /* Possible error on Windows systems:
        tried to rename to an already existing file */

@@ -24,7 +24,7 @@
 		'width': canvas.width,
 		'height': canvas.height,
 		'videoName': videoName.val(),
-		capturedFrames: {}
+		'capturedFrames': {}
 	};
 
 	videoName.keyup(function () {
@@ -62,6 +62,16 @@
 			}
 		}
 
+	function sendData(e){
+		$.ajax({
+				type:"POST",
+				url:"http://localhost:8080/encodeVideo",
+				data: videoObject,
+				success: function(){
+					alert("Video caricato correttamente :D")
+				}
+			});	
+	}
 	var timingAnimation = setInterval(function() {
 		c2d.clearRect(0, 0, canvas.width, canvas.height);
 		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
@@ -71,7 +81,8 @@
 	button.on('click', getFrame);
 	startStop.on('click', startStopRecording);
 
-	createVideo.on('click', $.ajax({
+	createVideo.on('click', function(e){
+	$.ajax({
 		type:"POST",
 		url:"http://localhost:8080/encodeVideo",
 		data: videoObject,
@@ -79,7 +90,7 @@
 		success: function(){
 			alert("Video caricato correttamente :D")
 		}
-	}));
+	})});
 
 	//TODO: add button to send videoOject to node.js server
 
