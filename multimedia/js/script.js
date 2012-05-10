@@ -80,7 +80,7 @@
 			success: function() {
 				alert("Video caricato correttamente :D")
 			}
-		})
+		});
 	});
 
 }(this));
