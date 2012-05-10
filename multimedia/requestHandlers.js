@@ -2,9 +2,8 @@ var querystring = require("querystring"),
     fs = require("fs"),
     path = require("path"),
     nodeVideo = require("video"),
-    formidable = require("formidable");
+    formidable = require("formidable"),
     buffer = require("buffer");
-
 
 function encodeVideo(response, request) {
     console.log("Request handler 'encodeVideo' was called.");
@@ -39,11 +38,12 @@ function encodeVideo(response, request) {
                 }
                 video.newFrame(new Buffer(imageMap));
             }
-            console.log("Done!");
 
+            console.log("Done!");
             video.end();
             console.log("Video saved successfully!");
         }
+
         response.writeHead(200, {
             "Content-Type": "text/html"
         });
@@ -51,11 +51,7 @@ function encodeVideo(response, request) {
         response.write("<img src='/show' />");
         response.end();
     });
-
-
-
 }
-
 
 function index(response) {
     fs.readFile('./index.html', function(error, content) {
@@ -158,7 +154,6 @@ function show(response) {
         }
     });
 }
-
 
 exports.index = index;
 exports.start = start;
