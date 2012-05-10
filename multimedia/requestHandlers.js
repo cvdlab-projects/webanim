@@ -3,7 +3,7 @@ var querystring = require("querystring"),
     path = require("path"),
     nodeVideo = require("video"),
     formidable = require("formidable");
-buffer = require("buffer");
+    buffer = require("buffer");
 
 
 function encodeVideo(response, request) {
@@ -13,7 +13,7 @@ function encodeVideo(response, request) {
     form.parse(request, function(error, fields, files) {
 
         if (fields.videoName !== "") {
-            var filePathName = '/Users/matteo/Desktop/' + fields.videoName + '.ogv';
+            var filePathName = './media/video/' + fields.videoName + '.ogv';
             var frameWidth = parseInt(fields.width) || 0;
             var frameHeight = parseInt(fields.height) || 0;
             var frameNumber = parseInt(fields.frameNumber);
