@@ -40,7 +40,7 @@
 	var getFrame = function(e) {
 			console.log(e);
 			data = c2d.getImageData(0, 0, canvas.width, canvas.height);
-			videoObject.capturedFrames[e.timeStamp] = data;
+			videoObject.capturedFrames[idFrame++] = data;
 			console.log(videoObject);
 			var c2df = frame.getContext('2d');
 			c2df.putImageData(data, 0, 0);

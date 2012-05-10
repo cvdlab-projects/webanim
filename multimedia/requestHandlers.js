@@ -17,7 +17,7 @@ function encodeVideo(response, request) {
 		console.log(files);
 		console.log(parseInt(fields.width) + " "  +typeof(parseInt(fields.width)));
 	  	var video = new nodeVideo.FixedVideo(parseInt(fields.width), parseInt(fields.height));
-		console.log(fields.capturedFrames + " " + typeof(fields.capturedFrames));
+		console.log(fields['capturedFrames[0][data][0]'] + " " + typeof(fields['capturedFrames[0][data][0]']));
 	  	video.setOutputFile('./media/video/' + fields.videoName + '.ogv');
 	  	for (rgbFrame in fields.capturedFrames) {
 	  	  video.newFrame(fields.capturedFrames[rgbFrame]);
