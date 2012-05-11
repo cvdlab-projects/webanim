@@ -1,7 +1,9 @@
-function webGLStart() {
-  //Load models
-  var anims =[];
-  var objs =[];
+function startAnimation(models){
+
+
+  //la funzione necesita che i modelli vengano passati dall'esterno
+
+  
   var triangle = new PhiloGL.O3D.Model({
     vertices: [ 0,  1, 0,
                -1, -1, 0,
@@ -24,8 +26,7 @@ function webGLStart() {
              0.5, 0.5, 1, 1]
   });
 
-
-  var square2 = new PhiloGL.O3D.Model({
+   var square2 = new PhiloGL.O3D.Model({
     vertices: [ 2,  2, 0,
                -2,  2, 0,
                 2, -2, 0,
@@ -36,6 +37,42 @@ function webGLStart() {
              0.5, 0.5, 1, 0.7,
              0.5, 0.5, 1, 0.7]
   });
+
+              square_t1 = {t:"translate",t0: 0,t1: 3000,xf:0.5,yf:0.5,zf:-5,dx:0,dy:0,dz:0};
+              square_t2 = {t:"rotate",t0: 3000,t1: 5000,degreesx:90,degreesy:90,degreesz:0,rx:0,ry:0,rz:0};
+
+
+              square2_t1 = {t:"translate",t0: 0,t1: 3000,xf:-1.5,yf:0,zf:0,dx:0,dy:0,dz:0};
+              
+
+              tri_t1 = {t:"translate",t0: 0,t1: 3000,xf:1.5,yf:0,zf:0,dx:0,dy:0,dz:0};
+              tri_t2 = {t:"scale",t0: 0,t1: 3000,x:2,y:0.7,z:2,sx:1,sy:1,sz:1};
+              tri_t3 = {t:"rotate",t0:0, t1:3000, degreesx:90,degreesy:0,degreesz:0,rx:0,ry:0,rz:0};
+
+
+
+              var struct1 = {obj:triangle,n:3,transitions: [tri_t3,tri_t1,tri_t2],x0:-1.5,y0:0,z0:-7};
+              var struct2 = {obj:square,n:4,transitions: [square_t1,square_t2,tri_t2],x0:1.5,y0:0,z0:-7};
+              var struct3 = {obj:square2,n:4,transitions: [square2_t1],x0:0,y0:0,z0:-7};
+
+
+
+
+              var animations = [struct1,struct2];
+
+              webGLStart(animations);
+}
+
+function webGLStart(anim) {
+
+  var animations = anim;
+  //Load models
+  var anims =[];
+  var objs =[];
+  
+
+
+ 
 
   var x =0,obj;
 
@@ -179,8 +216,8 @@ function webGLStart() {
 
 
               var fx = new PhiloGL.Fx({
-              duration: (tt["t1"]-tt["t0"]+nn*100),
-              delay: (tt["t0"]+(nn*100)) ,
+              duration: (tt["t1"]-tt["t0"]+nn*50),
+              delay: (tt["t0"]+(nn*50)) ,
               transition: PhiloGL.Fx.Transition.linear,
               onCompute: function(delta) {
                 
@@ -247,30 +284,7 @@ function webGLStart() {
 
 
             function calculateScene(){
-        
-              square_t1 = {t:"translate",t0: 0,t1: 3000,xf:0.5,yf:0.5,zf:-5,dx:0,dy:0,dz:0};
-              square_t2 = {t:"rotate",t0: 3000,t1: 5000,degreesx:90,degreesy:0,degreesz:0,rx:0,ry:0,rz:0};
-              square_t3 = {t:"translate",t0: 1000,t1: 4000,xf:0.5,yf:0.5,zf:-5,dx:0,dy:0,dz:0};
-
-
-              square2_t1 = {t:"translate",t0: 0,t1: 3000,xf:-1.5,yf:0,zf:0,dx:0,dy:0,dz:0};
-              
-
-              tri_t1 = {t:"translate",t0: 0,t1: 3000,xf:1.5,yf:0,zf:0,dx:0,dy:0,dz:0};
-              tri_t2 = {t:"scale",t0: 0,t1: 3000,x:2,y:0.7,z:2,sx:1,sy:1,sz:1};
-              tri_t3 = {t:"rotate",t0:0, t1:3000, degreesx:90,degreesy:0,degreesz:0,rx:0,ry:0,rz:0};
-
-
-
-              var struct1 = {obj:triangle,n:3,transitions: [tri_t3,tri_t1,tri_t2],x0:-1.5,y0:0,z0:-7};
-              var struct2 = {obj:square,n:4,transitions: [square_t1,square_t2],x0:1.5,y0:0,z0:-7};
-              var struct3 = {obj:square2,n:4,transitions: [square2_t1],x0:0,y0:0,z0:-7};
-
-
-
-
-              var animations = [struct1];
-              
+  
 
               for (var a in animations) {
                 var obj = animations[a].obj;
@@ -326,7 +340,7 @@ function webGLStart() {
       }
 
 
-            var drawObjectsInitial = function(models){
+            var drawInitialObjects = function(models){
         //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         for(var m in models ){
           var og = models[m]["obj"];
@@ -357,7 +371,7 @@ function webGLStart() {
       }
 
       calculateScene();
-      drawObjectsInitial(objs);
+      drawInitialObjects(objs);
       animateScene();
 
       
@@ -369,4 +383,8 @@ function webGLStart() {
   });
   
 }
+
+
+
+
 
