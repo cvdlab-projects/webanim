@@ -1,0 +1,11 @@
+#leftPanel {
+	float: right;
+}
+
+canvas {
+	display: block;
+}
+
+ul {
+	text-align: right;
+}
