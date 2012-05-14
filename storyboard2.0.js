@@ -58,6 +58,69 @@ Event.prototype.setStartTime = function(t) { // @
 	this.startTime = t;
 };
 
+/* Object info, contenente
+	id dell'oggetto o riferimento, coordinate iniziali e finali */
+
+ObjectInfo = function() {};
+
+ObjectInfo.prototype.setIdObject = function(id) {
+	this.id = id;
+}
+
+ObjectInfo.prototype.setStartX = function(x) {
+	this.startX = x;
+}
+
+ObjectInfo.prototype.setStartY = function(y) {
+	this.startY = y;
+}
+
+ObjectInfo.prototype.setStartZ = function(z) {
+	this.startZ = z;
+}
+
+/* Rispetto al piano xy */
+ObjectInfo.prototype.setStartAlpha = function(alpha) {
+	this.startAlpha = alpha;
+}
+
+/* Rispetto al piano yz */
+ObjectInfo.prototype.setStartBeta = function(beta) {
+	this.startBeta = beta;
+}
+
+/* Rispetto al piano xz */
+ObjectInfo.prototype.setStartGamma = function(gamma) {
+	this.startGamma= gamma;
+}
+
+ObjectInfo.prototype.setEndX = function(x) {
+	this.endX = x;
+}
+
+ObjectInfo.prototype.setEndY = function(y) {
+	this.endY = y;
+}
+
+ObjectInfo.prototype.setEndZ = function(z) {
+	this.endZ = z;
+}
+
+/* Rispetto al piano xy */
+ObjectInfo.prototype.setEndAlpha = function(alpha) {
+	this.endAlpha = alpha;
+}
+
+/* Rispetto al piano yz */
+ObjectInfo.prototype.setEndBeta = function(beta) {
+	this.endBeta = beta;
+}
+
+/* Rispetto al piano xz */
+ObjectInfo.prototype.setEndGamma = function(gamma) {
+	this.endGamma= gamma;
+}
+
 
 /* Segments. */
 
@@ -67,7 +130,7 @@ Segment.prototype.setId = function(id) {
 	this.id = id;
 };
 
-/* Si potrebbe passare come descrizione un oggetto contenente attore e azione */
+/* Passiamo l'ObjectInfo, compilato dall'utente nel momento di creazione del segmento */
 Segment.prototype.setDescription = function(desc) {
 	this.desc = desc;
 };
@@ -208,7 +271,7 @@ Storyboard.prototype.isCycling = function (event) { // @
 
 Storyboard.prototype.isValid = function() { // @
 	var source = this.source; // *
-	var sink = this.sink; //  * non riesce ad accedere a questi dati all'interno della some e della every
+	var sink = this.sink; //  * non riesce ad accedere a questi dati all'interno della some e della every se non si usano queste variabili
 	var metodo = this.isCycling; // *
 	if(this.source.zeroInDegree() && this.sink.zeroOutDegree()){ // source has zero in-degree and sink has zero out-degree
 		var nodesCheck = this.events.some(function (item, index) {
@@ -272,10 +335,9 @@ Storyboard.prototype.setStartTimeForEvents = function() { // @
 	});
 };
 
-/* Utile per l'output */
+/* Utile per l'output*/
 AnimationSegment = function (description, startTime, endTime) { // @
-	this.description = description; // assumiamo, come sopra, che contenga informazioni su attore e azione da eseguire
-	this.startTime = startTime;
+	this.description = description; /* L'ObjectInfo, contenente  */
 	this.endTime = endTime;
 };
 
@@ -284,7 +346,7 @@ Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	this.segments.forEach(function (item, index) {
 		var start = item.from.startTime;
 		var end = item.to.startTime;
-		var animationSegment = new AnimationSegment(item.description, start, end);
+		var animationSegment = new AnimationSegment(item.description, start, end); 
 		timeline.push(segment);
 	})
 	timeline.sort(function (segment1, segment2) {
