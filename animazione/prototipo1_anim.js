@@ -1,7 +1,7 @@
 function startAnimation(models,frames){
 
 
-  //la funzione necesita che i modelli vengano passati dall'esterno
+  //la funzione necessita che i modelli vengano passati dall'esterno
 var fps = 25;
 var pentagon = new PhiloGL.O3D.Model({
     vertices: [1,-0.5,0, -1,-0.5,0, 1,0.5,0, -1,0.5,0, 0,1,0],
@@ -11,66 +11,106 @@ var pentagon = new PhiloGL.O3D.Model({
              0, 0, 1, 1,
              1, 0, 0, 1,
              0, 1, 0, 1,]
+
+    ,indices: [2,0,1,1,2,3,2,3,4]
   });
 
   
-  var triangle = new PhiloGL.O3D.Model({
+var triangle = new PhiloGL.O3D.Model({
     vertices: [ 0,  1, 0,
                -1, -1, 0,
                 1, -1, 0],
 
     colors: [1, 0, 0, 1,
              0, 1, 0, 1,
-             0, 0, 1, 1]
+             0, 0, 1, 1],
+    indices: [0,1,2]
   });
 
+  var cube = new PhiloGL.O3D.Model({
+    vertices: [-1, -1,  1,
+                1, -1,  1,
+                1,  1,  1,
+               -1,  1,  1,
 
+               -1, -1, -1,
+               -1,  1, -1,
+                1,  1, -1,
+                1, -1, -1,
 
-  var square = new PhiloGL.O3D.Model({
-    vertices: [ 1,  1, 0,
-               -1,  1, 0,
-                1, -1, 0,
-               -1, -1, 0],
+               -1,  1, -1,
+               -1,  1,  1,
+                1,  1,  1,
+                1,  1, -1,
 
-    colors: [0.5, 0.5, 1, 1,
-             0.5, 0.5, 1, 1,
-             0.5, 0.5, 1, 1,
-             0.5, 0.5, 1, 1]
+               -1, -1, -1,
+                1, -1, -1,
+                1, -1,  1,
+               -1, -1,  1,
+
+                1, -1, -1,
+                1,  1, -1,
+                1,  1,  1,
+                1, -1,  1,
+
+               -1, -1, -1,
+               -1, -1,  1,
+               -1,  1,  1,
+               -1,  1, -1],
+
+    colors: [1, 0, 0, 1, 
+             1, 0, 0, 1,
+             1, 0, 0, 1,
+             1, 0, 0, 1,
+             1, 1, 0, 1, 
+             1, 1, 0, 1, 
+             1, 1, 0, 1, 
+             1, 1, 0, 1, 
+             0, 1, 0, 1, 
+             0, 1, 0, 1, 
+             0, 1, 0, 1, 
+             0, 1, 0, 1, 
+             1, 0.5, 0.5, 1, 
+             1, 0.5, 0.5, 1, 
+             1, 0.5, 0.5, 1, 
+             1, 0.5, 0.5, 1, 
+             1, 0, 1, 1, 
+             1, 0, 1, 1, 
+             1, 0, 1, 1, 
+             1, 0, 1, 1, 
+             0, 0, 1, 1,
+             0, 0, 1, 1,
+             0, 0, 1, 1,
+             0, 0, 1, 1],
+
+    indices: [0, 1, 2, 0, 2, 3,
+              4, 5, 6, 4, 6, 7,
+              8, 9, 10, 8, 10, 11,
+              12, 13, 14, 12, 14, 15,
+              16, 17, 18, 16, 18, 19,
+              20, 21, 22, 20, 22, 23]
   });
-
-   var square3 = new PhiloGL.O3D.Model({
-    vertices: [ 1,  1, 0,
-                1, -1, 0,
-                -1, -1, 0,
-               -1, 1, 0],
-
-    colors: [0.5, 0.5, 1, 0.7,
-             0.5, 0.5, 1, 0.7,
-             0.5, 0.5, 1, 0.7,
-             0.5, 0.5, 1, 0.7]
-  });
-
               square_t1 = {id:4,t:"translate",t0: 0,t1: 3000,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0};
-              square_t2 = {id:6,t:"scale",t0: 0,t1: 3000,x:2,y:1,z:1,sx:1,sy:1,sz:1};
+              square_t2 = {id:6,t:"scale",t0: 0,t1: 3000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               square_t3 = {id:5,t:"rotate",t0: 0,t1: 3000,dgx:-180,dgy:0,dgz:0,rx:0,ry:0,rz:0};
 
               
 
               tri_t1 = {id:1,t:"translate",t0: 0,t1: 3000,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0};
-              tri_t2 = {id:2,t:"scale",t0: 4000,t1: 6000,x:0.5,y:1,z:1,sx:1,sy:1,sz:1};
+              tri_t2 = {id:2,t:"scale",t0: 2000,t1: 7000,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               tri_t3 = {id:3,t:"rotate",t0:4000, t1:5000, dgx:90,dgy:0,dgz:0,rx:0,ry:0,rz:0};
 
 
 
-              var struct1 = {id:1,obj:pentagon,n:5,transitions: [square_t2,tri_t2],x0:-1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
-              var struct2 = {id:2,obj:triangle,n:3,transitions: [square_t1,square_t2],x0:1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
-              var struct3 = {id:3,obj:square,n:4,transitions: [square_t1],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+              var struct1 = {id:1,obj:pentagon,n:5,transitions: [tri_t2,square_t2],x0:-1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+              var struct2 = {id:2,obj:triangle,n:3,transitions: [square_t1,square_t2,tri_t3],x0:1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+              var struct3 = {id:3,obj:cube,n:4,transitions: [square_t1,square_t3,tri_t3],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
 
 
 
 
 
-              var animations = [struct1];
+              var animations = [struct1,struct2,struct3];
 
               webGLStart(animations,fps);
 }
@@ -289,6 +329,46 @@ function webGLStart(anim,fps) {
 
   }
 
+  var changeOSinT = function(idO,idT,x,y,z){
+    var t = getTransitionByID(idO,idT);
+      t["osx"]=x;
+      t["osy"]=y;
+      t["osz"]=z;
+
+  }
+
+    var changeOFinT = function(idO,idT,x,y,z){
+    var t = getTransitionByID(idO,idT);
+      t["ofx"]=x;
+      t["ofy"]=y;
+      t["ofz"]=z;
+
+  }
+
+    var getIni = function(idO,idT){
+    var t = getTransitionByID(idO,idT);
+      return t["ini"];
+
+  }
+
+  var getOSX = function(idO,idT){
+    var t = getTransitionByID(idO,idT);
+      return t["osx"];
+
+  }
+
+  var getOFX = function(idO,idT){
+    var t = getTransitionByID(idO,idT);
+      return t["ofx"];
+
+  }
+
+  var setIni = function(idO,idT,ini){
+    var t = getTransitionByID(idO,idT);
+      t["ini"]= ini;
+
+  }
+
 var vvvvv = function(idOb,idTr) {
     var idO = idOb;
     var idT = idTr;
@@ -414,33 +494,41 @@ var nextStep = function(idOb,idTr,delta){
 
     if(tr["t"] === "scale"){
 
+    var ini = getIni(idO,idT);
+
     var x = tr["x"];
     var y = tr["y"];
     var z = tr["z"];
-    var xx = 1/x;
+    var osx;
+    var osy;
+    var osz;
 
-    var sx = tr["sx"];
+    var ofx;
+    var ox;
+    var sx;
     var nx;
-    //console.log(x);
-    
 
-    if(x>1){
-      
-    nx = PhiloGL.Fx.compute(1,x,delta);
-    
-    var dx = sx - nx;
-    changeSinT(idO,idT,sx-dx,1,1);
+    if(!ini && delta!==0){
+    osx = getSxfromObj(idO);
+    ofx = osx * x;
+    changeOSinT(idO,idT,osx,1,1);
+    changeOFinT(idO,idT,ofx,1,1);
+    setIni(idO,idT,true);
+    changeSinT(idO,idT,osx,1,1);
+    }
+
+    osx = getOSX(idO,idT);
+    ofx = getOFX(idO,idT);
+
+    //console.log(x);
+  
+    nx = PhiloGL.Fx.compute(osx,ofx,delta);
+    sx = tr["sx"];
+    var dx = nx - sx;
+    changeSinT(idO,idT,sx+dx,1,1);
     var ox = getSxfromObj(idO);
-    changeSinObj(idO,ox-dx,1,1);
-  }
-    if(x<1){
-      //ox*(1-dx)
-    nx = PhiloGL.Fx.compute(1,x,delta);
-    var dx = sx - nx;
-    changeSinT(idO,idT,sx-dx,1,1);
-    var ox = getSxfromObj(idO);
-    changeSinObj(idO,ox-(dx/x),1,1);
-  }
+    changeSinObj(idO,ox+dx,1,1);
+  
     
 
 
@@ -530,16 +618,15 @@ var nextStep = function(idOb,idTr,delta){
         //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         for(var m in animations ){
           var og = animations[m]["obj"];
-          var n = animations[m]["n"] ;
+          
 
-          if(n>3){
-                setupElement(og);
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
-              }
-                else{
-                  setupElement(og);
-                gl.drawArrays(gl.TRIANGLES, 0, n);
-              }
+          setupElement(og);
+          program.setBuffer('indices', {
+          value: og.indices,
+          bufferType: gl.ELEMENT_ARRAY_BUFFER,
+          size: 1
+          });
+          gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
           
         }
 
@@ -551,21 +638,19 @@ var nextStep = function(idOb,idTr,delta){
 
         for(var m in models.elems ){
           var og = models.elems[m]["obj"];
-          var n = models.elems[m]["n"] ;
           var x0 = models.elems[m]["x0"];
           var y0 = models.elems[m]["y0"];
           var z0 = models.elems[m]["z0"];
 
           og.position.set(x0, y0 , z0);
 
-          if(n>3){
-                setupElement(og);
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
-              }
-                else{
-                  setupElement(og);
-                gl.drawArrays(gl.TRIANGLES, 0, n);
-              }
+          setupElement(og);
+          program.setBuffer('indices', {
+          value: og.indices,
+          bufferType: gl.ELEMENT_ARRAY_BUFFER,
+          size: 1
+          });
+          gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
           
         }
 
