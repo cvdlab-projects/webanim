@@ -5,7 +5,7 @@ Event = function() {
 	this.outgoingSegments = [];
 	this.tMin = Number.NEGATIVE_INFINITY;
 	this.tMax = Number.POSITIVE_INFINITY;
-	this.startTime = Number.POSITIVE_INFINITY; // @
+	this.startTime = Number.POSITIVE_INFINITY;
 };
 
 Event.prototype.setId = function(id) {
@@ -34,16 +34,16 @@ Event.prototype.removeOutgoingSegment = function(segment) {
 	this.outgoingSegments.splice(index,1);
 };
 
-Event.prototype.zeroInDegree = function() {
+Event.prototype.hasZeroInDegree = function() {
 	return this.ingoingSegments.length === 0;
 };
 
-Event.prototype.zeroOutDegree = function() {
+Event.prototype.hasZeroOutDegree = function() {
 	return this.outgoingSegments.length === 0;
 }
 
 Event.prototype.zeroDegree = function() {
-	return this.zeroInDegree() && this.zeroInDegree();
+	return this.hasZeroInDegree() && this.hasZeroInDegree();
 };
 
 Event.prototype.setTMin = function(t) {
@@ -54,7 +54,7 @@ Event.prototype.setTMax = function(t) {
 	this.tMax = t;
 };
 
-Event.prototype.setStartTime = function(t) { // @
+Event.prototype.setStartTime = function(t) {
 	this.startTime = t;
 };
 
@@ -150,7 +150,6 @@ Segment.prototype.setId = function(id) {
 	this.id = id;
 };
 
-/* Passiamo il TransitionInfo, compilato dall'utente nel momento di creazione del segmento */
 Segment.prototype.setDescription = function(desc) {
 	this.desc = desc;
 };
@@ -293,7 +292,7 @@ Storyboard.prototype.isValid = function() { // @
 	}
 
 
-	if(this.source.zeroInDegree() && this.sink.zeroOutDegree()){ // source has zero in-degree and sink has zero out-degree
+	if(this.source.hasZeroInDegree() && this.sink.hasZeroOutDegree()){ // source has zero in-degree and sink has zero out-degree
 		var nodesCheck = this.events.some(function (item, index) {
 			if(item === sink || item === source)
 				return false;
