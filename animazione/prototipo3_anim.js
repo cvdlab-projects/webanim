@@ -2,7 +2,7 @@ function startAnimation(models,frames){
 
 
   //la funzione necessita che i modelli vengano passati dall'esterno
-var fps = frames || 100;
+var fps = frames || 25;
 var pentagon = new PhiloGL.O3D.Model({
     vertices: [1,-0.5,0, -1,-0.5,0, 1,0.5,0, -1,0.5,0, 0,1,0],
 
@@ -102,24 +102,26 @@ var triangle = new PhiloGL.O3D.Model({
 
 
 
-              ct1 = {id:7,t:"translate",t0: 0,t1: 3000,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0};
+              ct1 = {id:7,t:"translate",t0: 0,t1: 500,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0};
               ct2 = {id:8,t:"scale",t0: 1000,t1: 1500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct3 = {id:9,t:"scale",t0: 1501,t1: 2000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct4 = {id:10,t:"translate",t0: 3000,t1: 6000,dxf:0,dyf:0,dzf:5,dx:0,dy:0,dz:0};
-              ct5 = {id:11,t:"scale",t0: 2000,t1: 2500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+              ct5 = {id:11,t:"scale",t0: 2001,t1: 2500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct6 = {id:12,t:"scale",t0: 2501,t1: 3000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
-              ct7 = {id:13,t:"scale",t0: 3001,t1: 3500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
-              ct8 = {id:14,t:"scale",t0: 3501,t1: 4000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+              ct7 = {id:13,t:"scale",t0: 3001,t1: 3500,x:0.5,y:0.5,z:0.5,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+              ct8 = {id:14,t:"scale",t0: 3501,t1: 4000,x:2,y:2,z:2,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct9 = {id:15,t:"scale",t0: 4001,t1: 4500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct10= {id:16,t:"scale",t0: 4501,t1: 5000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct11= {id:17,t:"scale",t0: 5001,t1: 5500,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
               ct12= {id:18,t:"scale",t0: 5501,t1: 6000,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
-              ct13= {id:19,t:"rotate",t0:0, t1:6000, dgx:360,dgy:360,dgz:360,rx:0,ry:0,rz:0};
+              ct13= {id:19,t:"rotate",t0:0, t1:6010, dgx:360,dgy:360,dgz:360,rx:0,ry:0,rz:0};
+              ct14= {id:20,t:"translate",t0: 500,t1: 1000,dxf:0,dyf:0,dzf:5,dx:0,dy:0,dz:0};
+              ct15= {id:21,t:"translate",t0: 1000,t1: 1500,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0};
 
 
               var struct1 = {id:1,obj:pentagon,n:5,transitions: [tri_t2,square_t2],x0:-1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
               var struct2 = {id:2,obj:triangle,n:3,transitions: [square_t1,square_t2],x0:1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
-              var struct3 = {id:3,obj:cube,n:4,transitions: [ct1,ct2,ct3,ct4,ct5,ct6,ct7,ct8,ct9,ct10,ct11,ct12,ct13],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+              var struct3 = {id:3,obj:cube,n:4,transitions: [ct1,ct2,ct3,ct4,ct5,ct6,ct7,ct8,ct9,ct10,ct11,ct12,ct13,ct14,ct15],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
               //var struct3 = {id:3,obj:cube,n:4,transitions: [ct4],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
 
 
@@ -410,13 +412,12 @@ function webGLStart(anim,fps) {
 
   }
 
-var vvvvv = function(idOb,idTr) {
+var startTransition = function(idOb,idTr,n) {
     var idO = idOb;
     var idT = idTr;
-
     var tt = getTransitionByID(idO,idTr);
 
-    var d  = 0;
+    
 
     var t0 = tt["t0"];
     var t1 = tt["t1"];
@@ -569,6 +570,7 @@ var nextStep = function(idOb,idTr,delta){
     var ny;
     var nz;
 
+    //se è la prima volta che viene eseguita, inizializza i valori
     if(!ini && delta!==0){
     osx = getSxfromObj(idO);
     osy = getSyfromObj(idO);
@@ -692,50 +694,49 @@ function calculateScene(){
 }
 
 
-      var drawObjects = function(){
+  var drawObjects = function(){
 
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        for(var m in animations ){
-          var og = animations[m]["obj"];
-          
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    for(var m in animations ){
+      var og = animations[m]["obj"];         
 
-          setupElement(og);
-          program.setBuffer('indices', {
-          value: og.indices,
-          bufferType: gl.ELEMENT_ARRAY_BUFFER,
-          size: 1
-          });
-          gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
-          
-        }
+      setupElement(og);
+      program.setBuffer('indices', {
+      value: og.indices,
+      bufferType: gl.ELEMENT_ARRAY_BUFFER,
+      size: 1
+      });
+      gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
+      
+    }
 
-      }
+  }
 
 
-            var drawInitialObjects = function(){
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  var drawInitialObjects = function(){
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        for(var m in models.elems ){
-          var og = models.elems[m]["obj"];
-          var x0 = models.elems[m]["x0"];
-          var y0 = models.elems[m]["y0"];
-          var z0 = models.elems[m]["z0"];
+    for(var m in models.elems ){
+      var og = models.elems[m]["obj"];
+      var x0 = models.elems[m]["x0"];
+      var y0 = models.elems[m]["y0"];
+      var z0 = models.elems[m]["z0"];
 
-          og.position.set(x0, y0 , z0);
+      og.position.set(x0, y0 , z0);
 
-          setupElement(og);
-          program.setBuffer('indices', {
-          value: og.indices,
-          bufferType: gl.ELEMENT_ARRAY_BUFFER,
-          size: 1
-          });
-          gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
-          
-        }
+      setupElement(og);
+      program.setBuffer('indices', {
+      value: og.indices,
+      bufferType: gl.ELEMENT_ARRAY_BUFFER,
+      size: 1
+      });
+      gl.drawElements(gl.TRIANGLES, og.indices.length,gl.UNSIGNED_SHORT, 0);
+      
+    }
 
-        
+    
 
-      }
+  }
 
 
      
@@ -748,7 +749,7 @@ function calculateScene(){
       var ts = o["transitions"];
       for(var t in ts){
         var idT = ts[t]["id"];
-        vvvvv(idO,idT);
+        startTransition(idO,idT);
       }
       
     }
@@ -757,6 +758,7 @@ function calculateScene(){
   calculateScene();
   drawInitialObjects();
   animateScene();
+
 
       
 
