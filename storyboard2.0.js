@@ -58,68 +58,88 @@ Event.prototype.setStartTime = function(t) { // @
 	this.startTime = t;
 };
 
-/* Object info, contenente
-	id dell'oggetto o riferimento, coordinate iniziali e finali */
+/* Transition info, contenente le info necessarie al rendering */
 
-ObjectInfo = function() {};
+TransitionInfo = function() {
+	this.dx = 0;
+	this.dy = 0;
+	this.dz = 0;
+	this.osx = 1;
+	this.osy = 1;
+	this.osz = 1;
+	this.ini = false;
+	this.rx = 0;
+	this.ry = 0;
+	this.rz = 0;
+};
 
-ObjectInfo.prototype.setIdObject = function(id) {
+/* Per identificare l'oggetto a cui fa riferimento la transizione */
+TransitionInfo.prototype.setIdObject = function(idObject) {
+	this.idObject = idObject;
+}
+
+/* Impostato dal Segment nel momento in cui viene generata la timeline */
+TransitionInfo.prototype.setId = function(id) {
 	this.id = id;
 }
 
-ObjectInfo.prototype.setStartX = function(x) {
-	this.startX = x;
+/* translate, rotate, scale */
+TransitionInfo.prototype.setType = function(type) {
+	this.type = type;
 }
 
-ObjectInfo.prototype.setStartY = function(y) {
-	this.startY = y;
+
+/* Info per le traslazioni */
+TransitionInfo.prototype.setDxf = function(dxf) {
+	this.dxf = dxf;
 }
 
-ObjectInfo.prototype.setStartZ = function(z) {
-	this.startZ = z;
+TransitionInfo.prototype.setDyf = function(dyf) {
+	this.dyf = dyf;
 }
 
-/* Rispetto al piano xy */
-ObjectInfo.prototype.setStartAlpha = function(alpha) {
-	this.startAlpha = alpha;
+TransitionInfo.prototype.setDzf = function(dzf) {
+	this.dzf = dzf;
 }
 
-/* Rispetto al piano yz */
-ObjectInfo.prototype.setStartBeta = function(beta) {
-	this.startBeta = beta;
+
+/* Info per gli scalamenti */
+TransitionInfo.prototype.setX = function(x) {
+	this.x = x;
 }
 
-/* Rispetto al piano xz */
-ObjectInfo.prototype.setStartGamma = function(gamma) {
-	this.startGamma= gamma;
+TransitionInfo.prototype.setY = function(y) {
+	this.y = y;
 }
 
-ObjectInfo.prototype.setEndX = function(x) {
-	this.endX = x;
+TransitionInfo.prototype.setZ = function(z) {
+	this.z = z;
 }
 
-ObjectInfo.prototype.setEndY = function(y) {
-	this.endY = y;
+
+/* Info per le rotazioni */
+TransitionInfo.prototype.setDgx = function(dgx) {
+	this.dgx = dgx;
 }
 
-ObjectInfo.prototype.setEndZ = function(z) {
-	this.endZ = z;
+TransitionInfo.prototype.setDgy = function(dgy) {
+	this.dgy = dgy;
 }
 
-/* Rispetto al piano xy */
-ObjectInfo.prototype.setEndAlpha = function(alpha) {
-	this.endAlpha = alpha;
+TransitionInfo.prototype.setDgz = function(dgz) {
+	this.dgz = dgz;
 }
 
-/* Rispetto al piano yz */
-ObjectInfo.prototype.setEndBeta = function(beta) {
-	this.endBeta = beta;
+
+/* Start and end times*/
+TransitionInfo.prototype.setStartTime = function(startTime) {
+	this.startTime = startTime;
 }
 
-/* Rispetto al piano xz */
-ObjectInfo.prototype.setEndGamma = function(gamma) {
-	this.endGamma= gamma;
+TransitionInfo.prototype.setEndTime = function(endTime) {
+	this.endTime = endTime;
 }
+
 
 
 /* Segments. */
@@ -130,7 +150,7 @@ Segment.prototype.setId = function(id) {
 	this.id = id;
 };
 
-/* Passiamo l'ObjectInfo, compilato dall'utente nel momento di creazione del segmento */
+/* Passiamo il TransitionInfo, compilato dall'utente nel momento di creazione del segmento */
 Segment.prototype.setDescription = function(desc) {
 	this.desc = desc;
 };
@@ -249,30 +269,30 @@ Storyboard.prototype.changeTo = function(segment) {
 };
 
 
-Storyboard.prototype.isReachableFromSource = function(event) { // @
-	return isReachableFrom(this.sink,event);
-};
 
-Storyboard.prototype.isReachableFrom = function (start, target) { // @
+Storyboard.prototype.isValid = function() { // @
+	var source = this.source;
+	var sink = this.sink;
+	var isReachableFrom = function (start, target) { // @
 	if (start === target)
 		return true;
 	var found = start.outgoingSegments.some(function (item, index){
 		return (item.to === target || isReachableFrom(item.to, target));
 	});
 	return found;
-}
+	};
 
-Storyboard.prototype.isCycling = function (event) { // @
-	return event.outgoingSegments.some(function (item, index){
+	var isReachableFromSource = function (event) { // @
+	return isReachableFrom(source,event);
+	};
+
+	var isCycling = function (event) {
+		return event.outgoingSegments.some(function (item, index){
 		return (item.to === event || isReachableFrom(item.to, event));
 	});
-}
+	}
 
 
-Storyboard.prototype.isValid = function() { // @
-	var source = this.source; // *
-	var sink = this.sink; //  * non riesce ad accedere a questi dati all'interno della some e della every se non si usano queste variabili
-	var metodo = this.isCycling; // *
 	if(this.source.zeroInDegree() && this.sink.zeroOutDegree()){ // source has zero in-degree and sink has zero out-degree
 		var nodesCheck = this.events.some(function (item, index) {
 			if(item === sink || item === source)
@@ -281,7 +301,7 @@ Storyboard.prototype.isValid = function() { // @
 		});
 		if(nodesCheck === false) { // all other nodes have non-zero degree
 			return this.events.every(function (item, index) {
-				return this.isReachableFrom(source, item) && (!metodo(item)); //there are no oriented cycles and every event is reachable from the source
+				return isReachableFromSource(item) && (!isCycling(item)); //there are no oriented cycles and every event is reachable from the source
 			});
 		}
 		else
@@ -335,22 +355,19 @@ Storyboard.prototype.setStartTimeForEvents = function() { // @
 	});
 };
 
-/* Utile per l'output*/
-AnimationSegment = function (description, startTime, endTime) { // @
-	this.description = description; /* L'ObjectInfo, contenente  */
-	this.endTime = endTime;
-};
 
 Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	var timeline = [];
 	this.segments.forEach(function (item, index) {
 		var start = item.from.startTime;
 		var end = item.to.startTime;
-		var animationSegment = new AnimationSegment(item.description, start, end); 
-		timeline.push(segment);
+		var transitionInfo = item.desc; // vengono compilati i campi temporali del transitionInfo
+		transitionInfo.setStartTime(start);
+		transitionInfo.setEndTime(end);
+		timeline.push(transitionInfo);
 	})
-	timeline.sort(function (segment1, segment2) {
-		return segment1.start - segment2.start;
+	timeline.sort(function (transition1, transition2) {
+		return transition1.startTime - transition2.startTime;
 	});
 	return timeline;
 };

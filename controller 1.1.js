@@ -54,6 +54,25 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 	this.newSegment.setDuration(duration);
 };
 
+/* parameters passati dall'interfaccia quando viene settata la descrizione
+[idObject, type, dxf, dyf, dzf, x, y, z, dgx, dgy, dgz]*/
+StoryboardController.prototype.setDescriptionForNewSegment = function(parameters) {
+	var transitionInfo = new TransitionInfo();
+	transitionInfo.setIdObject(parameters[0]);
+	transitionInfo.setId(this.newSegment.id);
+	transitionInfo.setType(parameters[1]);
+	transitionInfo.setDxf(parameters[2]);
+	transitionInfo.setDyf(parameters[3]);
+	transitionInfo.setDzf(parameters[4]);
+	transitionInfo.setX(parameters[5]);
+	transitionInfo.setY(parameters[6]);
+	transitionInfo.setZ(parameters[7]);
+	transitionInfo.setDgx(parameters[8]);
+	transitionInfo.setDgy(parameters[9]);
+	transitionInfo.setDgz(parameters[10]);
+	this.newSegment.setDescription(transitionInfo);
+};
+
 StoryboardController.prototype.addNewSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
 };
@@ -137,5 +156,5 @@ StoryboardController.prototype.isValidStoryboard = function() {
 StoryboardController.prototype.processStoryboard = function() {
 	this.storyboard.executeCPM();
 	this.storyboard.setStartTimeForEvents();
-	this.storyboard.computeActor2SegmentsFunction();
+	return this.storyboard.computeActor2SegmentsFunction();
 };
