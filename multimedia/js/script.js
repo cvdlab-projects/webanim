@@ -30,7 +30,7 @@
 	// Dummy Elements added only for testing
 	var frame = $('#frame')[0];
 	var timingGetFrame;
-	var angle = 0;
+	var rotationAngle = Math.PI / 256;
 	var squarePosition = {
 		s: canvas.height / 20,
 		x: canvas.width / 4,
@@ -39,9 +39,10 @@
 	var timingAnimation = setInterval(function() {
 		c2d.clearRect(0, 0, canvas.width, canvas.height);
 		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
-		c2d.rotate(angle + Math.PI / 256);
+		c2d.rotate(rotationAngle);
 	}, 40);
 	// END
+
 
 	// Add Event Handlers
 	videoNameTextBox.on('keyup', function() {
@@ -49,12 +50,9 @@
 	});
 
 	getFrameButton.on('click', function(e) {
-		console.log(e);
-		imageData = c2d.getImageData(0, 0, canvas.width, canvas.height);
-		videoObject.capturedFrames[videoObject.frameNumber++] = imageData;
-		console.log(videoObject);
+		videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL('image/bmp');
 		var c2df = frame.getContext('2d');
-		c2df.putImageData(imageData, 0, 0);
+		c2df.putImageData(c2d.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
 	});
 
 	startStopButton.on('click', function(e) {
@@ -63,10 +61,9 @@
 			timingGetFrame = undefined;
 		} else {
 			timingGetFrame = setInterval(function(e) {
-				imageData = c2d.getImageData(0, 0, canvas.width, canvas.height);
-				videoObject.capturedFrames[videoObject.frameNumber++] = imageData;
+				videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL();
 				var c2df = frame.getContext('2d');
-				c2df.putImageData(imageData, 0, 0);
+				c2df.putImageData(c2d.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
 			}, 40);
 		}
 	});
@@ -74,7 +71,7 @@
 	createVideoButton.on('click', function(e) {
 		$.ajax({
 			type: "POST",
-			url: "http://localhost:8080/encodeVideo",
+			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
 			dataType: JSON,
 			success: function() {
