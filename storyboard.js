@@ -5,7 +5,6 @@ Event = function() {
 	this.outgoingSegments = [];
 	this.tMin = Number.NEGATIVE_INFINITY;
 	this.tMax = Number.POSITIVE_INFINITY;
-	this.startTime = Number.POSITIVE_INFINITY;
 };
 
 Event.prototype.setId = function(id) {
@@ -42,7 +41,7 @@ Event.prototype.hasZeroOutDegree = function() {
 	return this.outgoingSegments.length === 0;
 }
 
-Event.prototype.zeroDegree = function() {
+Event.prototype.hasZeroDegree = function() {
 	return this.hasZeroInDegree() && this.hasZeroInDegree();
 };
 
@@ -55,7 +54,11 @@ Event.prototype.setTMax = function(t) {
 };
 
 Event.prototype.setStartTime = function(t) {
-	this.startTime = t;
+	this.outgoingSegments.forEach(
+		function (segment) {
+			segment.setStartTime(t);
+		};
+	);
 };
 
 /* Transition info, contenente le info necessarie al rendering */
@@ -166,6 +169,11 @@ Segment.prototype.setDuration = function(duration) {
 	this.duration = duration;
 };
 
+Segment.prototype.setStartTime = function(t) {
+	this.start = t;
+	this.stop = t + this.duration;
+};
+
 /* Storyboard. */
 
 Storyboard = function() {
@@ -229,7 +237,7 @@ Storyboard.prototype.addSegment = function(segment) {
 	this.segments.push(segment);
 };
 
-Storyboard.prototype.getSegment = function(id) { // @
+Storyboard.prototype.getSegment = function(id) {
 	var results = this.segments.filter(function (item, index){
 		return item.id === id;
 	})
@@ -237,14 +245,16 @@ Storyboard.prototype.getSegment = function(id) { // @
 };
 
 Storyboard.prototype.removeSegment = function(segment) {
+	// First, update FROM & TO Events
 	var from = segment.from;
 	var to = segment.to;
 
 	from.removeOutgoingSegment(segment);
 	to.removeIngoingSegment(segment);
 
+	// Finally remove Segment
 	var index = this.segments.indexOf(segment);
-	this.segments.splice(index,1); // rimuove l'elemento nella posizione index
+	this.segments.splice(index,1);
 };
 
 Storyboard.prototype.changeFrom = function(segment) {
@@ -267,9 +277,7 @@ Storyboard.prototype.changeTo = function(segment) {
 	};
 };
 
-
-
-Storyboard.prototype.isValid = function() { // @
+Storyboard.prototype.isValid = function() {
 	var source = this.source;
 	var sink = this.sink;
 	var isReachableFrom = function (start, target) { // @
@@ -296,7 +304,7 @@ Storyboard.prototype.isValid = function() { // @
 		var nodesCheck = this.events.some(function (item, index) {
 			if(item === sink || item === source)
 				return false;
-			return item.zeroDegree(); // all other nodes have non-zero degree
+			return item.hasZeroDegree(); // all other nodes have non-zero degree
 		});
 		if(nodesCheck === false) { // all other nodes have non-zero degree
 			return this.events.every(function (item, index) {
@@ -348,14 +356,14 @@ Storyboard.prototype.executeCPM = function() {
 	};
 };
 
-Storyboard.prototype.setStartTimeForEvents = function() { // @
-	this.events.forEach(function (item, index) {
-		item.setStartTime((item.tMax + item.tMin)/2);
+Storyboard.prototype.setStartTimeForEvents = function() {
+	this.events.forEach(function (event) {
+		event.setStartTime( (event.tMax + event.tMin) / 2 );
 	});
 };
 
 
-Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
+Storyboard.prototype.computeActor2SegmentsFunction = function() {
 	var timeline = [];
 	this.segments.forEach(function (item, index) {
 		var start = item.from.startTime;
@@ -371,10 +379,12 @@ Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	return timeline;
 };
 
-Storyboard.prototype.clearTimes = function() {
-	this.events.forEach(function (item, index) {
-		item.setTMin(Number.NEGATIVE_INFINITY);
-		item.setTMax(Number.NEGATIVE_INFINITY);
-		item.setStartTime(Number.NEGATIVE_INFINITY);
-	})
-}
+Storyboard.prototype.reset = function() {
+	this.events.forEach(
+		function (event) {
+			event.setTMin(Number.NEGATIVE_INFINITY);
+			event.setTMax(Number.POSITIVE_INFINITY);
+			event.setStartTime(undefined);
+		};
+	);
+};
