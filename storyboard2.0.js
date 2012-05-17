@@ -359,8 +359,8 @@ Storyboard.prototype.setStartTimeForEvents = function() { // @
 Storyboard.prototype.computeActor2SegmentsFunction = function() { // @
 	var timeline = [];
 	this.segments.forEach(function (item, index) {
-		var start = item.from.startTime;
-		var end = item.to.startTime;
+		var start = item.from.startTime * 1000; // conversione in ms
+		var end = item.to.startTime * 1000; // conversione in ms
 		var transitionInfo = item.desc; // vengono compilati i campi temporali del transitionInfo
 		transitionInfo.setStartTime(start);
 		transitionInfo.setEndTime(end);
