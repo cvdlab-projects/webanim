@@ -153,7 +153,7 @@ function webGLStart(anim,fps) {
   var models = new Set();
 
   //Create App
-  PhiloGL('lesson03-canvas', {
+  PhiloGL('animationcanvas', {
     program: {
       from: 'ids',
       vs: 'shader-vs',
