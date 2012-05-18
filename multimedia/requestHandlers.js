@@ -1,11 +1,22 @@
+/**
+ *Importing some module (more docs is coming..)
+ */
+
 var querystring = require("querystring"),
     fs = require("fs"),
     path = require("path"),
     nodeVideo = require("video"),
     formidable = require("formidable"),
     buffer = require("buffer");
-pngHandler = require("./png");
+	pngHandler = require("./png");
 
+
+
+/**
+ *The data2bitmap function converts a png image into a RGB buffer.
+ *It takes as argument the data string, encoded in base64 which represent 
+ *the image/png frame
+ */
 function data2bitmap(data) {
     var png = new pngHandler.PNG(data);
     var line;
@@ -20,6 +31,10 @@ function data2bitmap(data) {
     return imageMap;
 }
 
+
+/**
+ *The encodeVideo function handles the making of an .ogv video from a collection of frames sent to the server.
+ */
 function encodeVideo(response, request) {
     console.log("Request handler 'encodeVideo' was called.");
     var form = new formidable.IncomingForm();
@@ -59,15 +74,18 @@ function encodeVideo(response, request) {
             console.log("Video saved successfully!");
         }
 
-        response.writeHead(200, {
-            "Content-Type": "text/html"
-        });
-        response.write("received image:<br/>");
-        response.write("<img src='/show' />");
+        response.writeHead(200);
+        //response.write("received image:<br/>");
+        //response.write("<img src='/show' />");
         response.end();
     });
 }
 
+
+
+/**
+ *The index function handles the access to the index page
+ */
 function index(response) {
     fs.readFile('./index.html', function(error, content) {
         if (error) {
@@ -82,6 +100,13 @@ function index(response) {
     });
 }
 
+
+
+/**
+ *The loader function handles the loading of text files, such as .css, .js, .html
+ *
+ *TODO: must be handled even .png and .ogv loading request
+ */
 function loader(response, request) {
     var filePath = '.' + request.url;
     contType = {
@@ -113,6 +138,9 @@ function loader(response, request) {
     });
 }
 
+/**
+ *Example handlers function, could be usefull
+ */
 function start(response) {
     console.log("Request handler 'start' was called.");
 
@@ -170,6 +198,11 @@ function show(response) {
     });
 }
 
+
+
+/**
+ *Exports all the request handlers function outside the module
+ */
 exports.index = index;
 exports.start = start;
 exports.loader = loader;

@@ -1,0 +1,4 @@
+./*/.DS_Store
+multimedia/media/video/*
+multimedia/node_modules/*
+!.gitignore
