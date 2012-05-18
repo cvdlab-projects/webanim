@@ -28,8 +28,21 @@ StoryboardController = function(listener) {
 	this.storyboard.source = source;
 	this.storyboard.sink = sink;
 
-	// Actors list, empty
+	// Actors stuff
 	this.actors = [];
+	this.getActorById = function(id) {
+		var actor;
+		var found = false;
+
+		for (var i = 0; i < this.actors.length && !found; i++) {
+			if (this.actors[i].id === id) {
+				found = true;
+				actor = this.actors[i];
+			};
+		};
+
+		return actor;
+	};
 };
 
 /* UC1. */
@@ -53,27 +66,33 @@ StoryboardController.prototype.addEvent = function(description) {
 /* UC3. */
 
 StoryboardController.prototype.startAddSegment = function(description) {
-	// body...
+	var newSegment = new Segment();
+	newSegment.id = this.getSegmentId();
+	newSegment.description = description;
+	this.newSegment = newSegment;
 };
 
 StoryboardController.prototype.setActorForNewSegment = function(actorId) {
-	// body...
+	var actor = this.getActorById(actorId);
+	this.newSegment.actor = actor;
 };
 
 StoryboardController.prototype.setFromEventForNewSegment = function(eventId) {
-	// body...
+	var from = this.storyboard.getEventById(eventId);
+	this.newSegment.from = from;
 };
 
 StoryboardController.prototype.setToEventForNewSegment = function(eventId) {
-	// body...
+	var to = this.storyboard.getEventById(eventId);
+	this.newSegment.to = to;
 };
 
 StoryboardController.prototype.setDurationForNewSegment = function(duration) {
-	// body...
+	this.newSegment.duration = duration;
 };
 
 StoryboardController.prototype.addSegment = function() {
-	// body...
+	this.storyboard.addSegment(this.newSegment);
 };
 
 /* UC4. */
