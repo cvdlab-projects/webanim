@@ -44,7 +44,10 @@ StoryboardController.prototype.addActor = function(description) {
 /* UC2. */
 
 StoryboardController.prototype.addEvent = function(description) {
-	// body...
+	var newEvent = new Event();
+	newEvent.id = this.getEventId();
+	newEvent.description = description;
+	this.storyboard.addEvent(newEvent);
 };
 
 /* UC3. */
