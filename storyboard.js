@@ -223,6 +223,7 @@ Storyboard.prototype.newSegment = function(id) {
 
 		newSegment.setId(id);
 		newSegment.setDescription(desc);
+		segment.marked = false;
 
 		return newSegment;
 	};
@@ -447,12 +448,35 @@ Storyboard.prototype.computeActor2SegmentsFunction = function() {
 	return timeline;
 };
 
-Storyboard.prototype.reset = function() {
+Storyboard.prototype.resetTimes = function() {
 	this.events.forEach(
 		function (event) {
 			event.setTMin(Number.NEGATIVE_INFINITY);
 			event.setTMax(Number.POSITIVE_INFINITY);
 			event.setStartTime(undefined);
+		};
+	);
+};
+
+/**
+ * For performances issues, some algorithms need to
+ * mark Events and / or Segments, instead of copy or delete.
+ * This method cleans the marks on the Storyboard, thus it
+ * should be invoked each before using any mark-setting
+ * algorithm.
+ */
+Storyboard.prototype.resetMarks = function() {
+	this.segments.forEach(
+		function (segment) {
+			segment.marked = false;
+		};
+	);
+};
+
+Storyboard.prototype.resetTopologicalOrder = function() {
+	this.events.forEach(
+		function (event) {
+			event.topologicalOrder = undefined;
 		};
 	);
 };
