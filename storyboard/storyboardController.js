@@ -61,6 +61,8 @@ StoryboardController.prototype.addEvent = function(description) {
 	newEvent.id = this.getEventId();
 	newEvent.description = description;
 	this.storyboard.addEvent(newEvent);
+
+	this.listener.newEvent(newEvent);
 };
 
 /* UC3. */
@@ -93,6 +95,8 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 
 StoryboardController.prototype.addSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
+
+	this.listener.newSegment(newSegment);
 };
 
 /* UC4. */
