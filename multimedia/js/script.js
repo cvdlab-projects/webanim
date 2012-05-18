@@ -73,9 +73,9 @@
 			type: "POST",
 			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
-			dataType: JSON,
 			success: function() {
-				alert("Video caricato correttamente :D")
+				alert("Video caricato correttamente :D\nPer scaricarlo accedi al copia il seguente link "+
+						"http://localhost:8080/media/video/"+videoObject.videoName+".ogv");
 			}
 		});
 	});
