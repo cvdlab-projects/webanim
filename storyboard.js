@@ -377,43 +377,36 @@ Storyboard.prototype.validate = function() {
 
 /*
  * For proper working, the Storyboard Events must
- * be topologically sorted.
+ * be topologically sorted and times must be reset.
  */
 Storyboard.prototype.executeCPM = function() {
+	this.events.sort(
+		function(e1, e2) {
+			return e1.topologicalOrder > e2.topologicalOrder;
+		};
+	);
+
 	// Forward
-	this.source.setTMin(0);
-	var eventsToVisit = [ this.source ];
-
-	while (eventsToVisit.length !== 0) {
-		var event = eventsToVisit.pop();
-		var outgoingSegments = event.outgoingSegments;
-
-		outgoingSegments.forEach(function(segment) {
-			var newTMin = event.tMin + segment.duration;
-			var oldTMin = segment.to.tMin;
-
-			segment.to.setTMin(Math.max(newTMin, oldTMin));
-
-			eventsToVisit.push(segment.to);
-		});
+	this.events[0] = setTMin(0);
+	for (var i = 1; i < this.events.length; i++) {
+		var segments = this.events[i].ingoingSegments;
+		for (var j = 0; j < segments.length; j++) {
+			var from = segments[j].from;
+			var duration = segments[j].duration;
+			this.events[i].tMin = Math.max(this.events[i].tMin, from.tMin + duration);
+		};
 	};
 
 	// Backward
-	this.sink.setTMax(this.sink.tMin);
-	var eventsToVisit = [ this.sink ];
-
-	while (eventsToVisit.length !== 0) {
-		var event = eventsToVisit.pop();
-		var ingoingSegments = event.ingoingSegments;
-
-		ingoingSegments.forEach(function(segment) {
-			var newTMax = event.tMax - segment.duration;
-			var oldTMax = segment.from.tMax;
-
-			segment.from.setTMax(Math.min(newTMax, oldTMax));
-
-			eventsToVisit.push(segment.from);
-		});
+	var last = this.events.length - 1;
+	this.events[last].tMax = this.events[last].tMin;
+	for (var i = last - 1; i >= 0; i--) {
+		var segments = this.events[i].outgoingSegments;
+		for (var j = 0; j < segments.length; j++) {
+			var to = segments[j].to;
+			var duration = segments[j].duration;
+			this.events[i].tMax = Math.min(this.events[i].tMax, to.tMax - duration);
+		};
 	};
 };
 
