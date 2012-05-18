@@ -179,6 +179,7 @@ Segment.prototype.setStartTime = function(t) {
 Storyboard = function() {
 	this.events = [];
 	this.segments = [];
+	this.validityIssues = [];
 };
 
 Storyboard.prototype.setSource = function(event) {
@@ -277,30 +278,71 @@ Storyboard.prototype.changeTo = function(segment) {
 	};
 };
 
-Storyboard.prototype.validSource = function() {
-	return this.source.hasZeroInDegree();
-};
-
-Storyboard.prototype.validSink = function() {
-	return this.source.hasZeroOutDegree();
-};
-
-Storyboard.prototype.validEvents = function() {
-	var valid = true;
-	var events = this.events;
-
-	/* Checks all the events but source & sink. */
-	var s = events.indexOf(this.source);
-	var t = events.indexOf(this.sink);
-	events.splice(s,1);
-	events.splice(t,1);
-
+Storyboard.prototype.validateEvents = function() {
 	for (var i = 0; i < events.length && valid; i++) {
-		if (events[i].hasZeroInDegree()) valid = false;
-		if (events[i].hasZeroOutDegree()) valid = false;
+		if (events[i] === this.source) {
+			if (!events[i].hasZeroInDegree()) {
+				this.validityIssues.push("Source Event has ingoing Segments.");
+			};
+		} else if (events[i] === this.sink) {
+			if (!events[i].hasZeroOutDegree()) {
+				this.validityIssues.push("Sink Event has outgoing Segments.");
+			};
+		} else {
+			if (events[i].hasZeroInDegree()) {
+				this.validityIssues.push("Event "+ events[i] +" has no ingoing Segments.");
+			};
+			if (events[i].hasZeroOutDegree()) {
+				this.validityIssues.push("Event "+ events[i] +" has no outgoing Segments.");
+			};
+		};
+	};
+};
+
+/*
+ * Kahn's algorithm for topological sorting.
+ * It is also suitable for detecting cycles.
+ */
+Storyboard.prototype.topologicalSort = function() {
+	var S = [ this.source ];
+	var k = 0;
+
+	while (S.length != 0) {
+		// Remove an Event from S
+		var event = S.pop();
+		// Number the chosen Event
+		event.topologicalOrder = k;
+
+		// For each outgoing Segment ...
+		event.outgoingSegments.forEach(
+			function(segment) {
+				// ... mark it
+				segment.marked = true;
+
+				// ... push its TO Event into S iff it has no marked ingoing Segments
+				var to = segment.to;
+				var ingoings = to.ingoingSegments;
+				var found = false;
+				while (var i = 0; i < ingoings.length && !found; i++) {
+					if (!ingoings[i].marked) found = true;
+				};
+				if (!found) S.push(to);
+			};
+		);
 	};
 
-	return valid;
+	// Search for non-marked Segments
+	var found = false;
+	for (var i = 0; i < this.segments.length && !found; i++) {
+		if (!this.segments[i].marked) found = true;
+	};
+
+	// Iff there are non-marked Segments, the Storyboard contains cycles
+	if (found) {
+		this.validityIssues.push("Storyboard contains cycles.");
+	} else {
+		this.topologicallySorted = true;
+	};
 };
 
 Storyboard.prototype.isValid = function() {
