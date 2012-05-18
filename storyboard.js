@@ -277,6 +277,32 @@ Storyboard.prototype.changeTo = function(segment) {
 	};
 };
 
+Storyboard.prototype.validSource = function() {
+	return this.source.hasZeroInDegree();
+};
+
+Storyboard.prototype.validSink = function() {
+	return this.source.hasZeroOutDegree();
+};
+
+Storyboard.prototype.validEvents = function() {
+	var valid = true;
+	var events = this.events;
+
+	/* Checks all the events but source & sink. */
+	var s = events.indexOf(this.source);
+	var t = events.indexOf(this.sink);
+	events.splice(s,1);
+	events.splice(t,1);
+
+	for (var i = 0; i < events.length && valid; i++) {
+		if (events[i].hasZeroInDegree()) valid = false;
+		if (events[i].hasZeroOutDegree()) valid = false;
+	};
+
+	return valid;
+};
+
 Storyboard.prototype.isValid = function() {
 	var source = this.source;
 	var sink = this.sink;
