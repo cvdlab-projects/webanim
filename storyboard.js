@@ -346,47 +346,39 @@ Storyboard.prototype.topologicalSort = function() {
 	};
 };
 
-Storyboard.prototype.isValid = function() {
-	var source = this.source;
-	var sink = this.sink;
-	var isReachableFrom = function (start, target) { // @
-	if (start === target)
-		return true;
-	var found = start.outgoingSegments.some(function (item, index){
-		return (item.to === target || isReachableFrom(item.to, target));
-	});
-	return found;
+/*
+ * If it is topologically sorted, there is a smart way
+ * to check wether a graph is connected or not: you just
+ * check if all nodes are numbered.
+ */
+Storyboard.prototype.checkConnection = function {
+	if (this.topologicallySorted) {
+		var allNumbered = true;
+
+		for (var i = 0; i < this.events.length && allNumbered; i++) {
+			if (this.events[i].topologicalOrder === undefined) allNumbered = false;
+		};
+
+		if (!allNumbered) this.validityIssues.push("Storyboard graph is not connected.");
+	} else {
+		// Connection check for non topologically sorted graphs
+		// (Not so relevant for us)
 	};
-
-	var isReachableFromSource = function (event) { // @
-	return isReachableFrom(source,event);
-	};
-
-	var isCycling = function (event) {
-		return event.outgoingSegments.some(function (item, index){
-		return (item.to === event || isReachableFrom(item.to, event));
-	});
-	}
-
-
-	if(this.source.hasZeroInDegree() && this.sink.hasZeroOutDegree()){ // source has zero in-degree and sink has zero out-degree
-		var nodesCheck = this.events.some(function (item, index) {
-			if(item === sink || item === source)
-				return false;
-			return item.hasZeroDegree(); // all other nodes have non-zero degree
-		});
-		if(nodesCheck === false) { // all other nodes have non-zero degree
-			return this.events.every(function (item, index) {
-				return isReachableFromSource(item) && (!isCycling(item)); //there are no oriented cycles and every event is reachable from the source
-			});
-		}
-		else
-			return false;
-	}
-	else
-		return false;
 };
 
+/*
+ * Performs a full validation.
+ */
+Storyboard.prototype.validate = function() {
+	this.validateEvents();
+	this.topologicalSort(); // useful for cycle detection
+	this.checkConnection();
+};
+
+/*
+ * For proper working, the Storyboard Events must
+ * be topologically sorted.
+ */
 Storyboard.prototype.executeCPM = function() {
 	// Forward
 	this.source.setTMin(0);
@@ -458,7 +450,7 @@ Storyboard.prototype.resetTimes = function() {
 	);
 };
 
-/**
+/*
  * For performances issues, some algorithms need to
  * mark Events and / or Segments, instead of copy or delete.
  * This method cleans the marks on the Storyboard, thus it
