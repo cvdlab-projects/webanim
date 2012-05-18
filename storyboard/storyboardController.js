@@ -1,11 +1,44 @@
 StoryboardController = function(listener) {
 	this.listener = listener;
+
+	//IDs management stuff
+	this.nextEventId = 1;
+	this.nextSegmentId = 1;
+	this.nextActorId = 1;
+	this.getEventId = function() {
+		return this.nextEventId++;
+	};
+	this.getSegmentId = function() {
+		return this.nextSegmentId++;
+	};
+	this.getActorId = function() {
+		return this.nextActorId++;
+	};
+
+	// Creation of a new Storyboard
+	this.storyboard = new Storyboard();
+	var source = new Event();
+	source.id = this.getEventId();
+	source.description = "Beginning of the animation.";
+	var sink = new Event();
+	sink.id = this.getEventId();
+	sink.description = "End of the animation.";
+	this.storyboard.addEvent(source);
+	this.storyboard.addEvent(sink);
+	this.storyboard.source = source;
+	this.storyboard.sink = sink;
+
+	// Actors list, empty
+	this.actors = [];
 };
 
 /* UC1. */
 
 StoryboardController.prototype.addActor = function(description) {
-	// body...
+	var newActor = new Actor();
+	newActor.id = this.getActorId();
+	newActor.description = description;
+	this.actors.push(newActor);
 };
 
 /* UC2. */
