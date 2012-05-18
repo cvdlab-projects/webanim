@@ -2,4 +2,4 @@ Ho spezzato RequestHandler.js in piu' files (base64.j, deflate.js, png.js) e pat
 Non ho controllato se c'e' qualche bestemmia in mezzo ma ho sistemato l'indentazione e simili.
 Soprattutto, ho rimosso tutti i files inutili dal progetto (leggi tutti i files .DS_store che crea Mac + node_modules) quindi ora e' "pulito"
 
-C'e' rimasta da fare la documentazione per bene ed eventualmente fornire un paio di metodi come API da integrare nelle pagine web.
+C'e' rimasta da fare la documentazione per bene ed eventualmente fornire un paio di metodi come API da integrare nelle pagine web
