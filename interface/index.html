@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>WebAnimation</title>
+        <link href="css/reset.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <div id="container">
+        <div id="header">
+            <h1>Graph WebAnimation</h1>
+        </div>
+        <div id="content">
+            <div id="paper"></div>
+            <div id="menu">
+                <div id="addArc" class="button">
+                    <span>OFF</span>
+                    <div>Add Arc Between Events</div>
+                </div>
+                <div id="rmEvt" class="button">
+                    <span>OFF</span>
+                    <div>Remove Arc &amp Events</div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+    <!--DEP-->
+    <script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.13-min.js"></script>
+    <!--/DEP-->
+
+    <!--JS-->
+    <!-- support lib for bezier stuff -->
+    <script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
+    <!-- jsplumb util -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-util-1.3.9-RC1.js"></script>
+    <!-- main jsplumb engine -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-1.3.9-RC1.js"></script>
+    <!-- connectors, endpoint and overlays  -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-defaults-1.3.9-RC1.js"></script>
+    <!-- state machine connectors -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-connectors-statemachine-1.3.9-RC1.js"></script>
+    <!-- SVG renderer -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
+    <!-- canvas renderer -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-canvas-1.3.9-RC1.js"></script>
+    <!-- vml renderer -->
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
+    <!-- jquery jsPlumb adapter -->
+    <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
+    <!-- /JS -->
+
+    <script src="js/jsPlumb_based.js"></script>
+</html>
