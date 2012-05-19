@@ -1,7 +1,7 @@
 Multimedia module configuration guide
 =====================================
 This is an help guide to set up the environment and use the multimedia module of webanim project.
-This module is developed on the `feature/multimedia` branch, and the guide refers to this configuration.
+This module is developed on the `feature/multimedia` branch, and the guide refers to its configuration.
 It will be updated when merging the branch to the `develop` or `master` branch
 
 Base Requirements
