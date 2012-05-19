@@ -74,8 +74,13 @@
 			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
 			success: function() {
-				alert("Video caricato correttamente :D\nPer scaricarlo accedi al copia il seguente link "+
-						"http://localhost:8080/media/video/"+videoObject.videoName+".ogv");
+				$('#frame').hide();
+				var vplayer = "<video controls=\"controls\">"+
+								"<source src=\"media/video/"+videoObject.videoName+".ogv\" type=\"video/ogg\"/>"+
+								"Il browser non supporta html5</video>";		
+				$('.container').append(vplayer);
+				alert("Video caricato correttamente :D\nE' stato aggiunto un player in fondo alla pagina per visualizzarlo :)");
+				
 			}
 		});
 	});

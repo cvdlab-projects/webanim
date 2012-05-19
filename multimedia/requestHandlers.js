@@ -111,7 +111,11 @@ function loader(response, request) {
     var filePath = '.' + request.url;
     contType = {
         '.js': 'text/javascript',
-        '.css': 'text/css'
+        '.css': 'text/css',
+		'.ogv': 'video/ogg',
+		'.png': 'image/png',
+		'.jpeg': 'image/jpeg',
+		'.ico' : 'vnd.microsoft.icon'
     };
     if (filePath == './') filePath = './index.html';
     var extname = path.extname(filePath);

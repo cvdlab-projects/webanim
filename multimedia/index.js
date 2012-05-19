@@ -32,6 +32,7 @@ handle["/"] = requestHandlers.index;
 handle["/index"] = requestHandlers.index;
 handle["/js"] = requestHandlers.loader;
 handle["/css"] = requestHandlers.loader;
+handle["/media"] = requestHandlers.loader;
 handle["/encodeVideo"] = requestHandlers.encodeVideo;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
