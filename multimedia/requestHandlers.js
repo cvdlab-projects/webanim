@@ -41,7 +41,7 @@ function encodeVideo(response, request) {
     form.parse(request, function(error, fields, files) {
 
         if (fields.videoName !== "") {
-            var filePathName = './media/video/' + fields.videoName + '.ogv';
+            var filePathName = './media/video/' + fields.videoName + '.ogg';
             var frameWidth = parseInt(fields.width) || 0;
             var frameHeight = parseInt(fields.height) || 0;
             var frameNumber = parseInt(fields.frameNumber);
@@ -59,11 +59,11 @@ function encodeVideo(response, request) {
             console.log("Saving video to file '" + filePathName + "'");
             video.setOutputFile(filePathName);
 
-            console.log("Reconstructing image structure of " + frameNumber + " frames...");
+            //console.log("Reconstructing image structure of " + frameNumber + " frames...");
 
             var begin = new Date().getTime();
             for (frameId = 0; frameId < frameNumber; frameId++) {
-                console.log("Reconstructing frame number " + frameId);
+                //console.log("Reconstructing frame number " + frameId);
                 base64text = fields['capturedFrames[' + frameId + ']'];
                 base64imageData = base64text.substring(base64text.indexOf(",") + 1);
                 imageMap = data2bitmap(base64imageData);
@@ -75,11 +75,10 @@ function encodeVideo(response, request) {
             console.log("Done!");
             video.end();
             console.log("Video saved successfully!");
-        }
-
-        response.writeHead(200);
-        //response.write("received image:<br/>");
-        //response.write("<img src='/show' />");
+			response.writeHead(200);
+        }else{
+			response.writeHead(400);
+		}        
         response.end();
     });
 }
@@ -108,7 +107,6 @@ function index(response) {
 /**
  *The loader function handles the loading of text files, such as .css, .js, .html
  *
- *TODO: must be handled even .png and .ogv loading request
  */
 function loader(response, request) {
     var filePath = '.' + request.url;
