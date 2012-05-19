@@ -111,3 +111,50 @@ Storyboard.prototype.checkDegrees = function() {
 	};
 	return result;
 };
+
+/*
+ * Kahn's algorithm for topological sorting.
+ * It is also suitable for detecting cycles.
+ */
+Storyboard.prototype.containsCycles = function() {
+	var S = [ this.source ];
+	var k = 0;
+
+	while (S.length != 0) {
+		// Remove an Event from S
+		var event = S.pop();
+		// Number the chosen Event
+		event.topologicalOrder = k;
+
+		// For each outgoing Segment ...
+		event.outgoingSegments.forEach(
+			function(segment) {
+				// ... mark it
+				segment.marked = true;
+
+				// ... push its TO Event into S iff it has no marked ingoing Segments
+				var to = segment.to;
+				var ingoings = to.ingoingSegments;
+				var found = false;
+				for (var i = 0; i < ingoings.length && !found; i++) {
+					if (!ingoings[i].marked) found = true;
+				};
+				if (!found) S.push(to);
+			}
+		);
+	};
+
+	// Search for non-marked Segments
+	var found = false;
+	for (var i = 0; i < this.segments.length && !found; i++) {
+		if (!this.segments[i].marked) found = true;
+	};
+
+	// Iff there are non-marked Segments, the Storyboard contains cycles
+	if (found) {
+		return true;
+	} else {
+		this.topologicallySorted = true;
+		return false;
+	};
+};

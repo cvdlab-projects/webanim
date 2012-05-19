@@ -117,5 +117,7 @@ StoryboardController.prototype.processStoryboard = function() {
 			};
 		};
 		this.listener.storyboardNotValid(message);
+	} else if (this.storyboard.containsCycles()) {
+		this.listener.storyboardNotValid("The Storyboard contains cycles!");
 	};
 };
