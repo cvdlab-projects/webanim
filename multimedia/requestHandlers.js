@@ -23,11 +23,6 @@ function data2bitmap(data) {
     var imageMap = [];
     while (line = png.readLine()) {
         for (var x = 0; x < line.length; x++) {
-			/*
-            imageMap.push((line[x] & 0xFF0000) >> 16);
-            imageMap.push((line[x] & 0xFF00) >> 8);
-            imageMap.push(line[x] & 0xFF);
-			*/
 			var tmp = line[x];
 			imageMap.push(((tmp & 0xFF0000) >> 16),((tmp & 0xFF00) >> 8),(tmp & 0xFF));
         }
@@ -65,6 +60,8 @@ function encodeVideo(response, request) {
             video.setOutputFile(filePathName);
 
             console.log("Reconstructing image structure of " + frameNumber + " frames...");
+
+            var begin = new Date().getTime();
             for (frameId = 0; frameId < frameNumber; frameId++) {
                 console.log("Reconstructing frame number " + frameId);
                 base64text = fields['capturedFrames[' + frameId + ']'];
@@ -73,6 +70,8 @@ function encodeVideo(response, request) {
                 video.newFrame(new Buffer(imageMap));
             }
 
+            console.log((new Date().getTime() - begin) / frameNumber); //371~
+            
             console.log("Done!");
             video.end();
             console.log("Video saved successfully!");
@@ -170,8 +169,7 @@ function upload(response, request) {
         console.log("parsing done");
         console.log(fields);
 
-        /* Possible error on Windows systems:
-       tried to rename to an already existing file */
+        // Possible error on Windows systems: tried to rename to an already existing file
         fs.rename(files.upload.path, "/tmp/test.png", function(err) {
             if (err) {
                 fs.unlink("/tmp/test.png");
