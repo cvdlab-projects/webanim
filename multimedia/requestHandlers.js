@@ -23,9 +23,13 @@ function data2bitmap(data) {
     var imageMap = [];
     while (line = png.readLine()) {
         for (var x = 0; x < line.length; x++) {
+			/*
             imageMap.push((line[x] & 0xFF0000) >> 16);
             imageMap.push((line[x] & 0xFF00) >> 8);
             imageMap.push(line[x] & 0xFF);
+			*/
+			var tmp = line[x];
+			imageMap.push(((tmp & 0xFF0000) >> 16),((tmp & 0xFF00) >> 8),(tmp & 0xFF));
         }
     }
     return imageMap;
