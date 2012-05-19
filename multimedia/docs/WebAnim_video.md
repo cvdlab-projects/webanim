@@ -8,10 +8,10 @@ In this document we are going to explain, as simple as possible, the targets aim
 Origin
 -------
 The WebAnim project was born whithin a bigger project promoted by Alberto Paoluzzi, full professor at Roma Tre University, in his Biomedical Informatic class.<br/>
-The target of this project consist in developing tools for the modeling, rendering, animation of biological object like proteins, cells and organs on a web environment. The WebAnim project, as the name may suggest, has to care about animate 3D models according to a storyboard, and record the scene in a video providing an interface for searching them by tags and play them into the browser.
+ The target of this project consist in developing tools for the modeling, rendering, animation of biological object like proteins, cells and organs on a web environment. The WebAnim project, as the name may suggest, has to care about animate 3D models according to a storyboard, and record the scene in a video providing an interface for searching them throgh tags and play them into the browser.
 The video encoding and streaming module handle recording and playing features.
 
-Targets
+1. Targets
 -------
 The WebAnim video encoding and streaming module main targets (and features) are:
 
@@ -20,7 +20,8 @@ The WebAnim video encoding and streaming module main targets (and features) are:
 
 In the following we will expose the studies made on this two feature, the problems encountered and the solution we propose.
 
-###1. Record video
+2. Analisys and Solutions
+-------------------------
 The recording function involves two actors:
 
 * the client on which the scene is displayed
@@ -45,7 +46,16 @@ We explored two different approches to capture frames:
 * the `getImageData()` method provided by the `canvas.context` element
 * the `toDataURL()` method provided by the `canvas` element
 
-On the first apporach we'll spend very few words on this approach, because it's heavly inefficient. Indeed testing it with the quality constraints defined above, the browser become slower till it freeze, so it is unusable.
+On the first apporach we'll spend very few words on this approach, because it's heavly inefficient. Indeed testing it with the quality constraints defined above, the browser become slower till it freeze, making the service unusable.
+
+The second approach is more interesting both because its efficency and a number of issues it raised. The `toDataURL()` is a method provided by the `canvas` element defined in the `HTML5 Standard` which encode the canvas' content in a string encoded in base64.
+Testing this method with che video quality constraints defined before it worked well, without slowing down the browser, and moreover thinkig about the encoding in base64 it compress a lot the data to be sent to the server. <br/>
+The choice was easy,we decided for the `toDataURL()` method. But due it's behaviour while econding the video, we had to decode the string into an RGB buffer. This step was a little problematic, because on first instance the reconstructed image from a frame sent using Google Chrome gave some problem, while using Opera or Firefox it worked perfectly. We solved it analysing the heather of the encoded png sent, and found that Chrome use a Sub filter, while Opera and Firefox use no filter. To make things work with more browsers we implementend the no filter and the sub filter decoding algorithm, (we'll add the up filter to add support to Safari).
+Actually all the frames data are sent to the server through a `POST` request.
+
+3. Server structure
+-------------------
+//To be completed
 
 
 
