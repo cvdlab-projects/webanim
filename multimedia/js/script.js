@@ -85,6 +85,9 @@
 			type: "POST",
 			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
+			error: function(){
+					alert('Must insert name');
+				},
 			success: function() {
 				$('#videoPlayer').remove();
 				var newVideoPlayer = '<video id="videoPlayer" ' +
