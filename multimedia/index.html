@@ -30,6 +30,11 @@
                     </input>
                 </li>
                 <li>
+                    Recorded frames:
+                    <input id="recordedFrames" type="text" value="0">
+                    </input>
+                </li>
+                <li>
                     <input id="getFrameButton" type="button" value="GetFrame">
                     </input>
                 </li>
@@ -44,8 +49,9 @@
             </ul>
             <canvas id="canvas" width="640" height="480" style="background-color: #000000;">
             </canvas>
-            <canvas id="frame" width="640" height="480" style="background-color: #888888;">
-            </canvas>
+            <div id="recordingStatus" class="recordingStatusOff">
+                <p>Ready to record</p>
+            </div>
         </div>
         <script type="text/javascript" src='./js/script.js'>
                                                                                                                                         

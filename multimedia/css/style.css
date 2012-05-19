@@ -1,11 +1,29 @@
-#leftPanel {
-	float: right;
-}
-
 canvas {
 	display: block;
 }
 
 ul {
 	text-align: right;
+}
+
+p {
+	padding: 5px;
+	font-size: 20px;
+	text-align: center;
+}
+
+#leftPanel {
+	float: right;
+}
+
+.recordingStatusOn {
+	width: 640px;
+	height: 30px;
+	background-color: #DD2222;
+}
+
+.recordingStatusOff {
+	width: 640px;
+	height: 30px;
+	background-color: #22DD22;
 }

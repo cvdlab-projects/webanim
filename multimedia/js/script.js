@@ -8,7 +8,7 @@
 	// Controls
 	var videoNameTextBox = $('#videoName');
 	var idTagTextBox = $('#idTag'); // Not Used, Yet
-	var fpsVideoTextBox = $('#fpsVideo'); // Not Used, Yet
+	var fpsVideoTextBox = $('#fpsVideo');
 	var getFrameButton = $('#getFrameButton');
 	var startStopButton = $('#startStop');
 	var createVideoButton = $('#createVideo');
@@ -28,7 +28,6 @@
 
 	// BEGIN 
 	// Dummy Elements added only for testing
-	var frame = $('#frame')[0];
 	var timingGetFrame;
 	var rotationAngle = Math.PI / 256;
 	var squarePosition = {
@@ -40,9 +39,23 @@
 		c2d.clearRect(0, 0, canvas.width, canvas.height);
 		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
 		c2d.rotate(rotationAngle);
-	}, 40);
+	}, 1000/30);
 	// END
 
+	function changeRecordingStatus() {
+		var on = "Recording";
+		var off ="Ready to record";
+
+		if($('#recordingStatus p:first-child').text() === on) {
+			$('#recordingStatus').append('<p>' + off + '</p>');
+		} else {
+			$('#recordingStatus').append('<p>' + on + '</p>');
+		}
+		console.log($('#recordingStatus p:first-child'));
+		$('#recordingStatus p:first-child').remove();
+
+		$('#recordingStatus').toggleClass("recordingStatusOff recordingStatusOn");
+	}
 
 	// Add Event Handlers
 	videoNameTextBox.on('keyup', function() {
@@ -51,20 +64,19 @@
 
 	getFrameButton.on('click', function(e) {
 		videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL('image/bmp');
-		var c2df = frame.getContext('2d');
-		c2df.putImageData(c2d.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
+		$("#recordedFrames").val(videoObject.frameNumber);
 	});
 
 	startStopButton.on('click', function(e) {
+		changeRecordingStatus();
 		if (timingGetFrame !== undefined) {
 			clearInterval(timingGetFrame);
 			timingGetFrame = undefined;
 		} else {
 			timingGetFrame = setInterval(function(e) {
 				videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL();
-				var c2df = frame.getContext('2d');
-				c2df.putImageData(c2d.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
-			}, 40);
+				$("#recordedFrames").val(videoObject.frameNumber);
+			}, 1000/parseInt(fpsVideoTextBox.val()));
 		}
 	});
 
@@ -74,11 +86,16 @@
 			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
 			success: function() {
-				$('#frame').hide();
-				var vplayer = "<video controls=\"controls\">"+
-								"<source src=\"media/video/"+videoObject.videoName+".ogv\" type=\"video/ogg\"/>"+
-								"Il browser non supporta html5</video>";		
-				$('.container').append(vplayer);
+				$('#videoPlayer').remove();
+				var newVideoPlayer = '<video id="videoPlayer" ' +
+									 'width=640 ' +
+							  		 'height=480 ' +
+							  		 'controls="controls" >' +
+							  		 '<source src="./media/video/' + videoObject.videoName + '.ogg" ' +
+							  		 'type="video/ogg" />' +
+							  		 'Il browser non supporta html5' + 
+							  		 '</video>';
+				$('.container').append(newVideoPlayer);
 				alert("Video caricato correttamente :D\nE' stato aggiunto un player in fondo alla pagina per visualizzarlo :)");
 				
 			}

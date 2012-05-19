@@ -70,8 +70,6 @@ function encodeVideo(response, request) {
                 video.newFrame(new Buffer(imageMap));
             }
 
-            console.log((new Date().getTime() - begin) / frameNumber); //371~
-            
             console.log("Done!");
             video.end();
             console.log("Video saved successfully!");
