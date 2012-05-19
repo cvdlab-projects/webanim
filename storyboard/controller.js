@@ -25,8 +25,8 @@ StoryboardController = function(listener) {
 	sink.description = "End of the animation.";
 	this.storyboard.addEvent(source);
 	this.storyboard.addEvent(sink);
-	this.storyboard.source = source;
-	this.storyboard.sink = sink;
+	this.storyboard.setSource(source);
+	this.storyboard.setSink(sink);
 
 	// Actors stuff
 	this.actors = [];
@@ -96,11 +96,26 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 StoryboardController.prototype.addSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
 
-	this.listener.newSegment(newSegment);
+	this.listener.newSegment(this.newSegment);
 };
 
 /* UC4. */
 
 StoryboardController.prototype.processStoryboard = function() {
-	// body...
+	var checkResult = this.storyboard.checkDegrees();
+	if (checkResult.error) {
+		var message;
+		if (checkResult.source) {
+			message = "The source Event must have zero ingoing Segments!";
+		} else if (checkResult.sink) {
+			message = "The sink Event must have zero outgoing Segments!";
+		} else {
+			if (checkResult.ingoing) {
+				message = "Event "+ checkResult.event.id +" has zero ingoing Segments!";
+			} else if (checkResult.outgoing) {
+				message = "Event "+ checkResult.event.id +" has zero outgoing Segments!";
+			};
+		};
+		this.listener.storyboardNotValid(message);
+	};
 };
