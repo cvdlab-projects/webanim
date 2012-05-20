@@ -61,8 +61,7 @@ StoryboardController.prototype.addEvent = function(description) {
 	newEvent.id = this.getEventId();
 	newEvent.description = description;
 	this.storyboard.addEvent(newEvent);
-
-	this.listener.newEvent(newEvent);
+	this.storyboard.topologicallySorted = false;
 };
 
 /* UC3. */
@@ -95,29 +94,20 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 
 StoryboardController.prototype.addSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
-
-	this.listener.newSegment(this.newSegment);
+	this.newSegment = undefined;
+	this.storyboard.topologicallySorted = false;
 };
 
 /* UC4. */
 
 StoryboardController.prototype.processStoryboard = function() {
-	var checkResult = this.storyboard.checkDegrees();
-	if (checkResult.error) {
-		var message;
-		if (checkResult.source) {
-			message = "The source Event must have zero ingoing Segments!";
-		} else if (checkResult.sink) {
-			message = "The sink Event must have zero outgoing Segments!";
-		} else {
-			if (checkResult.ingoing) {
-				message = "Event "+ checkResult.event.id +" has zero ingoing Segments!";
-			} else if (checkResult.outgoing) {
-				message = "Event "+ checkResult.event.id +" has zero outgoing Segments!";
-			};
-		};
-		this.listener.storyboardNotValid(message);
-	} else if (this.storyboard.containsCycles()) {
-		this.listener.storyboardNotValid("The Storyboard contains cycles!");
+	// Validity check
+	if (!this.storyboard.isValid()) {
+		this.listener.storyboardNotValid(this.storyboard.validityReport);
+	} else {
+		// Storyboard processing
+		this.storyboard.executeCPM();
+		this.storyboard.setStartTimeForSegments();
+		this.listener.storyboardProcessingCompleted(this.storyboard);
 	};
 };
