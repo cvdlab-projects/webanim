@@ -86,7 +86,7 @@
 			url: ("http://localhost:8080/encodeVideo"),
 			data: videoObject,
 			error: function(){
-					alert('Must insert name');
+					alert('Bad request, fill all data fields');
 				},
 			success: function() {
 				$('#videoPlayer').remove();
