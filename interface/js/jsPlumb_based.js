@@ -1,6 +1,30 @@
 var GraphState = {
     addArc: false,
-    rmEvt: false
+    rmEvt: false,
+    currentLabel: null
+};
+
+$("#dialog-form").dialog({
+    autoOpen: false,
+    height: 300,
+    width: 350,
+    modal: true,
+    buttons: {
+        "Confirm": function () {
+            GraphState.currentLabel.setLabel($("#duration").val());
+            $( this ).dialog( "close" );
+        },
+
+        Cancel: function() {
+            $( this ).dialog( "close" );
+        }
+    }
+});
+
+var editSegment = function (label, evt) {
+    GraphState.currentLabel = label;
+    $("#dialog-form").dialog("open");
+    console.log(label);
 };
 
 jsPlumb.importDefaults({
@@ -13,7 +37,14 @@ jsPlumb.importDefaults({
             length:10,
             foldback:0.8
         } ],
-        [ "Label", { label:"", id:"label" }]
+        [ "Label", {
+            label:"",
+            cssClass:"l1 component label",
+            location:0.7,
+            events:{
+                "click": editSegment
+            }
+        }]
     ]
 });
 
@@ -25,6 +56,9 @@ $("#paper").on("click.webGraph", function (e) {
         createEvt(x,y);
     }
 });
+
+
+// remove segment
 
 jsPlumb.bind("click", function(conn) {
     jsPlumb.detach(conn);
@@ -85,6 +119,7 @@ var createEvt =  function(x,y) {
         containment: "parent"
     });
     jsPlumb.makeTarget(evt, {
+        dropOptions:{ hoverClass:"dragHover" },
         anchor:"Continuous"
     });
 
