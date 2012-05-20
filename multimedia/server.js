@@ -21,7 +21,9 @@ var url = require("url");
 
 function start(route, handle) {
 	function onRequest(request, response) {
-		var pathname = ("/" + url.parse(request.url).pathname.split("/")[1]) || "/";
+		var tmp = url.parse(request.url).pathname.split("/");
+		var pathname = (tmp.length > 2)? ("/"+tmp[1]):"/";
+		//var pathname = ("/" + url.parse(request.url).pathname.split("/")[1]) || "/";
 		console.log("Request for " + pathname + " received.");
 		route(handle, pathname, response, request);
 	}

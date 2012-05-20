@@ -28,7 +28,7 @@ var requestHandlers = require("./requestHandlers");
  */
 
 var handle = {}
-handle["/"] = requestHandlers.index;
+handle["/"] = requestHandlers.loader;
 handle["/index"] = requestHandlers.index;
 handle["/js"] = requestHandlers.loader;
 handle["/css"] = requestHandlers.loader;

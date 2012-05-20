@@ -1,46 +1,16 @@
 !(function(exports) {
-	// Animation Canvas
-	var canvas = $('#canvas')[0];
-	var c2d = canvas.getContext('2d');
-	c2d.fillStyle = "#FF8800";
-	c2d.translate(canvas.width / 2, canvas.height / 2);
-
-	// Controls
-	var videoNameTextBox = $('#videoName');
-	var idTagTextBox = $('#idTag'); // Not Used, Yet
-	var fpsVideoTextBox = $('#fpsVideo');
-	var getFrameButton = $('#getFrameButton');
-	var startStopButton = $('#startStop');
-	var createVideoButton = $('#createVideo');
-
-	// Data Structure for containing Video properties
-	var videoObject = {
-		width: canvas.width,
-		height: canvas.height,
-		videoName: videoNameTextBox.val(),
-		frameNumber: 0,
-		capturedFrames: {}
-	};
-
-	// Canvas Image Data container
-	var imageData;
-
-
-	// BEGIN 
-	// Dummy Elements added only for testing
-	var timingGetFrame;
-	var rotationAngle = Math.PI / 256;
-	var squarePosition = {
-		s: canvas.height / 20,
-		x: canvas.width / 4,
-		y: canvas.height / 4
-	};
-	var timingAnimation = setInterval(function() {
-		c2d.clearRect(0, 0, canvas.width, canvas.height);
-		c2d.fillRect(squarePosition.x, squarePosition.y, squarePosition.s, squarePosition.s);
-		c2d.rotate(rotationAngle);
-	}, 1000/30);
-	// END
+	self = {};
+	//Templates
+	var controls = '<div id="videoControls"><ul id="leftPanel">'+
+					'<li>File Name:<input id="videoName" type="text" value="video_name"></input></li>'+
+					'<li>Tag:<input id="idTag" type="text" value=""></input></li>'+
+					'<li>FPS:<input id="fpsVideo" type="text" value="25"></input></li>'+
+					'<li> Recorded frames:<input id="recordedFrames" type="text" value="0"></input></li>'+
+					'<li><input id="getFrameButton" type="button" value="GetFrame"></input></li>'+
+					'<li><input id="startStop" type="button" value="Start/Stop Recording"></input></li>'+
+					'<li><input id="createVideo" type="button" value="Create Video"></input></li>'+
+					'</ul></div>';
+	var rStatus = '<div id="recordingStatus" class="recordingStatusOff"><p>Ready to record</p></div>';
 
 	function changeRecordingStatus() {
 		var on = "Recording";
@@ -51,58 +21,96 @@
 		} else {
 			$('#recordingStatus').append('<p>' + on + '</p>');
 		}
-		console.log($('#recordingStatus p:first-child'));
+		//console.log($('#recordingStatus p:first-child'));
 		$('#recordingStatus p:first-child').remove();
 
 		$('#recordingStatus').toggleClass("recordingStatusOff recordingStatusOn");
 	}
+	
+	var setRecordingCanvas = function(id){ self.recordingCanvas = $(id)[0]; };
+	var getRecordingCanvas = function() { return self.recordingCanvas; };
+	var appendVideoControls = function(container) { container.append(controls); };
+	var prependVideoControls = function(container) { container.prepend(controls); };
+	var appendRecordingStatus = function(container) { container.append(rStatus); loadButtons(); };
+	var prependRecordingStatus = function(container) { container.prepend(rStatus); loadButtons(); };	
+	var removeRecordingStatus = function(){ $('#recordingStatus').remove() };
+	var removeControlsButton = function() { $('#videoControls').remove() };
+	var setVideoContainer = function(id) { self.videoContainer = $(id); };
+	var loadButtons = function(){
+		self.videoNameTextBox = $('#videoName');
+		self.idTagTextBox = $('#idTag'); // Not Used, Yet
+		self.fpsVideoTextBox = $('#fpsVideo');
+		self.getFrameButton = $('#getFrameButton');
+		self.startStopButton = $('#startStop');
+		self.createVideoButton = $('#createVideo');
 
-	// Add Event Handlers
-	videoNameTextBox.on('keyup', function() {
-		videoObject.videoName = $(this).val();
-	});
+		self.videoObject = {
+			width: self.recordingCanvas.width,
+			height: self.recordingCanvas.height,
+			videoName: self.videoNameTextBox.val(),
+			frameNumber: 0,
+			capturedFrames: {}
+		};
+		
+		self.videoNameTextBox.on('keyup', function() {
+			self.videoObject.videoName = $(this).val();
+		});
 
-	getFrameButton.on('click', function(e) {
-		videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL('image/bmp');
-		$("#recordedFrames").val(videoObject.frameNumber);
-	});
+		self.getFrameButton.on('click', function(e) {
+			videoObject.capturedFrames[self.videoObject.frameNumber++] = self.recordingCanvas.toDataURL();
+			$("#recordedFrames").val(self.videoObject.frameNumber);
+		});
 
-	startStopButton.on('click', function(e) {
-		changeRecordingStatus();
-		if (timingGetFrame !== undefined) {
-			clearInterval(timingGetFrame);
-			timingGetFrame = undefined;
-		} else {
-			timingGetFrame = setInterval(function(e) {
-				videoObject.capturedFrames[videoObject.frameNumber++] = canvas.toDataURL();
-				$("#recordedFrames").val(videoObject.frameNumber);
-			}, 1000/parseInt(fpsVideoTextBox.val()));
-		}
-	});
-
-	createVideoButton.on('click', function(e) {
-		$.ajax({
-			type: "POST",
-			url: ("http://localhost:8080/encodeVideo"),
-			data: videoObject,
-			error: function(){
-					alert('Bad request, fill all data fields');
-				},
-			success: function() {
-				$('#videoPlayer').remove();
-				var newVideoPlayer = '<video id="videoPlayer" ' +
-									 'width=640 ' +
-							  		 'height=480 ' +
-							  		 'controls="controls" >' +
-							  		 '<source src="./media/video/' + videoObject.videoName + '.ogg" ' +
-							  		 'type="video/ogg" />' +
-							  		 'Il browser non supporta html5' + 
-							  		 '</video>';
-				$('.container').append(newVideoPlayer);
-				alert("Video caricato correttamente :D\nE' stato aggiunto un player in fondo alla pagina per visualizzarlo :)");
-				
+		self.startStopButton.on('click', function(e) {
+			changeRecordingStatus();
+			if (timingGetFrame !== undefined) {
+				clearInterval(timingGetFrame);
+				timingGetFrame = undefined;
+			} else {
+				timingGetFrame = setInterval(function(e) {
+					self.videoObject.capturedFrames[self.videoObject.frameNumber++] = self.recordingCanvas.toDataURL();
+					$("#recordedFrames").val(self.videoObject.frameNumber);
+				}, 1000/parseInt(self.fpsVideoTextBox.val()));
 			}
 		});
-	});
+
+		self.createVideoButton.on('click', function(e) {
+			$.ajax({
+				type: "POST",
+				url: ("http://localhost:8080/encodeVideo/"),
+				data: self.videoObject,
+				error: function(){
+						alert('Bad request, fill all data fields');
+					},
+				success: function() {
+					$('#videoPlayer').remove();
+					var newVideoPlayer = '<video id="videoPlayer" ' +
+										 'width=640 ' +
+								  		 'height=480 ' +
+								  		 'controls="controls" >' +
+								  		 '<source src="./media/video/' + self.videoObject.videoName + '.ogg" ' +
+								  		 'type="video/ogg" />' +
+								  		 'Il browser non supporta html5' + 
+								  		 '</video>';
+					self.videoContainer.append(newVideoPlayer);
+					alert("Video caricato correttamente :D\nE' stato aggiunto un player in fondo alla pagina per visualizzarlo :)");
+				
+				}
+			});
+		});
+	}
+
+
+	//Exported functions outside the env
+	exports.setRecordingCanvas = setRecordingCanvas;
+	exports.getRecordingCanvas = getRecordingCanvas;
+	exports.appendVideoControls = appendVideoControls;
+	exports.prependVideoControls = prependVideoControls;
+	exports.appendRecordingStatus = appendRecordingStatus;
+	exports.prependRecordingStatus = prependRecordingStatus;	
+	exports.removeRecordingStatus = removeRecordingStatus;
+	exports.removeControlsButton = removeControlsButton;
+	exports.loadButtons = loadButtons;
+	exports.setVideoContainer = setVideoContainer;
 
 }(this));
