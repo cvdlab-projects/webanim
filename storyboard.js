@@ -61,7 +61,7 @@ Event.prototype.setStartTime = function(t) {
 	);
 };
 
-/* Transition info, contenente le info necessarie al rendering */
+/* Transition info, with information needed by the rendering part of the project */
 
 TransitionInfo = function() {
 	this.dx = 0;
@@ -76,23 +76,23 @@ TransitionInfo = function() {
 	this.rz = 0;
 };
 
-/* Per identificare l'oggetto a cui fa riferimento la transizione */
+/* Used to identify the object referenced in the segment */
 TransitionInfo.prototype.setIdObject = function(idObject) {
 	this.idObject = idObject;
 }
 
-/* Impostato dal Segment nel momento in cui viene generata la timeline */
+/* The same as segment.id */
 TransitionInfo.prototype.setId = function(id) {
 	this.id = id;
 }
 
-/* translate, rotate, scale */
+/* translate, rotate or scale */
 TransitionInfo.prototype.setType = function(type) {
 	this.type = type;
 }
 
 
-/* Info per le traslazioni */
+/* Info needed by the "translate" type of action */
 TransitionInfo.prototype.setDxf = function(dxf) {
 	this.dxf = dxf;
 }
@@ -106,7 +106,7 @@ TransitionInfo.prototype.setDzf = function(dzf) {
 }
 
 
-/* Info per gli scalamenti */
+/* Info needed by the "scale" type of action */
 TransitionInfo.prototype.setX = function(x) {
 	this.x = x;
 }
@@ -120,7 +120,7 @@ TransitionInfo.prototype.setZ = function(z) {
 }
 
 
-/* Info per le rotazioni */
+/* Info needed by the "rotate" type of action */
 TransitionInfo.prototype.setDgx = function(dgx) {
 	this.dgx = dgx;
 }
@@ -422,7 +422,7 @@ Storyboard.prototype.computeActor2SegmentsFunction = function() {
 	this.segments.forEach(function (item, index) {
 		var start = item.from.startTime * 1000;
 		var end = item.to.startTime * 1000;
-		var transitionInfo = item.desc; // vengono compilati i campi temporali del transitionInfo
+		var transitionInfo = item.desc; // transitionInfo's properties updated
 		transitionInfo.setStartTime(start);
 		transitionInfo.setEndTime(end);
 		timeline.push(transitionInfo);
