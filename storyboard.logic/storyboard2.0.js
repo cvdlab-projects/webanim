@@ -73,9 +73,9 @@ Behaviour = function() {
 	this.rz = 0;
 };
 
-/* Used to identify the object referenced in the segment */
-Behaviour.prototype.setIdObject = function(idObject) {
-	this.idObject = idObject;
+/* Used to identify the actor referenced in the segment */
+Behaviour.prototype.setIdActor = function(idActor) {
+	this.idActor = idActor;
 }
 
 /* The same as segment.id */

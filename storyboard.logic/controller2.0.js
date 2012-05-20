@@ -56,10 +56,10 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 };
 
 /* parameters passati dall'interfaccia quando viene settato il comportamento
-[idObject, type, dxf, dyf, dzf, x, y, z, dgx, dgy, dgz]*/
+[idActor, type, dxf, dyf, dzf, x, y, z, dgx, dgy, dgz]*/
 StoryboardController.prototype.setBehaviourForNewSegment = function(parameters) {
 	var behaviour = new Behaviour();
-	behaviour.setIdObject(parameters[0]);
+	behaviour.setIdActor(parameters[0]);
 	behaviour.setId(this.newSegment.id);
 	behaviour.setType(parameters[1]);
 	behaviour.setDxf(parameters[2]);
@@ -114,7 +114,7 @@ StoryboardController.prototype.changeDurationForSegment = function(duration) {
 
 StoryboardController.prototype.changeBehaviourForNewSegment = function(parameters) {
 	var behaviour = new Behaviour();
-	behaviour.setIdObject(parameters[0]);
+	behaviour.setIdActor(parameters[0]);
 	behaviour.setId(this.segmentToEdit.id);
 	behaviour.setType(parameters[1]);
 	behaviour.setDxf(parameters[2]);
