@@ -59,3 +59,6 @@ FrontController.prototype.processStoryboard = function() {
 	return this.storyboardController.processStoryboard();
 }
 
+FrontController.prototype.getValidityIssues = function() {
+	return this.storyboardController.storyboard.validityIssues();
+}

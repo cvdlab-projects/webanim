@@ -176,7 +176,7 @@ Segment.prototype.setDuration = function(duration) {
 Storyboard = function() {
 	this.events = [];
 	this.segments = [];
-	this.validityIssues = []; //
+	this.validityIssues = [];
 };
 
 Storyboard.prototype.setSource = function(event) {

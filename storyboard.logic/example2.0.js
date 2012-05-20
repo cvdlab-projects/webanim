@@ -15,3 +15,5 @@ fc.addSegment(["6",5,4,2,["circle","rotate",0,0,0,60,20,50,0,0,0]]);
 
 if(fc.isStoryboardValid())
 	fc.processStoryboard();
+else
+	fc.getValidityIssues();
