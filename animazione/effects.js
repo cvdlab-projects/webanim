@@ -1,8 +1,16 @@
 
+var ct13 = {id:19,t:"rotate",t0:0, t1:6000, dgx:360,dgy:360,dgz:360,rx:0,ry:0,rz:0,rrx:0,rry:0,rrz:0};
+var ct14 = {id:21,t:"rotate",t0:3000, t1:9000, dgx:-360,dgy:-360,dgz:-360,rx:0,ry:0,rz:0,rrx:0,rry:0,rrz:0};
+
+var ct9 = {id:15,t:"scale",t0: 1000,t1: 2000,x:0.5,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+var ct10= {id:16,t:"scale",t0: 1500,t1: 3500,x:2,y:1,z:1,sx:1,sy:1,sz:1,osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+
+
 var square_t1 = {id:4,t:"translate",t0: 0,t1: 5000,dxf:0,dyf:0,dzf:-5,dx:0,dy:0,dz:0,ddx:0,ddy:0,ddz:0};
 var tri_t1 = {id:1,t:"translate",t0: 2500,t1: 7500,dxf:0,dyf:0,dzf:5,dx:0,dy:0,dz:0,ddx:0,ddy:0,ddz:0};
 var tri_t2 = {id:6,t:"translate",t0: 1000,t1: 7500,dxf:0,dyf:0,dzf:3,dx:0,dy:0,dz:0,ddx:0,ddy:0,ddz:0};
-var struct1 = {id:1,obj:0,n:5,transitions: [tri_t1,square_t1,tri_t2],x0:-1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+
+var struct1 = {id:1,obj:0,n:5,transitions: [ct9,ct10],x0:-1.5,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
 var animations = [struct1];
 
 
@@ -27,20 +35,30 @@ var arrayClone = function(arr){
 	return ret;
 }
 
-var existsID = function(array,n){
+function exists(array, n){
 	var l = array.filter(function(item){
-		return (n === item.id);
-
+		return (item["id"] === n);
 	});
-
 	if(l.length >=1)
 		return true;
 	return false;
 }
 
-var generateID = function(array){
+var existsID = function(arrays,n){
+	for(var i in arrays){
+		var array = arrays[i];
+		if(exists(array,n)){
+			return true;
+		}
+	
+	}
+	return false;
+	
+}
+
+var generateID = function(arrays){
 	var randomnumber=Math.floor(Math.random()*100000);
-	while(existsID(array,randomnumber)){
+	while(existsID(arrays,randomnumber)){
 		randomnumber=Math.floor(Math.random()*100000);
 	}
 	return randomnumber;
@@ -122,10 +140,50 @@ var sovrapponiEffetti = function(animations){
 
 
 				}
+
+				if(transizione.t === "rotate"){
+
+					var delta = (transizione.t1 - transizione.t0)/1000;
+
+					var rrx = transizione.dgx / delta;
+					var rry = transizione.dgy / delta;
+					var rrz = transizione.dgz / delta;
+
+					transizione.rrx = rrx;
+					transizione.rry = rry;
+					transizione.rrz = rrz;
+
+
+
+
+				}
+
+				if(transizione.t === "scale"){
+
+					var delta = (transizione.t1 - transizione.t0)/1000;
+
+					var x = transizione.x;
+					var y = transizione.y;
+					var z = transizione.z;
+
+					transizione.startingx = x;
+					transizione.startingy = y;
+					transizione.startingz = z;
+
+					transizione.startingdelta = delta;
+
+
+
+
+				}
+
+
 			}
 		}
 
 		setDeltas(translate);
+		setDeltas(rotate);
+		setDeltas(scale);
 
 		translate.sort(compare);
 		scale.sort(compare);
@@ -150,6 +208,9 @@ var sovrapponiEffetti = function(animations){
 			return min;
 		}
 
+
+		//TRANSLATE
+
 		var i = 0;
 		while(translate.length >= 1){
 			var divide1 , divide2;
@@ -172,23 +233,23 @@ var sovrapponiEffetti = function(animations){
 					var dxf = (ndelta/1000) * tt.ddx;
 					var dyf = (ndelta/1000) * tt.ddy;
 					var dzf = (ndelta/1000) * tt.ddz;
-					var id1 = generateID(nTranslate);
+					var id1 = generateID([nTranslate]);
 
-					divide1 = {id:id1,t:"translate",t0: tt["t0"],t1: nxtStop,dxf:dxf,dyf:dyf,dzf:dzf,dx:tt.dx,dy:tt.dy,dz:tt.dz,ddx:tt["ddx"],ddy:tt["ddy"],ddz:tt["ddz"]};
+					divide1 = {id:id1,t:"translate",t0: tt["t0"],t1: nxtStop,dxf:dxf, dyf:dyf, dzf:dzf, dx:tt.dx,dy:tt.dy, dz:tt.dz,ddx:tt["ddx"],ddy:tt["ddy"],ddz:tt["ddz"]};
 					
 					var ndelta = tt.t1 - nxtStop;
 					var dxf = (ndelta/1000) * tt.ddx;
 					var dyf = (ndelta/1000) * tt.ddy;
 					var dzf = (ndelta/1000) * tt.ddz;
-					var id2 = generateID(nTranslate);
+					var id2 = generateID([nTranslate]);
 
 					divide2 = {id:id2,t:"translate",t0: nxtStop,t1: tt["t1"],dxf:dxf,dyf:dyf,dzf:dzf,dx:tt.dx,dy:tt.dy,dz:tt.dz,ddx:tt["ddx"],ddy:tt["ddy"],ddz:tt["ddz"]};
 
 
 				}
 				if(nxtStop === tt.t1){
-					var id1 = generateID(nTranslate);
-					divide1 = {id:tt["id"],t:"translate",t0: tt["t0"],t1: tt["t1"],dxf:tt["dxf"],dyf:tt.dyf,dzf:tt.dzf,dx:tt.dx,dy:tt.dy,dz:tt.dz,ddx:tt["ddx"],ddy:tt["ddy"],ddz:tt["ddz"]};
+					var id1 = generateID([nTranslate]);
+					divide1 = {id:id1,t:"translate",t0: tt["t0"],t1: tt["t1"],dxf:tt["dxf"],dyf:tt.dyf,dzf:tt.dzf,dx:tt.dx,dy:tt.dy,dz:tt.dz,ddx:tt["ddx"],ddy:tt["ddy"],ddz:tt["ddz"]};
 					solo = true;
 					
 						
@@ -215,6 +276,10 @@ var sovrapponiEffetti = function(animations){
 			}(tt,nxtStop);
 
 
+
+
+
+
 			
 
 			//se nell'array è rimasto solo l'ultimo
@@ -224,6 +289,158 @@ var sovrapponiEffetti = function(animations){
 			
 
 		}
+
+
+
+
+
+		// ROTATE
+
+		var i = 0;
+		while(rotate.length >= 1){
+			var divide1 , divide2;
+			
+
+			rotate.sort(compare);
+
+			var tt = rotate[0];
+
+			var ultimo = false;
+			var solo = false;
+
+
+			var nxtStop = nextStop(tt,rotate);
+
+			var dividi = function(tt,nxtStop){
+				if (nxtStop < tt.t1){
+
+					var ndelta = nxtStop - tt.t0;
+					var dgx = (ndelta/1000) * tt.rrx;
+					var dgy = (ndelta/1000) * tt.rry;
+					var dgz = (ndelta/1000) * tt.rrz;
+					var id1 = generateID([nRotate,nTranslate]);
+
+					divide1 = {id:id1,t:"rotate",t0: tt["t0"],t1: nxtStop,dgx:dgx, dgy:dgy, dgz:dgz, rx:tt.rx, ry:tt.ry, rz:tt.rz, rrx:tt["rrx"], rry:tt["rry"], rrz:tt["rrz"]};
+
+
+					var ndelta = tt.t1 - nxtStop;
+					var dgx = (ndelta/1000) * tt.rrx;
+					var dgy = (ndelta/1000) * tt.rry;
+					var dgz = (ndelta/1000) * tt.rrz;
+					var id2 = generateID([nRotate,nTranslate]);
+
+					divide2 = {id:id2,t:"rotate",t0: nxtStop,t1: tt["t1"], dgx:dgx, dgy:dgy, dgz:dgz, rx:tt.rx, ry:tt.ry, rz:tt.rz, rrx:tt["rrx"], rry:tt["rry"], rrz:tt["rrz"]};
+
+
+				}
+				if(nxtStop === tt.t1){
+					var id1 = generateID([nRotate,nTranslate]);
+					divide1 = {id:id1,t:"rotate",t0: tt["t0"],t1: tt["t1"],dgx:tt["dgx"], dgy:tt["dgy"], dgz:tt["dgz"], rx:tt.rx, ry:tt.ry, rz:tt.rz, rrx:tt["rrx"], rry:tt["rry"], rrz:tt["rrz"]};
+					solo = true;
+					
+						
+				}
+
+				if(solo){
+				nRotate.push(divide1);
+				solo = false;
+			}
+			else{
+				nRotate.push(divide1);
+				rotate.push(divide2);
+			}
+
+			var index = indexOfTransition(rotate,tt);
+			tt = rotate.splice(index,1);
+
+
+
+			i+=1;
+
+
+
+			}(tt,nxtStop);			
+
+			//se nell'array è rimasto solo l'ultimo
+
+			
+
+			
+
+		}
+
+		//SCALE
+
+			var i = 0;
+		while(scale.length >= 1){
+			var divide1 , divide2;
+			
+
+			scale.sort(compare);
+
+			var tt = scale[0];
+
+			var ultimo = false;
+			var solo = false;
+
+
+			var nxtStop = nextStop(tt,scale);
+
+			var dividi = function(tt,nxtStop){
+				if (nxtStop < tt.t1){
+
+					var ndelta = nxtStop - tt.t0;/*
+					var dgx = (ndelta/1000) * tt.rrx;
+					var dgy = (ndelta/1000) * tt.rry;
+					var dgz = (ndelta/1000) * tt.rrz;*/
+
+					
+					var id1 = generateID([nRotate,nTranslate,nScale]);
+
+					divide1 = {id:id1,t:"scale",t0: tt["t0"],t1: nxtStop,x:1, y:1, z:1, sx:tt.sx, sy:tt.sy, sz:tt.sz, osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+
+					var ndelta = tt.t1 - nxtStop;/*
+					var dgx = (ndelta/1000) * tt.rrx;
+					var dgy = (ndelta/1000) * tt.rry;
+					var dgz = (ndelta/1000) * tt.rrz;*/
+					var id2 = generateID([nRotate,nTranslate,nScale]);
+
+					divide2 = {id:id2,t:"scale",t0: nxtStop,t1: tt["t1"], x:1, y:1, z:1, sx:tt.sx, sy:tt.sy, sz:tt.sz, osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+
+
+				}
+				if(nxtStop === tt.t1){
+					var id1 = generateID([nRotate,nTranslate,nScale]);
+					divide1 = {id:id1,t:"scale",t0: tt["t0"],t1: tt["t1"],x:1, y:1, z:1, sx:tt.sx, sy:tt.sy, sz:tt.sz, osx:1,osy:1,osz:1,ofx:1,ofy:1,ofz:1,ini:false};
+					solo = true;
+					
+						
+				}
+
+				if(solo){
+				nScale.push(divide1);
+				solo = false;
+			}
+			else{
+				nScale.push(divide1);
+				scale.push(divide2);
+			}
+
+			var index = indexOfTransition(scale,tt);
+			tt = scale.splice(index,1);
+
+
+
+			i+=1;
+
+
+
+			}(tt,nxtStop);
+
+
+
+		}
+		console.log(nScale);
 
 
 		var merge = function(transizioni){
@@ -257,13 +474,41 @@ var sovrapponiEffetti = function(animations){
 					trs = eliminaTransizioniConStessoInizio(trs,t0);	
 
 				}
+
+				if(transizione.t === "rotate" && stessoInizio.length >=1){
+					var sumx = 0;
+					var sumy = 0;
+					var sumz = 0;
+					for(var j in stessoInizio){
+						var tr = stessoInizio[j];
+						sumx += tr.dgx;
+						sumy += tr.dgy;
+						sumz += tr.dgz;
+
+					}
+
+					
+					var newObj = {id:(transizione["id"]),t:"rotate",t0: t0,t1: t1,dgx:sumx,dgy:sumy,dgz:sumz,rx:0,ry:0,rz:0};
+					mergeRotate.push(newObj);
+					trs = eliminaTransizioniConStessoInizio(trs,t0);	
+
+				}
+
+
+
+
 			}
 		}
 
 		merge(nTranslate);
+		merge(nRotate);
+
 
 		obj.transitions = [];
-		obj["transitions"] = obj["transitions"].concat(mergeTranslate);		
+		obj["transitions"] = obj["transitions"].concat(mergeTranslate);	
+		obj["transitions"] = obj["transitions"].concat(mergeRotate);	
+
+			
 	}
 
 };
