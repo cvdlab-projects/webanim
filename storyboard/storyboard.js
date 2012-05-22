@@ -1,5 +1,3 @@
-Actor = function() {};
-
 Event = function() {
 	this.tMin = Number.NEGATIVE_INFINITY;
 	this.tMax = Number.POSITIVE_INFINITY;

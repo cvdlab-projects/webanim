@@ -47,9 +47,10 @@ StoryboardController = function(listener) {
 
 /* UC1. */
 
-StoryboardController.prototype.addActor = function(description) {
+StoryboardController.prototype.addActor = function(model, description) {
 	var newActor = new Actor();
 	newActor.id = this.getActorId();
+	newActor.model = model;
 	newActor.description = description;
 	this.actors.push(newActor);
 };
