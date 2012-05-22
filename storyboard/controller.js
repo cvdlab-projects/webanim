@@ -45,7 +45,7 @@ StoryboardController = function(listener) {
 	};
 };
 
-/* UC1. */
+/* UC1: Add Actor. */
 
 StoryboardController.prototype.addActor = function(model, description) {
 	var newActor = new Actor();
@@ -55,7 +55,7 @@ StoryboardController.prototype.addActor = function(model, description) {
 	this.actors.push(newActor);
 };
 
-/* UC2. */
+/* UC2: Add Event. */
 
 StoryboardController.prototype.addEvent = function(description) {
 	var newEvent = new Event();
@@ -65,13 +65,18 @@ StoryboardController.prototype.addEvent = function(description) {
 	this.storyboard.topologicallySorted = false;
 };
 
-/* UC3. */
+/* UC3: Add Segment. */
 
-StoryboardController.prototype.startAddSegment = function(description) {
+StoryboardController.prototype.startAddSegment = function(fromId, toId) {
 	var newSegment = new Segment();
 	newSegment.id = this.getSegmentId();
-	newSegment.description = description;
+	newSegment.from = this.storyboard.getEventById(fromId);
+	newSegment.to = this.storyboard.getEventById(toId);
 	this.newSegment = newSegment;
+};
+
+StoryboardController.prototype.setDescriptionForNewSegment = function(description) {
+	this.newSegment.description = description;
 };
 
 StoryboardController.prototype.setActorForNewSegment = function(actorId) {
@@ -79,14 +84,8 @@ StoryboardController.prototype.setActorForNewSegment = function(actorId) {
 	this.newSegment.actor = actor;
 };
 
-StoryboardController.prototype.setFromEventForNewSegment = function(eventId) {
-	var from = this.storyboard.getEventById(eventId);
-	this.newSegment.from = from;
-};
-
-StoryboardController.prototype.setToEventForNewSegment = function(eventId) {
-	var to = this.storyboard.getEventById(eventId);
-	this.newSegment.to = to;
+StoryboardController.prototype.setBehaviourForNewSegment = function(behaviour) {
+	this.newSegment.behaviour = behaviour;
 };
 
 StoryboardController.prototype.setDurationForNewSegment = function(duration) {
@@ -95,11 +94,11 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 
 StoryboardController.prototype.addSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
-	this.newSegment = undefined;
 	this.storyboard.topologicallySorted = false;
+	this.newSegment = undefined;
 };
 
-/* UC4. */
+/* UC4: Process Storyboard. */
 
 StoryboardController.prototype.processStoryboard = function() {
 	// Validity check
