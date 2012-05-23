@@ -50,27 +50,28 @@ StoryboardController.prototype.setToEventForNewSegment = function(id) {
 	this.newSegment.setTo(to);
 };
 
+
 StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 	this.newSegment.setDuration(duration);
 };
 
-/* parameters passati dall'interfaccia quando viene settata la descrizione
+/* parameters passati dall'interfaccia quando viene settato il comportamento
 [idObject, type, dxf, dyf, dzf, x, y, z, dgx, dgy, dgz]*/
-StoryboardController.prototype.setDescriptionForNewSegment = function(parameters) {
-	var transitionInfo = new TransitionInfo();
-	transitionInfo.setIdObject(parameters[0]);
-	transitionInfo.setId(this.newSegment.id);
-	transitionInfo.setType(parameters[1]);
-	transitionInfo.setDxf(parameters[2]);
-	transitionInfo.setDyf(parameters[3]);
-	transitionInfo.setDzf(parameters[4]);
-	transitionInfo.setX(parameters[5]);
-	transitionInfo.setY(parameters[6]);
-	transitionInfo.setZ(parameters[7]);
-	transitionInfo.setDgx(parameters[8]);
-	transitionInfo.setDgy(parameters[9]);
-	transitionInfo.setDgz(parameters[10]);
-	this.newSegment.setDescription(transitionInfo);
+StoryboardController.prototype.setBehaviourForNewSegment = function(parameters) {
+	var behaviour = new Behaviour();
+	behaviour.setIdObject(parameters[0]);
+	behaviour.setId(this.newSegment.id);
+	behaviour.setType(parameters[1]);
+	behaviour.setDxf(parameters[2]);
+	behaviour.setDyf(parameters[3]);
+	behaviour.setDzf(parameters[4]);
+	behaviour.setX(parameters[5]);
+	behaviour.setY(parameters[6]);
+	behaviour.setZ(parameters[7]);
+	behaviour.setDgx(parameters[8]);
+	behaviour.setDgy(parameters[9]);
+	behaviour.setDgz(parameters[10]);
+	this.newSegment.setBehaviour(behaviour);
 };
 
 StoryboardController.prototype.addNewSegment = function() {
@@ -145,16 +146,16 @@ StoryboardController.prototype.removeSegment = function(id) {
 
 /* UC7: Process the Storyboard. */
 
-StoryboardController.prototype.clearStoryboard = function() { // @
-	this.storyboard.clearTimes();
+StoryboardController.prototype.resetStoryboard = function() { // @
+	this.storyboard.resetTimes();
 }
 
-StoryboardController.prototype.isValidStoryboard = function() {
+StoryboardController.prototype.isStoryboardValid = function() {
 	return this.storyboard.isValid();
 };
 
 StoryboardController.prototype.processStoryboard = function() {
 	this.storyboard.executeCPM();
 	this.storyboard.setStartTimeForEvents();
-	return this.storyboard.computeActor2SegmentsFunction();
+	return this.storyboard.computeTimeline();
 };
