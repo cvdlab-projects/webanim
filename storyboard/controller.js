@@ -62,7 +62,6 @@ StoryboardController.prototype.addEvent = function(description) {
 	newEvent.id = this.getEventId();
 	newEvent.description = description;
 	this.storyboard.addEvent(newEvent);
-	this.storyboard.topologicallySorted = false;
 };
 
 /* UC3: Add Segment. */
@@ -94,7 +93,6 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 
 StoryboardController.prototype.addSegment = function() {
 	this.storyboard.addSegment(this.newSegment);
-	this.storyboard.topologicallySorted = false;
 	this.newSegment = undefined;
 };
 
@@ -110,4 +108,18 @@ StoryboardController.prototype.processStoryboard = function() {
 		this.storyboard.setStartTimeForSegments();
 		this.listener.storyboardProcessingCompleted(this.storyboard);
 	};
+};
+
+/* UC5: Remove Event. */
+
+StoryboardController.prototype.removeEvent = function(eventId) {
+	var event = this.storyboard.getEventById(eventId);
+	this.storyboard.removeEvent(event);
+};
+
+/* UC6: Remove Segment. */
+
+StoryboardController.prototype.removeSegment = function(segmentId) {
+	var segment = this.storyboard.getSegmentById(segmentId);
+	this.storyboard.removeSegment(segment);
 };

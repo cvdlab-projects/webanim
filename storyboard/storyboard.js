@@ -1,6 +1,4 @@
 Event = function() {
-	this.tMin = Number.NEGATIVE_INFINITY;
-	this.tMax = Number.POSITIVE_INFINITY;
 	this.incomingSegments = [];
 	this.outgoingSegments = [];
 	this.marked = false;
@@ -20,6 +18,16 @@ Event.prototype.addIncomingSegment = function(segment) {
 
 Event.prototype.addOutgoingSegment = function(segment) {
 	this.outgoingSegments.push(segment);
+};
+
+Event.prototype.removeIncomingSegment = function(segment) {
+	var i = this.incomingSegments.indexOf(segment);
+	this.incomingSegments.splice(i,1);
+};
+
+Event.prototype.removeOutgoingSegment = function(segment) {
+	var i = this.outgoingSegments.indexOf(segment);
+	this.outgoingSegments.splice(i,1);
 };
 
 Segment = function() {};
@@ -51,8 +59,23 @@ Storyboard.prototype.getEventById = function(id) {
 	return event;
 };
 
+Storyboard.prototype.getSegmentById = function(id) {
+	var segment;
+	var found = false;
+
+	for (var i = 0; i < this.segments.length && !found; i++) {
+		if (this.segments[i].id === id) {
+			found = true;
+			segment = this.segments[i];
+		};
+	};
+
+	return segment;
+};
+
 Storyboard.prototype.addEvent = function(event) {
 	this.events.push(event);
+	this.topologicallySorted = false;
 };
 
 Storyboard.prototype.addSegment = function(segment) {
@@ -63,6 +86,39 @@ Storyboard.prototype.addSegment = function(segment) {
 	to.addIncomingSegment(segment);
 
 	this.segments.push(segment);
+	this.topologicallySorted = false;
+};
+
+/*
+ * Removing an Event causes the removal of related
+ * Segments too.
+ */
+Storyboard.prototype.removeEvent = function(event) {
+	// Remove all related Segments
+	var segmentsToRemove = this.segments.filter(function(segment) {
+		return segment.from === event || segment.to === event;
+	});
+	for (var i = 0; i < segmentsToRemove.length; i++) {
+		this.removeSegment(segmentsToRemove[i]);
+	};
+	
+	// Remove the Event
+	var i = this.events.indexOf(event);
+	this.events.splice(i,1);
+
+	this.topologicallySorted = false;
+};
+
+Storyboard.prototype.removeSegment = function(segment) {
+	// Update related Events
+	segment.from.removeOutgoingSegment(segment);
+	segment.to.removeIncomingSegment(segment);
+
+	// Remove the Segment
+	var i = this.segments.indexOf(segment);
+	this.segments.splice(i,1);
+
+	this.topologicallySorted = false;
 };
 
 /*
@@ -84,14 +140,6 @@ Storyboard.prototype.addSegment = function(segment) {
  *
  */
 Storyboard.prototype.hasCorrectDegrees = function() {
-	// Preparing the validity report...
-	if (this.validityReport === undefined) {
-		this.validityReport = {};
-		this.validityReport.degrees = {};
-	} else if (this.validityReport.degrees === undefined) {
-		this.validityReport.degrees = {};
-	};
-
 	var correct = true;
 	for (var i = 0; i < this.events.length && correct; i++) {
 		var e = this.events[i];
@@ -234,9 +282,6 @@ Storyboard.prototype.hasCycles = function() {
 
 	// Iff there are non-marked Segments, the Storyboard contains cycles
 	if (found) {
-		if (this.validityReport === undefined) {
-			this.validityReport = {};
-		};
 		this.validityReport.cycles = true;
 		return true;
 	} else {
@@ -248,15 +293,24 @@ Storyboard.prototype.hasCycles = function() {
 	};
 };
 
+Storyboard.prototype.resetValidityReport = function() {
+	this.validityReport = {};
+	this.validityReport.degrees = {};
+};
+
 /*
  * Performs a full validation of the Storyboard.
  */
 Storyboard.prototype.isValid = function() {
-	var degrees = this.hasCorrectDegrees();
-	var reachability = this.hasAllEventsReachable();
-	var cycles = this.hasCycles();
+	this.resetValidityReport();
 
-	return degrees && reachability && !cycles;
+	if (this.hasCorrectDegrees()) {
+		if (this.hasAllEventsReachable()) {
+			if (!this.hasCycles()) return true;
+		};
+	};
+
+	return false;
 };
 
 /*
@@ -322,7 +376,7 @@ Storyboard.prototype.setStartTimeForSegments = function() {
 };
 
 
-Storyboard.prototype.actor2SegmentsFunction = function(actor) {
+Storyboard.prototype.actor2Segments = function(actor) {
 	return this.segments.filter(function(segment) {
 			return segment.actor === actor;
 		});
