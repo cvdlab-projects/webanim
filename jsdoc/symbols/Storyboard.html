@@ -368,10 +368,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Storyboard.html#hasCorrectDegrees">hasCorrectDegrees</a></b>()
 								</div>
-								<div class="description">Returns true if and only if the events in the Storyboard have
-correct degrees (indegree = 0 for source, outdegree = 0
-for sink, indegree != 0 and outdegree != 0 for remaining
-events).</div>
+								<div class="description">Returns true if and only if the events in the Storyboard havecorrect degrees (indegree = 0 for source, outdegree = 0for sink, indegree != 0 and outdegree != 0 for remainingevents).</div>
 							</td>
 						</tr>
 					
@@ -416,9 +413,7 @@ events).</div>
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Storyboard.html#resetMarks">resetMarks</a></b>()
 								</div>
-								<div class="description">For simplicity and/or performances, some
-graph algorithms mark nodes instead of
-copying and deleting them.</div>
+								<div class="description">For simplicity and/or performances, somegraph algorithms mark nodes instead ofcopying and deleting them.</div>
 							</td>
 						</tr>
 					
@@ -802,11 +797,7 @@ copying and deleting them.</div>
 					
 					</div>
 					<div class="description">
-						All events must be reachable from source event.
-This can be checked by using any non-cycling
-algorithm for graph visit and marking visited
-events: the storyboard is valid if and only if every event
-is marked.
+						All events must be reachable from source event.This can be checked by using any non-cyclingalgorithm for graph visit and marking visitedevents: the storyboard is valid if and only if every eventis marked.
 						
 						
 					</div>
@@ -838,19 +829,7 @@ is marked.
 					
 					</div>
 					<div class="description">
-						Returns true if and only if the events in the Storyboard have
-correct degrees (indegree = 0 for source, outdegree = 0
-for sink, indegree != 0 and outdegree != 0 for remaining
-events).
-
-It also fills in the 'validityReport' property when it encounters an event
-which doesn't follow the rule mentioned before. Its properties are:
-
-- incoming: true if and only if the value of the indegree of an event other than the source is 0.
-- outgoing: true if and only if the value of the outdegree of an event other than the sink is 0.
-- source: true iff the indegree of the source event is different from 0.
-- sink: true iff the outdregree of the sink event is different from 0.
-- event: the event with wrong degree value.
+						Returns true if and only if the events in the Storyboard havecorrect degrees (indegree = 0 for source, outdegree = 0for sink, indegree != 0 and outdegree != 0 for remainingevents).It also fills in the 'validityReport' property when it encounters an eventwhich doesn't follow the rule mentioned before. Its properties are:- incoming: true if and only if the value of the indegree of an event other than the source is 0.- outgoing: true if and only if the value of the outdegree of an event other than the sink is 0.- source: true iff the indegree of the source event is different from 0.- sink: true iff the outdregree of the sink event is different from 0.- event: the event with wrong degree value.
 						
 						
 					</div>
@@ -882,8 +861,7 @@ which doesn't follow the rule mentioned before. Its properties are:
 					
 					</div>
 					<div class="description">
-						Kahn's algorithm for topological sorting.
-It is also suitable for detecting cycles.
+						Kahn's algorithm for topological sorting.It is also suitable for detecting cycles.
 						
 						
 					</div>
@@ -1019,10 +997,7 @@ It is also suitable for detecting cycles.
 					
 					</div>
 					<div class="description">
-						For simplicity and/or performances, some
-graph algorithms mark nodes instead of
-copying and deleting them. This function removes these
-marks, thus it is called by each function that needs to use them.
+						For simplicity and/or performances, somegraph algorithms mark nodes instead ofcopying and deleting them. This function removes thesemarks, thus it is called by each function that needs to use them.
 						
 						
 					</div>
@@ -1047,7 +1022,7 @@ marks, thus it is called by each function that needs to use them.
 					
 					</div>
 					<div class="description">
-						Cleans data before the storyboard processing.
+						Cleans data before storyboard processing.
 						
 						
 					</div>
@@ -1194,8 +1169,7 @@ marks, thus it is called by each function that needs to use them.
 					
 					</div>
 					<div class="description">
-						Sets start times for the segments of the storyboard.
-It's meant to be called right after the Critical Path Method execution
+						Sets start times for the segments of the storyboard.It's meant to be called right after the Critical Path Method execution
 						
 						
 					</div>
@@ -1256,7 +1230,7 @@ It's meant to be called right after the Critical Path Method execution
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu May 24 2012 21:43:56 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu May 24 2012 21:59:37 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>
