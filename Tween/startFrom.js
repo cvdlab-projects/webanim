@@ -109,9 +109,9 @@ function startFromSecond(animations,startTime){
           }
 
           //update model position
-          obj.rx = obj.rx + xp;
-          obj.ry = obj.ry + yp;
-          obj.rz = obj.rz + zp;
+          obj.rx += (obj.rx + xp)/(Math.PI/2)*90;
+          obj.ry += (obj.ry + yp)/(Math.PI/2)*90;
+          obj.rz += (obj.rz + zp)/(Math.PI/2)*90;
 
           var rx = obj.rx;
           var ry = obj.ry;
@@ -146,7 +146,7 @@ function startFromSecond(animations,startTime){
             sxf = 1;
           }
           if(incry !== 0){
-            sxf = (incry*(ndelta/1000))+1;
+            syf = (incry*(ndelta/1000))+1;
           }
           else{
             syf = 1;

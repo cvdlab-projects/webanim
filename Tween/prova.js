@@ -14,6 +14,28 @@ var isstopped = false;
 var startTime = 0;
 var endTime = 2001;
 
+
+function backwardCalculationRotation(ts,t0){
+
+	var obj = {x:0,y:0,z:0};
+	for(var i in ts){
+		var t = ts[i];
+		if(t.t === "rotate"){
+			if(t.t1 <= t0){
+			obj.x += ((t.dgx)/180)*Math.PI;
+			obj.y += ((t.dgy)/180)*Math.PI;
+			obj.z += ((t.dgz)/180)*Math.PI;
+			}
+
+		}
+
+	}
+	return obj;
+
+}
+
+
+
 	function backwardCalculationScale(ts,t0){
 
 		var obj = {x:1,y:1,z:1};
@@ -217,6 +239,39 @@ var endTime = 2001;
   // TODO: createMeshes a partire da vertici/indici
 
     function createMeshes(){
+	
+	
+	
+	for(var k = 0; k<1;k+=1){
+			    for (var i = 0;i<1 ;i+=1) {
+			    	for(var j =0; j<10;j+=1){
+			    		var geometry = new THREE.CubeGeometry( 150, 150, 150 );
+				        var material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+				        var mesh = new THREE.Mesh( geometry, material );
+
+				        var t0,t1,t2;
+				        if(j%2 === 0){
+				        t0 = {id:1,t:"translate",t0: 0,t1: 2000,dxf:0,dyf:0,dzf:500};
+						//var t = {id:1,t:"scale",t0: 0,t1: 2000,sxf:0.5,syf:1,szf:1};
+						t1 = {id:2,t:"scale",t0: 0,t1: 1000,sxf:2,syf:2,szf:2};
+						t2 = {id:3,t:"rotate",t0: 0,t1: 2000,dgx:90,dgy:90,dgz:90};
+				        }
+				        else{
+				        t0 = {id:1,t:"translate",t0: 0,t1: 2000,dxf:0,dyf:0,dzf:-500};
+						//var t = {id:1,t:"scale",t0: 0,t1: 2000,sxf:0.5,syf:1,szf:1};
+						t1 = {id:2,t:"scale",t0: 0,t1: 1000,sxf:0.5,syf:2,szf:2};
+						t2 = {id:3,t:"rotate",t0: 0,t1: 2000,dgx:-90,dgy:90,dgz:90};
+				        }
+						
+				        t1 = {id:2,t:"scale",t0: 0,t1: 1000,sxf:2,syf:2,szf:2};
+						anim = {id:i*k+i,obj:mesh,transitions:[t0,t1,t2],x0:-500+(51*j),y0:-500+(51*i),z0:-500+(51*k),dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
+						animations.push(anim);
+			    	}				
+				}
+			}
+	
+	
+	/*
     	for(var k = 0; k<1;k+=1){
 		    for (var i = 0;i<1 ;i+=1) {
 //				var geometry = new THREE.CubeGeometry( 150, 150, 150 );
@@ -243,114 +298,119 @@ var endTime = 2001;
 
 				animations.push(anim);
 			}
-		}
+		}*/
     }
 
 
-    function setupTween(obj,transition){
+	   function setupTween(obj,transition){
 
-		var updateTranslation	= function(){
-			obj.obj.position.x = currentT.x;
-			obj.obj.position.y = currentT.y;
-			obj.obj.position.z = currentT.z;
-		}
-
-		var updateRotation	= function(){
-			obj.obj.rotation.x = currentR.x;
-			obj.obj.rotation.y = currentR.y;
-			obj.obj.rotation.z = currentR.z;
-		}
-
-		var updateScale	= function(){
-			if(!transition.ini){
-				transition.startx = obj.obj.scale.x;
-				transition.starty = obj.obj.scale.y;
-				transition.startz = obj.obj.scale.z;
-				transition.ini = true;
+			var updateTranslation	= function(){
+				obj.obj.position.x = currentT.x;
+				obj.obj.position.y = currentT.y;
+				obj.obj.position.z = currentT.z;
 			}
-			obj.obj.scale.x = currentS.x;
-			obj.obj.scale.y = currentS.y;
-			obj.obj.scale.z = currentS.z;
-		}
 
-		var type = transition.t;
+			var updateRotation	= function(){
+				obj.obj.rotation.x = currentR.x;
+				obj.obj.rotation.y = currentR.y;
+				obj.obj.rotation.z = currentR.z;
+			}
 
-		var tween;
+			var updateScale	= function(){
+				if(!transition.ini){
+					transition.startx = obj.obj.scale.x;
+					transition.starty = obj.obj.scale.y;
+					transition.startz = obj.obj.scale.z;
+					transition.ini = true;
+				}
+				obj.obj.scale.x = currentS.x;
+				obj.obj.scale.y = currentS.y;
+				obj.obj.scale.z = currentS.z;
+			}
 
-		var currentT = { x: 0,y:0,z:0 };
-		var currentR = { x: 0,y:0,z:0 };
-		var currentS = { x: 1,y:1,z:1 };
-		
+			var type = transition.t;
 
+			var tween = new TWEEN.Tween();
 
-		if(type === "translate"){
-
-			var tox = transition["dxf"];
-			var toy = transition["dyf"];
-			var toz = transition["dzf"];
-			var t1 = transition.t1;
-			var t0 = transition.t0;
-			currentT = backwardCalculationTranslation(obj.transitions,t0);
-			currentT.x += obj.x0 + obj.dx;
-			currentT.y += obj.y0 + obj.dy;
-			currentT.z += obj.z0 + obj.dz;
-			var tos = {x:tox+currentT.x,y:toy+currentT.y,z:toz+currentT.z};
-			tween	= new TWEEN.Tween(currentT)
-				.to(tos, (t1 - t0))
-				.delay(t0)
-				.easing(TWEEN.Easing.Elastic.InOut)
-				.onUpdate(updateTranslation);
-		}
-		
-
-
-
-		if(type === "rotate"){
-			var tox = (transition.dgx/180)*Math.PI;
-			var toy = (transition.dgy/180)*Math.PI;
-			var toz = (transition.dgz/180)*Math.PI;
-			var t1 = transition.t1;
-			var t0 = transition.t0;
-
-
-
+			var currentT = { x: 0,y:0,z:0 };
+			var currentR = { x: 0,y:0,z:0 };
+			var currentS = { x: 1,y:1,z:1 };
 			
-			var tos = {x:tox,y:toy,z:toz};
 
-			tween	= new TWEEN.Tween(currentR)
-				.to(tos, (t1 - t0))
-				.delay(t0)
-				.easing(TWEEN.Easing.Elastic.InOut)
-				.onUpdate(updateRotation);
+
+			if(type === "translate"){
+
+				var tox = transition["dxf"];
+				var toy = transition["dyf"];
+				var toz = transition["dzf"];
+				var t1 = transition.t1;
+				var t0 = transition.t0;
+				currentT = backwardCalculationTranslation(obj.transitions,t0);
+				currentT.x += obj.x0 + obj.dx;
+				currentT.y += obj.y0 + obj.dy;
+				currentT.z += obj.z0 + obj.dz;
+				var tos = {x:tox+currentT.x,y:toy+currentT.y,z:toz+currentT.z};
+				tween	= new TWEEN.Tween(currentT)
+					.to(tos, (t1 - t0))
+					.delay(t0)
+					.easing(TWEEN.Easing.Elastic.InOut)
+					.onUpdate(updateTranslation);
+			}
+			
+
+
+
+			if(type === "rotate"){
+				var tox = (transition.dgx/180)*Math.PI;
+				var toy = (transition.dgy/180)*Math.PI;
+				var toz = (transition.dgz/180)*Math.PI;
+				var t1 = transition.t1;
+				var t0 = transition.t0;
+
+				currentR = backwardCalculationRotation(obj.transitions,t0);
+				currentR.x += (((obj.rx)/180)*Math.PI);
+				currentR.y += (((obj.ry)/180)*Math.PI);
+				currentR.z += (((obj.rz)/180)*Math.PI);
+				var tos = {x:tox+currentR.x,y:toy+currentR.y,z:toz+currentR.z};
+
+				
+				
+
+				tween	= new TWEEN.Tween(currentR)
+					.to(tos, (t1 - t0))
+					.delay(t0)
+					.easing(TWEEN.Easing.Elastic.InOut)
+					.onUpdate(updateRotation);
+			}
+
+
+			if(type === "scale"){
+
+				var tox = (transition.sxf);
+				var toy = (transition.syf);
+				var toz = (transition.szf);
+
+				var t1 = transition.t1;
+				var t0 = transition.t0;
+
+				currentS = backwardCalculationScale(obj.transitions,t0);
+				currentS.x *= obj.sx;
+				currentS.y *= obj.sy;
+				currentS.z *= obj.sz;
+
+				var tos = {x:tox*currentS.x, y:toy*currentS.y, z:toz*currentS.z};		
+				tween	= new TWEEN.Tween(currentS)
+					.to(tos, (t1 - t0))
+					.delay(t0)
+					.easing(TWEEN.Easing.Elastic.InOut)
+					.onUpdate(updateScale);
+			}
+
+			return tween;
+			
 		}
-
-
-		if(type === "scale"){
-
-			var tox = (transition.sxf);
-			var toy = (transition.syf);
-			var toz = (transition.szf);
-
-			var t1 = transition.t1;
-			var t0 = transition.t0;
-
-			currentS = backwardCalculationScale(obj.transitions,t0);
-			currentS.x *= obj.sx;
-			currentS.y *= obj.sy;
-			currentS.z *= obj.sz;
-
-			var tos = {x:tox*currentS.x, y:toy*currentS.y, z:toz*currentS.z};		
-			tween	= new TWEEN.Tween(currentS)
-				.to(tos, (t1 - t0))
-				.delay(t0)
-				.easing(TWEEN.Easing.Elastic.InOut)
-				.onUpdate(updateScale);
-		}
-
-		return tween;
 		
-	}
-
+		
     function meshesStartingState(){
 
     	for (var i in animations){
@@ -427,7 +487,6 @@ var endTime = 2001;
 			mesh.rotation.z = (rz0/180)*Math.PI;
 	    }
 	}
-
 
     function init(width, height, _meshes) {
 
