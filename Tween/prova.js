@@ -1,7 +1,9 @@
 var camera, scene, renderer,
     light,stats,container;
 
-var camera90dx,camera90sx,camera180,camera0;
+//var camera90dx,camera90sx,camera180,camera0;
+
+var cameras = [];
 
 var animations = [];
 var animationsCopy = [];
@@ -435,22 +437,36 @@ var endTime = 2001;
 //        var canvas = document.getElementById("renderingCanvas");
 
 
-        camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
-        camera.position.z = 1500;
-        camera.position.y = 100;
+//        camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
+//        camera.position.z = 1500;
+//        camera.position.y = 100;
 //        camera.lookAt( scene.position );
-        scene.add( camera );
+//        scene.add( camera );
         
+        cameras[0] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : 0, y : 0, z : 100};
+        cameras[1] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : 100, y : 0, z : 0};
+        cameras[2] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : 0, y : 0, z : -100};
+        cameras[3] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : -100, y : 0, z : 0};
+        cameras[4] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : 0, y : 100, z : 0};
+        cameras[5] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+        cameras[0].position = {x : 0, y : -100, z : 0};
 
-        camera0 = {x:0,y:100,z:1500};
+        camera = cameras[0];
 
-        camera90dx = {x:1500,y:100,z:0};
+//        camera0 = {x:0,y:100,z:1500};
+
+//        camera90dx = {x:1500,y:100,z:0};
 
 
-        camera90sx = {x:-1500,y:100,z:0};
-        
+//        camera90sx = {x:-1500,y:100,z:0};
+//        
 
-        camera180 = {x:0,y:100,z:-1500};
+//        camera180 = {x:0,y:100,z:-1500};
 
 
 
