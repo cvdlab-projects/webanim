@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Storyboard</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
+    <style type="text/css">
+        body {
+            font-family: tahoma, verdana, helvetica;
+            font-size: 0.8em;
+            padding: 10px;
+        }
+
+        .timeline-block.special {
+            background-color: yellow;
+        }
+    </style>
+
+    </head>
+<body>
+
+<h1>Storyboard</h1><br/><br/>
+<div id="Timeline"></div>
+    <br/><br/>
+    <div id="eventMessage"></div>
+
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="js/timeline.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#Timeline").Timeline({ 
+                data: timelineData,
+                slideWidth: 900,
+                
+                behavior: {
+                    onClick: function (data) { 
+                        var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
+                        $("#eventMessage").text(msg);
+                    }
+                }
+            });
+            
+        });
+    </script>
+
+</body>
+</html>

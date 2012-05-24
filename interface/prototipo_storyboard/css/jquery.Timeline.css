@@ -1,0 +1,132 @@
+/*
+jQuery.bookingsTimeline v.0.0.1
+Copyright (c) 2011 Laurynas Butkus - laurynas.butkus@gmail.com
+Copyright (c) 2010 JC Grubbs - jc.grubbs@devmynd.com
+MIT License Applies
+*/
+
+div.timeline-hzheader-month,
+div.timeline-hzheader-day,
+div.timeline-vtheader,
+div.timeline-vtheader-item-name,
+div.timeline-vtheader-series,
+div.timeline-grid,
+div.timeline-grid-row-cell {
+	float: left;
+}
+
+div.timeline-hzheader-month,
+div.timeline-hzheader-day {
+	text-align: center;
+}
+
+div.timeline-grid-row-cell.last,
+div.timeline-hzheader-day.last,
+div.timeline-hzheader-month.last {
+	border-right: none;
+}
+
+div.timeline {
+	border: 1px solid #999;
+}
+
+
+/* Horizontal Header */
+
+div.timeline-hzheader-month {
+	width: 60px;
+	height: 20px;
+	border-right: 1px solid #d0d0d0;
+	line-height: 20px;
+}
+
+div.timeline-hzheader-day {
+	width: 20px;
+	height: 20px;
+	border-right: 1px solid #f0f0f0;
+	border-top: 1px solid #d0d0d0;
+	line-height: 20px;
+	color: #777;
+}
+
+
+/* Vertical Header */
+
+div.timeline-vtheader {
+	margin-top: 41px;
+	width: 150px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+div.timeline-vtheader-item {
+	overflow: hidden;
+	color: #666;
+}
+
+div.timeline-vtheader-item-name {
+	width: 140px;
+	padding: 0 5px;
+	border-top: 1px solid #d0d0d0;
+	line-height: 16px;
+}
+
+
+/* Slider */
+
+div.timeline-slide-container {
+	overflow: auto;
+	border-left: 1px solid #999;
+}
+
+
+/* Grid */
+
+div.timeline-grid-row-cell {
+	width: 20px;
+	height: 31px;
+	border-right: 1px solid #f0f0f0;
+	border-top: 1px solid #f0f0f0;
+}
+
+div.timeline-grid-row-cell.bookingstimeline-weekend {
+	background-color: #fafafa;
+}
+
+
+/* Blocks */
+
+div.timeline-blocks {
+	margin-top: 40px;
+}
+
+div.timeline-block-container {
+	height: 28px;
+	padding-top: 4px;
+	position: relative;
+}
+
+div.timeline-block {
+	position: absolute;
+	height: 25px;
+	background-color: #E5ECF9;
+	border: 1px solid #c0c0c0;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+div.timeline-block-text {
+	position: absolute;
+	height: 12px;
+	font-size: 0.8em;
+	color: #999;
+	padding: 2px 3px;
+}
+
+
+/* Adjustments for jQuery UI Styling */
+
+div.timeline-block div.ui-resizable-handle.ui-resizable-s {
+	bottom: -0;
+}
