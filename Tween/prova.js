@@ -9,7 +9,7 @@ var tweens = [];
 var isanimating = false;
 var ispaused = false;
 var isstopped = false;
-var startTime = 100;
+var startTime = 0;
 var endTime = 2001;
 
 	function backwardCalculationScale(ts,t0){
@@ -76,7 +76,7 @@ var endTime = 2001;
 
 		createMeshes();
 		sovrapponiEffetti(animations);
-	    init();
+	    init(800, 600);
 	    //createTweensFromTransitions();
 	    meshesStartingState();
 	    animate();
@@ -205,6 +205,8 @@ var endTime = 2001;
 		}
 	}
 
+  // TODO: createMeshes a partire da vertici/indici
+
     function createMeshes(){
     	for(var k = 0; k<1;k+=1){
 		    for (var i = 0;i<1 ;i+=1) {
@@ -251,7 +253,7 @@ var endTime = 2001;
 
 		var type = transition.t;
 
-		var tween = new TWEEN.Tween();
+		var tween;
 
 		var currentT = { x: 0,y:0,z:0 };
 		var currentR = { x: 0,y:0,z:0 };
@@ -405,7 +407,7 @@ var endTime = 2001;
 	}
 
 
-    function init(meshes) {
+    function init(width, height, meshes) {
 
 
     	geometry = new THREE.CubeGeometry( 200, 200, 200 );
@@ -426,16 +428,17 @@ var endTime = 2001;
 
         scene = new THREE.Scene();
 
-        container = document.createElement( 'div' );
-		document.body.appendChild( container );
+        container = document.getElementById( 'container' );
+//		document.body.appendChild( container );
+        var divStats = document.getElementById ('stats');
 
-        var canvas = document.getElementById("renderingCanvas");
+//        var canvas = document.getElementById("renderingCanvas");
 
 
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
         camera.position.z = 1500;
         camera.position.y = 100;
-        camera.lookAt( scene.position );
+//        camera.lookAt( scene.position );
         scene.add( camera );
         
 
@@ -464,15 +467,19 @@ var endTime = 2001;
 		scene.add(light);
 		
 		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '20px';
-		container.appendChild( stats.domElement );
+//		stats.domElement.style.position = 'absolute';
+//		stats.domElement.style.top = '20px';
+		divStats.appendChild( stats.domElement );
 
         
         
 
-        renderer = new THREE.WebGLRenderer({canvas:canvas,antialas:true});
-        renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer = new THREE.WebGLRenderer ({
+    antialias : true,
+    clearAlpha : 1.0,
+    precision : "highp"
+  });
+        renderer.setSize( width, height );
 
         container.appendChild( renderer.domElement );
 
@@ -553,9 +560,9 @@ var endTime = 2001;
   	    	obj.rx = 0;
   	    	obj.ry = 0;
   	    	obj.rz = 0;
-  	    	obj.dx = 1;
-  	    	obj.dy = 1;
-  	    	obj.dz = 1;
+  	    	obj.sx = 1;
+  	    	obj.sy = 1;
+  	    	obj.sz = 1;
   	    	var trans = [];
   	    	for (var j in anim.transitions) {
   	    		var tt = anim.transitions[j];

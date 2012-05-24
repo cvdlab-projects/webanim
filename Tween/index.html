@@ -6,9 +6,16 @@
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
-				background-color: #f0f0f0;
-				margin: 0px;
+				background-color: #aabbcc;
 				overflow: hidden;
+			}
+			#divStats {
+			  margin : 10px;
+			}
+			#container {
+        margin-left : auto;
+        margin-right : auto;
+        width : 800px;
 			}
 			#info {
 				text-align:center;
@@ -24,7 +31,9 @@
 	</head>
 	<body>
 		<div>
-		<canvas id="renderingCanvas" width="500" height="500"></canvas>
+		<div id="stats"></div>
+		<div id="container"></div>
+<!--		<canvas id="renderingCanvas" width="800" height="600"></canvas>-->
 		<button type = "button" onClick = "play()" >Play</button>
 		<button type = "button" onClick = "pause()" >Pause</button>
 		<button type = "button" onClick = "stop()" >Stop</button>
@@ -56,11 +65,11 @@
 		<script type="text/javascript" src="prova.js"></script>
 
 
-		<script>
-		function initialize(){
-			initAnimation();
-		}
-		</script>
+<!--		<script>-->
+<!--		function initialize(){-->
+<!--			initAnimation();-->
+<!--		}-->
+<!--		</script>-->
 
 
 
