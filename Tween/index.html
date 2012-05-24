@@ -1,0 +1,77 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Tween.js for smooth animation - LearningThreejs blog</title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				background-color: #aabbcc;
+				overflow: hidden;
+			}
+			#divStats {
+			  margin : 10px;
+			}
+			#container {
+        margin-left : auto;
+        margin-right : auto;
+        width : 800px;
+			}
+			#info {
+				text-align:center;
+				z-index	: 1;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			} 
+			a {
+				color: #0080bb;
+			}			
+		</style>
+	</head>
+	<body>
+		<div>
+		<div id="stats"></div>
+		<div id="container"></div>
+<!--		<canvas id="renderingCanvas" width="800" height="600"></canvas>-->
+
+    <div id="camera_buttons"></div><br />
+
+		<button type = "button" onClick = "play()" >Play</button>
+		<button type = "button" onClick = "pause()" >Pause</button>
+		<button type = "button" onClick = "stop()" >Stop</button>
+
+		<button type = "button" onClick = "ffAnimation()" >FF</button>
+		<button type = "button" onClick = "rwAnimation()" >RW</button>
+
+<!--		<button type = "button" onClick = "changeCamera(cameras[0])" >Camera1</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[1])" >Camera2</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[2])" >Camera3</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[3])" >Camera4</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[4])" >Camera5</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[5])" >Camera6</button>-->
+	</div>
+  
+		
+		<script type="text/javascript" src="Three.js"></script>
+		<script type="text/javascript" src="effects.js"></script>
+		<script type="text/javascript" src="startFrom.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Detector.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Stats.js"></script>
+		<script type="text/javascript" src="Tween.js"></script>
+		<script type="text/javascript" src="DAT.GUI.js"></script>
+		<script type="text/javascript" src="jquery.js"></script>
+
+		<script type="text/javascript" src="prova.js"></script>
+
+
+<!--		<script>-->
+<!--		function initialize(){-->
+<!--			initAnimation();-->
+<!--		}-->
+<!--		</script>-->
+
+
+
+	</body>
+</html>
