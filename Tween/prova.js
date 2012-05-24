@@ -207,16 +207,36 @@ var endTime = 2001;
 		}
 	}
 
+  function __normal (a, b)
+  {
+    return new THREE.Vector3 (a.y * b.z - a.z * b.y,
+                              a.z * b.x - a.x * b.z,
+                              a.x * b.y - a.y * b.x);
+  }
+
   // TODO: createMeshes a partire da vertici/indici
 
     function createMeshes(){
     	for(var k = 0; k<1;k+=1){
 		    for (var i = 0;i<1 ;i+=1) {
-				var geometry = new THREE.CubeGeometry( 150, 150, 150 );
-		        var material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-		        var mesh = new THREE.Mesh( geometry, material );
+//				var geometry = new THREE.CubeGeometry( 150, 150, 150 );
+//		        var material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+//		        var mesh = new THREE.Mesh( geometry, material );
+
+        var geom = new THREE.Geometry ();
+        geom.vertices = [new THREE.Vector3 (0, 0, 0),
+                         new THREE.Vector3 (150, 0, 0),
+                         new THREE.Vector3 (0, 150, 0),
+                         new THREE.Vector3 (0, 0, -150)];
+        // TODO: le normali vanno calcolate sulle differenze, solo in questo caso funziona!!!
+        geom.faces = [new THREE.Face3 (0, 1, 2, __normal (geom.vertices[1], geom.vertices[2])),
+                      new THREE.Face3 (0, 2, 3, __normal (geom.vertices[2], geom.vertices[3])),
+                      new THREE.Face3 (2, 1, 3, __normal (geom.vertices[1], geom.vertices[3])),
+                      new THREE.Face3 (0, 3, 1, __normal (geom.vertices[3], geom.vertices[1]))];
+        var mesh = new THREE.Mesh (geom, new THREE.MeshPhongMaterial( ));
+
 				var t = {id:1,t:"translate",t0: 0,t1: 2000,dxf:0,dyf:0,dzf:500};
-				
+
 				//var t = {id:1,t:"scale",t0: 0,t1: 2000,sxf:0.5,syf:1,szf:1};
 				var t1 = {id:2,t:"scale",t0: 0,t1: 1000,sxf:2,syf:1,szf:1,ini:false};
 				anim = {id:i*k+i,obj:mesh,transitions: [t],x0:-500+(151*i),y0:151*k,z0:0,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
@@ -409,30 +429,31 @@ var endTime = 2001;
 	}
 
 
-    function init(width, height, meshes) {
+    function init(width, height, _meshes) {
 
 
-    	geometry = new THREE.CubeGeometry( 200, 200, 200 );
-        material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+//    	geometry = new THREE.CubeGeometry( 200, 200, 200 );
+//        material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-        var mesh = new THREE.Mesh( geometry, material );
+//        var mesh = new THREE.Mesh( geometry, material );
 
   	    //anim  = {id:1,obj:mesh,n:5,transitions: [cube_t1,cube_t4],x0:0,y0:0,z0:-7,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
 
   	    
 
 
-    	var meshes = meshes || animations;
-
+    	var meshes;
 
     	saveOriginalState();
 
 
         scene = new THREE.Scene();
 
-        container = document.getElementById( 'container' );
+//        container = document.getElementById( 'container' );
+        container = $('#container');
 //		document.body.appendChild( container );
-        var divStats = document.getElementById ('stats');
+//        var divStats = document.getElementById ('stats');
+        var divStats = $('#stats');
 
 //        var canvas = document.getElementById("renderingCanvas");
 
@@ -442,21 +463,47 @@ var endTime = 2001;
 //        camera.position.y = 100;
 //        camera.lookAt( scene.position );
 //        scene.add( camera );
-        
+
+      if (_meshes === undefined) {
+
+        meshes = animations;
+
         cameras[0] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : 0, y : 0, z : 100};
+        cameras[0].position = {x : 0, y : 0, z : 1500};
         cameras[1] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : 100, y : 0, z : 0};
+        cameras[1].position = {x : 1500, y : 0, z : 0};
         cameras[2] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : 0, y : 0, z : -100};
+        cameras[2].position = {x : 0, y : 0, z : -1500};
         cameras[3] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : -100, y : 0, z : 0};
+        cameras[3].position = {x : -1500, y : 0, z : 0};
         cameras[4] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : 0, y : 100, z : 0};
+        cameras[4].position = {x : 0, y : 1500, z : 0};
         cameras[5] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-        cameras[0].position = {x : 0, y : -100, z : 0};
+        cameras[5].position = {x : 0, y : -1500, z : 0};
+
+        for (var i in cameras)
+          cameras[i].lookAt ({x : 0, y : 0, z : 0});
+      } else {
+
+        meshes = _meshes;
+
+        for (var i in _meshes) {
+          if (_meshes[i].obj instanceof THREE.PerspectiveCamera) {
+            _meshes[i].obj.position = {x : 0, y : 0, z : 100}; // TODO: dove si prendono le coordinate iniziali?
+            cameras.push (_meshes[i].obj);
+          }
+        }
+
+      }
 
         camera = cameras[0];
+        scene.add (camera);
+
+        var camera_buttons = $('#camera_buttons');
+        for (var i in cameras) {
+          var i1 = parseInt (i) + 1;
+          camera_buttons.append ('<button onClick="changeCamera (cameras[' + i + '])">Camera ' + i1 + '</button>');
+        }
 
 //        camera0 = {x:0,y:100,z:1500};
 
@@ -485,7 +532,7 @@ var endTime = 2001;
 		stats = new Stats();
 //		stats.domElement.style.position = 'absolute';
 //		stats.domElement.style.top = '20px';
-		divStats.appendChild( stats.domElement );
+		divStats.append ( $(stats.domElement) );
 
         
         
@@ -497,7 +544,7 @@ var endTime = 2001;
   });
         renderer.setSize( width, height );
 
-        container.appendChild( renderer.domElement );
+        container.append ( $(renderer.domElement) );
 
         //document.addEventListener( 'keypress', onKeyPressEventHandler, false );
 
@@ -615,8 +662,11 @@ var endTime = 2001;
 
 
     function changeCamera(cam){
-    	 camera.position.x = cam.x;
-    	 camera.position.y = cam.y;
-    	 camera.position.z = cam.z;
-    	 camera.lookAt(scene.position);
+//    	 camera.position.x = cam.x;
+//    	 camera.position.y = cam.y;
+//    	 camera.position.z = cam.z;
+//    	 camera.lookAt(scene.position);
+      scene.remove (camera);
+      camera = cam;
+      scene.add (camera);
     }
