@@ -172,15 +172,15 @@ var endTime = 2001;
 				}
 
 				if(tt.t === "scale"){
-					obj.dgx = tt.dgx;
-					obj.dgy = tt.dgy;
-					obj.dgz = tt.dgz;
-				}
-
-				if(tt.t === "rotate"){
 					obj.sxf = tt.sxf;
 					obj.syf = tt.syf;
 					obj.szf = tt.szf;
+				}
+
+				if(tt.t === "rotate"){
+					obj.dgx = tt.dgxf;
+					obj.dgy = tt.dgyf;
+					obj.dgz = tt.dgzf;
 				}
 
 				transitions.push(obj);
