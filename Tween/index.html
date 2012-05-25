@@ -28,8 +28,13 @@
 				color: #0080bb;
 			}			
 		</style>
+		<link rel="stylesheet" type="text/css" href="jquery-ui.css" />
 	</head>
 	<body>
+
+    <canvas id="graph" width="800" height="600">Non riconosciuto</canvas>
+
+
 		<div>
 		<div id="stats"></div>
 		<div id="container"></div>
@@ -57,14 +62,28 @@
 		<script type="text/javascript" src="Three.js"></script>
 		<script type="text/javascript" src="effects.js"></script>
 		<script type="text/javascript" src="startFrom.js"></script>
-		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Detector.js"></script>
-		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Stats.js"></script>
+<!--		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Detector.js"></script>-->
+<!--		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Stats.js"></script>-->
 		<script type="text/javascript" src="Tween.js"></script>
 		<script type="text/javascript" src="DAT.GUI.js"></script>
+
+<!--		<script type="text/javascript" src="prova.js"></script>-->
 		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="jquery-ui.js"></script>
+		<script type="text/javascript" src="graph.js"></script>
 
-		<script type="text/javascript" src="prova.js"></script>
 
+    <div id="insertData">
+      <select>
+        <option>Cubo</option>
+      </select><br />
+      X: <input id="inX" type="text" /><br />
+      Y: <input id="inY" type="text" /><br />
+      Z: <input id="inZ" type="text" /><br />
+      <br />
+      T: <input id="inT" type="text" /><br />
+      <button onclick="saveArc ()">Salva</button>
+    </div>
 
 <!--		<script>-->
 <!--		function initialize(){-->
