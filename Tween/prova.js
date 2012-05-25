@@ -678,57 +678,67 @@ function restoreTransitions(){
 
     }
 
-	    function saveOriginalState(){
-	    	for(var i in animations){
-	  	    	var anim = animations[i];
-	  	    	var obj = {};
-	  	    	obj.obj = anim.obj;
-	  	    	obj.id = anim.id;
-	  	    	obj.x0 = anim.x0;
-	  	    	obj.y0 = anim.y0;
-	  	    	obj.z0 = anim.z0;
-	  	    	obj.dx = 0;
-	  	    	obj.dy = 0;
-	  	    	obj.dz = 0;
-	  	    	obj.rx = 0;
-	  	    	obj.ry = 0;
-	  	    	obj.rz = 0;
-	  	    	obj.sx = 1;
-	  	    	obj.sy = 1;
-	  	    	obj.sz = 1;
-	  	    	var trans = [];
-	  	    	for (var j in anim.transitions) {
-	  	    		var tt = anim.transitions[j];
-	  	    		var tr = {};
-	  	    		tr.t = tt.t;
-	  	    		tr.t0 = tt.t0;
-	  	    		tr.t1 = tt.t1;
+	function restoreTransitions(){
+			for (var i in animations) {
+				
+				animations[i].x0 = animationsCopy[i].x0;
+				animations[i].y0 = animationsCopy[i].y0;
+				animations[i].z0 = animationsCopy[i].z0;
 
-	  	    		if(tt.t === "translate"){
-	  	    			tr.dxf = tt.dxf;
-	  	    			tr.dyf = tt.dyf;
-	  	    			tr.dzf = tt.dzf;
-	  	    		}
+				animations[i].id = animationsCopy[i].id;
+				
+				animations[i].dx = 0;
+				animations[i].dy = 0;
+				animations[i].dz = 0;
 
-	  	    		if(tt.t === "scale"){
-	  	    			tr.sxf = tt.sxf;
-	  	    			tr.syf = tt.syf;
-	  	    			tr.szf = tt.szf;
-	  	    		}
+				animations[i].sx = 1;
+				animations[i].sy = 1;
+				animations[i].sz = 1;
 
-	  	    		if(tt.t === "roktate"){
-	  	    			tr.dgx = tt.dgx;
-	  	    			tr.dgy = tt.dgy;
-	  	    			tr.dgz = tt.dgz;
-	  	    		}
-	  	    		trans.push(tr);
-	  	    		
-	  	    	}
-	  	    	obj.transitions = trans;
-	  	    	animationsCopy.push(obj);
+				animations[i].rx = 0;
+				animations[i].ry = 0;
+				animations[i].rz = 0;
 
-	  	    }
-	    }
+				var transitions = [];
+
+				for (var j in animationsCopy[i].transitions) {
+					var tt = animationsCopy[i].transitions[j];
+					var obj = {};
+					obj.t0 = tt.t0;
+					obj.t1 = tt.t1;
+					obj.id = tt.id;
+					obj.t = tt.t;
+
+
+					if(tt.t === "translate"){
+						obj.dxf = tt.dxf;
+						obj.dyf = tt.dyf;
+						obj.dzf = tt.dzf;
+					}
+
+					if(tt.t === "scale"){
+						obj.sxf = tt.sxf;
+						obj.syf = tt.syf;
+						obj.szf = tt.szf;
+					}
+
+					if(tt.t === "rotate"){
+						obj.dgx = tt.dgx;
+						obj.dgy = tt.dgy;
+						obj.dgz = tt.dgz;
+					}
+
+					transitions.push(obj);
+				}
+
+				animations[i].transitions = transitions;
+				
+			}
+
+		}
+
+
+
 
     function changeCamera(cam){
 //    	 camera.position.x = cam.x;
