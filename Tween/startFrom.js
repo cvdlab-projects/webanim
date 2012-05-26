@@ -214,7 +214,10 @@ function indexOf(array,id){
 
 }
 
-function startFromFrame(animations,frame,framerate) {
+function startFromFrame(obj) {
+  var framerate = obj.framerate || 60;
+  var frame = obj.frame || 0;
+  var animations = obj.animations;
 	var startTime = (frame/framerate)*1000;
 	startFromSecond(animations,startTime);
 	
