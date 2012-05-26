@@ -191,6 +191,12 @@ function startFromSecond(animations,startTime){
         }
 
       }
+      if (startTime > t1) {
+
+        transition.t0 -= startTime;
+        transition.t1 -= startTime;
+
+      }
       
     }
 
@@ -206,5 +212,11 @@ function indexOf(array,id){
   }
   return -1;
 
+}
+
+function startFromFrame(animations,frame,framerate) {
+	var startTime = (frame/framerate)*1000;
+	startFromSecond(animations,startTime);
+	
 }
 
