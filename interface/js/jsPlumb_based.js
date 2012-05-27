@@ -1,3 +1,5 @@
+var sbc = new StoryboardController();
+
 var GraphState = {
     addArc: false,
     rmEvt: false,
