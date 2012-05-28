@@ -2,18 +2,10 @@ canvas {
 	display: block;
 }
 
-ul {
-	text-align: right;
-}
-
 p {
 	padding: 5px;
 	font-size: 20px;
 	text-align: center;
-}
-
-#leftPanel {
-	float: right;
 }
 
 .recordingStatusOn {
@@ -26,4 +18,22 @@ p {
 	width: 640px;
 	height: 30px;
 	background-color: #22DD22;
+}
+
+.resultItem {
+	color: #2B2B2B;
+}
+
+.textboxDefault {
+	color: #888888;
+}
+
+#leftPanel {
+	text-align: right;
+	float: right;
+}
+
+#resultList {
+	background-color: #DDDDDD;
+	padding: 5px;
 }

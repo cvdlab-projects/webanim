@@ -8,9 +8,15 @@ var querystring = require("querystring"),
     nodeVideo = require("video"),
     formidable = require("formidable"),
     buffer = require("buffer");
-	pngHandler = require("./png");
+	pngHandler = require("./png"),
+    clucene = require("./node_modules/clucene/clucene").CLucene;
 
 
+/**
+ *Indexing elements (based on clucene module)
+ */
+var cluceneDatabasePath = "./clucene_index";
+var lucene = new clucene.Lucene();
 
 /**
  *The data2bitmap function converts a png image into a RGB buffer.
@@ -41,7 +47,8 @@ function encodeVideo(response, request) {
     form.parse(request, function(error, fields, files) {
 
         if (fields.videoName !== "") {
-            var filePathName = './media/video/' + fields.videoName + '.ogg';
+            var timeStamp = new Date().getTime();
+            var filePathName = './media/video/' + fields.videoName + '_' + timeStamp +'.ogg';
             var frameWidth = parseInt(fields.width) || 0;
             var frameHeight = parseInt(fields.height) || 0;
             var frameNumber = parseInt(fields.frameNumber);
@@ -59,21 +66,37 @@ function encodeVideo(response, request) {
             console.log("Saving video to file '" + filePathName + "'");
             video.setOutputFile(filePathName);
 
-            //console.log("Reconstructing image structure of " + frameNumber + " frames...");
+            console.log("Reconstructing image structure of " + frameNumber + " frames...");
 
             var begin = new Date().getTime();
             for (frameId = 0; frameId < frameNumber; frameId++) {
-                //console.log("Reconstructing frame number " + frameId);
+                console.log("Reconstructing frame number " + frameId);
                 base64text = fields['capturedFrames[' + frameId + ']'];
                 base64imageData = base64text.substring(base64text.indexOf(",") + 1);
                 imageMap = data2bitmap(base64imageData);
                 video.newFrame(new Buffer(imageMap));
             }
-
             console.log("Done!");
+
             video.end();
             console.log("Video saved successfully!");
-			response.writeHead(200);
+            
+            console.log("Indexing video through Lucene");
+            var doc = new clucene.Document();
+
+            console.log(fields.searchTag);
+            doc.addField('videoName', fields.videoName + '_' + timeStamp, clucene.STORE_YES|clucene.INDEX_UNTOKENIZED);
+            doc.addField('videoPath', './media/video/' + fields.videoName + '_' + timeStamp + '.ogg', clucene.STORE_YES|clucene.INDEX_UNTOKENIZED);
+            doc.addField('searchTag', fields.searchTag, clucene.STORE_YES|clucene.INDEX_TOKENIZED);
+            doc.addField('videoDescription', fields.videoDescription, clucene.STORE_YES|clucene.INDEX_TOKENIZED);
+            
+            lucene.addDocument("" + timeStamp, doc, cluceneDatabasePath, function(err, indexTime) {
+                lucene.closeWriter();
+            });
+            
+            console.log("Video correctly indexed!");
+			response.writeHead(200, { 'Content-Type': 'text/plain'});
+            response.write(filePathName);
         }else{
 			response.writeHead(400);
 		}        
@@ -81,6 +104,50 @@ function encodeVideo(response, request) {
     });
 }
 
+/**
+ *Search function for recovering videos
+ */
+function searchVideo(response, request) {
+    console.log("Request handler 'searchVideo' was called.");
+    var form = new formidable.IncomingForm();
+    console.log("Searching for videos...");
+    form.parse(request, function(error, fields, files) {
+
+        if (fields.searchTag !== "") {
+            var filePathName = './media/video/' + fields.videoName + '.ogg';
+                        
+            var queryTerm = 'searchTag:' + fields.searchTag;
+
+            response.writeHead(200, { 'Content-Type': 'text/html'});
+            
+            lucene.search(cluceneDatabasePath, queryTerm, function(err, results) {
+                if (err) {
+                    console.log('Search error: ' + err);
+                    return;
+                }
+
+                for (var i = 0; i < results.length; i++) {
+                    /*
+                    var temp = results[i];
+                    console.log(temp);
+                    resp += '<li class="resultItem">' + 
+                            '<div>Name: <a href="./media/video/' + temp.videoName +'.ogg" >' + temp.videoName.substring(0,temp.videoName.lastIndexOf('_')) + '</a>(right->Save as..)</div>' +
+                            '<div>Tag: ' + temp.searchTag + '</div>' +
+                            '<div>Description: ' + temp.videoDescription + '</div>' +
+                            '</li>';
+                            */
+                            response.write(JSON.stringify(results[i]));
+                }
+                
+                //response.end(resp); // La search di Lucene e' asincrona, pertanto la scrittura della risposta (positiva) deve andare qui
+                response.end();
+            });
+        }else{
+            response.writeHead(400);
+            response.end(); // La search di Lucene e' asincrona, pertanto la scrittura della risposta (negativa) deve andare qui
+        }
+    });
+}
 
 
 /**
@@ -209,5 +276,6 @@ exports.index = index;
 exports.start = start;
 exports.loader = loader;
 exports.encodeVideo = encodeVideo;
+exports.searchVideo = searchVideo;
 exports.upload = upload;
 exports.show = show;

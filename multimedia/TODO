@@ -1,9 +1,6 @@
+--------------------------------[MAJOR FEATURES]--------------------------------
 Miglioramento delle prestazioni tramite streaming di pacchetti durante la registrazione
-
-Ricerca e visualizzazione video tramite TAG
 
 Composizione di piu' animazioni in una sola
 
-----------------------------------------------------------------
-
-Aggiungere pulsante per svuotare il "framebuffer" lato client
+--------------------------------[MINOR FEATURES]--------------------------------

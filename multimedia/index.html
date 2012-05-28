@@ -20,7 +20,9 @@
 				        <p>Ready to record</p>
 				    </div>		
 				</div>  
-			</div>          
+			</div>
+			<div id="result">
+			</div>
         </div>
         <script type="text/javascript" src='./js/script.js'></script>
 		<script type="text/javascript">
@@ -43,6 +45,7 @@
 			var c2d = canvas.getContext('2d');
 			c2d.fillStyle = "#FF8800";
 			c2d.translate(canvas.width / 2, canvas.height / 2);
+			
 			// BEGIN 
 			// Dummy Elements added only for testing
 			var timingGetFrame;
@@ -58,6 +61,7 @@
 				c2d.rotate(rotationAngle);
 			}, 1000/30);
 			// END
+			
 			setRecordingCanvas('#canvas');
 			setVideoContainer('.container');
 			prependVideoControls($('.containerRow'));
