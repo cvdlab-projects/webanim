@@ -1,4 +1,5 @@
 ./*/.DS_Store
-.media/video/*
+./media/video/*
 ./node_modules/*
+./clucene_index/*
 !.gitignore
