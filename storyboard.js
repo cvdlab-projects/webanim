@@ -74,6 +74,12 @@ Event.prototype.removeOutgoingSegment = function(segment) {
 */
 Segment = function() {};
 
+
+/**
+ *	@class Represents an object of type Actor
+*/
+Actor = function() {};
+
 /**
  *	@class Represents an object of type Storyboard, a graph
 */
@@ -465,7 +471,7 @@ Storyboard.prototype.executeCPM = function() {
  * It's meant to be called right after the Critical Path Method execution
  */
 Storyboard.prototype.setStartTimeForSegments = function() {
-	this.segments.forEach(function(segment) {
+	this.segments.forEach(function (segment) {
 		var from = segment.from;
 		segment.tStart = (from.tMax + from.tMin) / 2 ;
 	});
@@ -477,7 +483,29 @@ Storyboard.prototype.setStartTimeForSegments = function() {
  * @param {Actor} actor The actor whose associated segments must be returned
  */
 Storyboard.prototype.actor2Segments = function(actor) {
-	return this.segments.filter(function(segment) {
+	return this.segments.filter(function (segment) {
 			return segment.actor === actor;
 		});
 };
+
+/**
+ * Returns the structured data the timeline might needs to show the segments of the actors
+ * @return {Object[]} Structured data of the segments associated to the actor
+ * @param {Actor[]} actors The actors whose associated segment data must be returned
+ */
+Storyboard.prototype.actor2SegmentsData = function (actors) {
+	var timelineData = [];
+	for(var i = 0; i < actors.length; i++) {
+		var actor = actors[i];
+		var segments = this.actor2Segments(actor);
+		var segmentBars = [];
+		for(var j = 0; j < segments.length; j++) {
+			var segment = segments[i];
+			var bar = {name: segment.id, start: segment.tStart, end: (segment.tStart + segment.duration)};
+			segmentBars.push(bar);
+		}
+		var al = {id: actor.id, name: actor.description, series: segmentBars};
+		timelineData.push(al);
+	}
+	return timelineData;
+}

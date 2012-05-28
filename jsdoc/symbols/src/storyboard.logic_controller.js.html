@@ -198,4 +198,14 @@
 <span class='line'>191</span> </span><span class="NAME">StoryboardController.prototype.removeSegment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">segmentId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>192</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">segment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.storyboard.getSegmentById</span><span class="PUNC">(</span><span class="NAME">segmentId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>193</span> </span><span class="WHIT">	</span><span class="NAME">this.storyboard.removeSegment</span><span class="PUNC">(</span><span class="NAME">segment</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>194</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>194</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="COMM">/**
+<span class='line'>197</span>  * Returns the structured data the timeline might needs to show the segments of the actors
+<span class='line'>198</span>  * @return {Object[]} Structured data of the segments associated to the actor
+<span class='line'>199</span>  */</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="NAME">StoryboardController.prototype.populateTimeline</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.storyboard.actor2SegmentsData</span><span class="PUNC">(</span><span class="NAME">this.actors</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span> </span></pre></body></html>

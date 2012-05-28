@@ -192,3 +192,12 @@ StoryboardController.prototype.removeSegment = function(segmentId) {
 	var segment = this.storyboard.getSegmentById(segmentId);
 	this.storyboard.removeSegment(segment);
 };
+
+/**
+ * Returns the structured data the timeline might needs to show the segments of the actors
+ * @return {Object[]} Structured data of the segments associated to the actor
+ */
+StoryboardController.prototype.populateTimeline = function() {
+	return this.storyboard.actor2SegmentsData(this.actors);
+}
+
