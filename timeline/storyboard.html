@@ -1,0 +1,59 @@
+<html>
+ <head>
+  <title>3D Animation</title>
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
+    <style type="text/css">
+        body {
+            font-family: tahoma, verdana, helvetica;
+            font-size: 0.8em;
+            padding: 10px;
+        }
+
+        .timeline-hzheader-sec.special {
+            background-color: yellow;
+        }
+        .timeline-grid-row-cell.special {
+            background-color: yellow;
+        }
+    </style>
+ </head>
+ <body>
+  <div id="viewport">
+   <canvas id="graph-canvas"></canvas>
+   <div id="storyboard-tools">
+        <div id="Timeline"></div>
+        <br/><br/>
+        <div id="eventMessage">Click on timebar to select a frame or a frame range</div><br/><br/>
+
+        <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+        <script type="text/javascript" src="js/timeline.js"></script>
+        <script type="text/javascript" src="js/data.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#Timeline").Timeline({ 
+                    data: timelineData,
+                    slideWidth: 900,
+                    
+                    behavior: {
+                        onClick: function (data) { 
+                            var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
+                            $("#eventMessage").text(msg);
+                        },
+                        onClick2: function (t) { 
+                            var msg = "You clicked on column: " + t;
+                            $("#eventMessage").text(msg);
+                        }
+                    }
+                });
+                
+            });
+        </script>
+
+   </div>
+   <button id="process-storyboard">Process Storyboard</button>
+  </div>
+  <div id="footer">2012 - BioPlasm - University of Roma Tre</div>
+ </body>
+</html>
