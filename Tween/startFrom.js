@@ -36,7 +36,7 @@ function startFromSecond(animations,startTime){
 
         var percent = (100*(startTime - t0))/t1n;
         percent = percent/100;
-        if(percent >= 1){
+        if(percent>=1){
           percent = 1;
           elimina = true;
         }
@@ -191,12 +191,6 @@ function startFromSecond(animations,startTime){
         }
 
       }
-      if (startTime > t1) {
-
-        transition.t0 -= startTime;
-        transition.t1 -= startTime;
-
-      }
       
     }
 
@@ -212,14 +206,5 @@ function indexOf(array,id){
   }
   return -1;
 
-}
-
-function startFromFrame(obj) {
-  var framerate = obj.framerate || 60;
-  var frame = obj.frame || 0;
-  var animations = obj.animations;
-	var startTime = (frame/framerate)*1000;
-	startFromSecond(animations,startTime);
-	
 }
 
