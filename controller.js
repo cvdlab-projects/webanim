@@ -1,5 +1,5 @@
 /**
- * A controller to handle storyboard associated operations
+ * @class Represents a controller to handle storyboard associated operations
  * @param {Listener} listener An object entitled to communicate to the UI
  */
 StoryboardController = function(listener) {
