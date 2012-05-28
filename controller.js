@@ -122,6 +122,18 @@ StoryboardController.prototype.setDescriptionForNewSegment = function(descriptio
 };
 
 /**
+ * Sets the description property of the specified segment
+ * @param {number} id The id of the segment whose description has to be set
+ * @param {String} description The description of the new segment
+ * @
+ */
+
+StoryboardController.prototype.setDescriptionForSegment = function(id, description) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.description = description;
+};
+
+/**
  * Sets the actor property of the new segment
  * @param {number} actorId The id of the actor to associate the new segment to
  */
