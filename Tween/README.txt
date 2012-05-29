@@ -31,6 +31,8 @@ t0 = {id:1,t:"translate",t0: 0,  t1: 6000,   dxf:0,    dyf:0,   dzf:-500, func: 
 t1 = {id:2,t:"scale",    t0: 0,  t1: 3000,   sxf:0.5,  syf:2,   szf:2,    func: .. };
 t2 = {id:3,t:"rotate",   t0: 0,  t1: 6000,   dgx:-90,  dgy:90,  dgz:90,   func: .. };
 
+func è la funzione di interpolazione. potete trovare tutte le funzioni disponibili in TWEEN.Easing
+
 Struttura di una "animazione"
 
 anim = {id:8, obj:mesh, transitions:[t0,t1,t2], x0:-500, y0:-500, z0:-500,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
