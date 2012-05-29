@@ -1,0 +1,102 @@
+@import url("reset.css");
+
+body {
+	margin: 0%;
+	padding: 0%;
+	height: 100%;
+	background-color: DimGrey;
+	color: Black;
+	font-family: monospace;
+}
+
+#viewport {
+	position: absolute;
+	margin-left: 10%;
+	margin-right: 10%;
+	width: 80%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	height: 90%;
+}
+
+#graph-canvas {
+	position: absolute;
+	width: 75%;
+	height: 90%;
+	background-color: White;
+}
+
+#storyboard-tools {
+	position: absolute;
+	margin-left: 77%;
+	width: 23%;
+	height: 90%;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background-color: LightGrey;
+}
+
+#process-storyboard {
+	position: absolute;
+	width: 100%;
+	margin-top: 92%;
+	height: 8%;
+	font-size: 120%;
+}
+
+#timeline-container {
+	position: absolute;
+	width: 100%;
+	height: 15%;
+	background-color: LightGrey;
+}
+
+#timeline-controls {
+	position: absolute;
+	width: 100%;
+	margin-top: 16%;
+	height: 5%;
+	background-color: LightGrey;
+}
+
+#render-canvas {
+	position: absolute;
+	width: 75%;
+	margin-top: 22%;
+	height: 69%;
+	background-color: White;
+}
+
+#movie-controls {
+	position: absolute;
+	margin-left: 76%;
+	width: 24%;
+	margin-top: 22%;
+	height: 69%;
+	background-color: LightGrey;
+}
+
+#back-to-storyboard {
+	position: absolute;
+	width: 100%;
+	margin-top: 92%;
+	height: 8%;
+	font-size: 120%;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0%;
+	left: 25%;
+	right: 25%;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: Black;
+	color: White;
+	padding: 0.2%;
+	text-align: center;
+	font-family: Sans-serif;
+	font-size: 80%;
+}
