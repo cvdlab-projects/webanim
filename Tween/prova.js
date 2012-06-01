@@ -146,6 +146,18 @@
 			restoreTransitions();
 		}
 
+    function gotoFrame (n)
+    {
+			startFromSecond(animations, n);
+			meshesIntermediateState();
+			tweens = [];
+			startTime = 0;
+			isanimating = false;
+			ispaused = false;
+			TWEEN.removeAll();
+			restoreTransitions();
+    }
+
 		function stop(){
 			for(var i in tweens){
 
