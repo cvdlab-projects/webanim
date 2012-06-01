@@ -108,7 +108,7 @@
 
 		}
 
-		setupScene();
+	//	setupScene();
 
 		function pause(){
 			for (var i in tweens){
