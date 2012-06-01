@@ -10,7 +10,7 @@
 	var ispaused = false;
 	var isstopped = false;
 	var startTime = 0;
-	var endTime = 7000;
+	var endTime = 0; //modify it
 
 	var lookAtScene = true;
 
@@ -98,22 +98,11 @@
 
 		function setupScene(){
 
-			createMeshes();
-			sovrapponiEffetti(animations);
+			//createMeshes();
+			//sovrapponiEffetti(animations);
 		    init(800, 600);
-			var t0 = {id:1,t:"translate",t0: 0,t1: 6000,dxf:0,dyf:0,dzf:2000};
-			var t1 = {id:2,t:"translate",t0: 6001,t1: 12000,dxf:500,dyf:0,dzf:-1300};
-			var anim = {id:999999,obj:cameras[0],transitions:[t0,t1],x0:0,z0:2000,y0:0,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
-			animations.push(anim);
-			t0 = {id:1,t:"translate",t0: 0,t1: 30000,dxf:0,dyf:300,dzf:5000};
-			
-			anim = {id:999992,obj:cameras[1],transitions:[t0],x0:0,z0:2000,y0:0,dx:0,dy:0,dz:0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};
-			animations.push(anim);
 
-			saveOriginalState();
-		
-		    //createTweensFromTransitions();
-				//animateCamera([{x:0,y:50,z:200},{x:0,y:50,z:800},{x:1000,y:-500,z:700}]);
+		    saveOriginalState();
 		    meshesStartingState();
 		    animate();
 
