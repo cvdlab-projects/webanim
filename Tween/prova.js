@@ -98,7 +98,7 @@
 
 		function setupScene(){
 
-			//createMeshes();
+			createMeshes();
 			//sovrapponiEffetti(animations);
 		    init(800, 600);
 
