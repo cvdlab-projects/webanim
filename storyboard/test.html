@@ -4,6 +4,8 @@
     <script type="text/javascript" src="storyboard.js"></script>
     <script type="text/javascript" src="controller.js"></script>
     <script type="text/javascript">
+      var storyboard;
+
       function Listener ()
       {
       }
@@ -12,7 +14,8 @@
         alert ("Non valido");
       }
 
-      Listener.prototype.storyboardProcessingCompleted = function () {
+      Listener.prototype.storyboardProcessingCompleted = function (s) {
+        storyboard = s;
       }
     </script>
     <script type="text/javascript" src="example.js"></script>

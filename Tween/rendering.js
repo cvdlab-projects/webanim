@@ -1,5 +1,6 @@
 WEBANIM.Rendering = (function () {
 
+  // Crea un nuovo pulsante [privata].
   function createControlButton (title, callback)
   {
     var button;
@@ -12,29 +13,57 @@ WEBANIM.Rendering = (function () {
     return button;
   }
 
+  /**
+   * Crea un'eccezione.
+   * @param {String} arg Il messaggio dell'eccezione.
+   * @return {RenderingArea} Una nuova istanza.
+   */
   function RenderingException (arg)
   {
-    if (arg instanceof String)
-      this.message = arg;
-    else
-      this.parent = arg;
+    this.message = arg;
   }
 
+  /**
+   * Crea una nuova istanza dell'area di rendering.
+   * @param {HTMLElement} container Elemento che conterrà l'area ed i controlli.
+   * @param {Number} w Larghezza dell'area di rendering.
+   * @param {Number} h Altezza dell'area di rendering.
+   * @param {Storyboard} storyboard Oggetto che contine la specifica dell'animazione.
+   * @return {RenderingArea} Una nuova istanza.
+   */
   function RenderingArea (container, w, h, storyboard)
   {
     if (storyboard === undefined)
       throw new RenderingException ("Storyboard informations required!");
 
     this.cameras = [];
-    // TODO: dobbiamo adattare l'oggetto di Marco/Daniele alle nostre esigenze
+    this.meshes = [];
+    for (var i in storyboard.segments) {
+      var filtered;
+
+      // Per semplicità unisco i due array, così li filtro insieme
+      filtered = this.cameras.concat (this.meshes).filter (function (element) {
+        return element === storyboard.segments[i].mesh;
+      });
+      if (filtered.length === 0) {
+        if (storyboard.segments[i].mesh instanceof THREE.PerspectiveCamera)
+          this.cameras.push (storyboard.segments[i].mesh);
+        else
+          this.meshes.push (storyboard.segments[i].mesh);
+      }
+    }
+
     if (this.cameras.length === 0)
       throw new RenderingException ("No camera defined!");
     this.camera = this.cameras[0];
 
     this.scene = new THREE.Scene ();
-    // TODO: aggiungere tutti gli oggetti alla scena
+    // Aggiungo le mesh alla scena
+    for (var i in this.meshes)
+      this.scene.add (this.meshes[i]);
     this.scene.add (this.camera);
 
+    // Creo una luce standard che va bene sempre
     this.light = new THREE.PointLight (0xFFFFFF);
     this.light.position = this.camera.position;
     this.scene.add (this.light);
@@ -49,11 +78,24 @@ WEBANIM.Rendering = (function () {
     this.container = container;
 
     this.tweens = [];
-    // TODO: creare i tween dai segmenti
+    for (var i in this.meshes) {
+      var tween;
+
+      tween = new TWEEN.Tween ({
+        position : this.meshes[i].position,
+        rotation : this.meshes[i].rotation,
+        scale : this.meshes[i].scale
+      });
+      this.tweens.push (tween);
+    }
     this.startTime = 0;
     this.pauseTime = 0;
   }
 
+  /**
+   * Mostra tutti gli elementi dell'interfaccia, e avvia il ciclo principale per
+   * l'esecuzione dell'animazione e la gestione degli eventi dell'utente.
+   */
   RenderingArea.prototype.show = function () {
     var _this;
 
@@ -97,6 +139,11 @@ WEBANIM.Rendering = (function () {
     animate ();
   };
 
+  /**
+   * Cambia la camera corrente. E' da considerarsi protetto; ora è usato solo nei
+   * pulsanti di controllo.
+   * @param {Number} i Numero d'ordine della camera da attivare; parte da 0.
+   */
   RenderingArea.prototype.changeCamera = function (i) {
     this.scene.remove (this.camera);
     this.camera = this.cameras[i];
@@ -104,6 +151,9 @@ WEBANIM.Rendering = (function () {
     this.scene.add (this.camera);
   };
 
+  /**
+   * Avvia l'animazione.
+   */
   RenderingArea.prototype.play = function () {
     this.startTime = new Date ().getTime ();
 
@@ -116,6 +166,9 @@ WEBANIM.Rendering = (function () {
     }
   };
 
+  /**
+   * Sospende l'animazione.
+   */
   RenderingArea.prototype.pause = function () {
     this.pauseTime = (new Date ().getTime ()) - this.startTime;
     for (var i in this.tweens) {
@@ -123,6 +176,9 @@ WEBANIM.Rendering = (function () {
     }
   };
 
+  /**
+   * Ferma l'animazione e la riavvolge.
+   */
   RenderingArea.prototype.stop = function () {
     this.startTime = 0;
     this.pauseTime = 0;
