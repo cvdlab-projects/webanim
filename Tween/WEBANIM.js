@@ -1,0 +1,3 @@
+WEBANIM = (function () {
+  return {};
+}) ();
