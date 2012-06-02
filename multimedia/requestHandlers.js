@@ -106,7 +106,7 @@ function encodeVideo(response, request) {
 
 /**
  *Search function for recovering videos
- */
+ 
 function searchVideo(response, request) {
     console.log("Request handler 'searchVideo' was called.");
     var form = new formidable.IncomingForm();
@@ -127,24 +127,15 @@ function searchVideo(response, request) {
                 }
 
                 for (var i = 0; i < results.length; i++) {
-                    /*
-                    var temp = results[i];
-                    console.log(temp);
-                    resp += '<li class="resultItem">' + 
-                            '<div>Name: <a href="./media/video/' + temp.videoName +'.ogg" >' + temp.videoName.substring(0,temp.videoName.lastIndexOf('_')) + '</a>(right->Save as..)</div>' +
-                            '<div>Tag: ' + temp.searchTag + '</div>' +
-                            '<div>Description: ' + temp.videoDescription + '</div>' +
-                            '</li>';
-                            */
+
                             response.write(JSON.stringify(results[i]));
                 }
                 
-                //response.end(resp); // La search di Lucene e' asincrona, pertanto la scrittura della risposta (positiva) deve andare qui
                 response.end();
             });
         }else{
             response.writeHead(400);
-            response.end(); // La search di Lucene e' asincrona, pertanto la scrittura della risposta (negativa) deve andare qui
+            response.end();
         }
     });
 }
@@ -208,64 +199,7 @@ function loader(response, request) {
     });
 }
 
-/**
- *Example handlers function, could be usefull
- */
-function start(response) {
-    console.log("Request handler 'start' was called.");
 
-    var body = '<html>' + '<head>' + '<meta http-equiv="Content-Type" ' + 'content="text/html; charset=UTF-8" />' + '</head>' + '<body>' + '<form action="/upload" enctype="multipart/form-data" ' + 'method="post">' + '<input type="file" name="upload" multiple="multiple">' + '<input type="submit" value="Upload file" />' + '</form>' + '</body>' + '</html>';
-
-    response.writeHead(200, {
-        "Content-Type": "text/html"
-    });
-    response.write(body);
-    response.end();
-}
-
-function upload(response, request) {
-    console.log("Request handler 'upload' was called.");
-
-    var form = new formidable.IncomingForm();
-    console.log("about to parse");
-    form.parse(request, function(error, fields, files) {
-        console.log("parsing done");
-        console.log(fields);
-
-        // Possible error on Windows systems: tried to rename to an already existing file
-        fs.rename(files.upload.path, "/tmp/test.png", function(err) {
-            if (err) {
-                fs.unlink("/tmp/test.png");
-                fs.rename(files.upload.path, "/tmp/test.png");
-            }
-        });
-        response.writeHead(200, {
-            "Content-Type": "text/html"
-        });
-        response.write("received image:<br/>");
-        response.write("<img src='/show' />");
-        response.end();
-    });
-}
-
-function show(response) {
-    console.log("Request handler 'show' was called.");
-    fs.readFile("/tmp/test.png", "binary", function(error, file) {
-        if (error) {
-            response.writeHead(500, {
-                "Content-Type": "text/plain"
-            });
-            response.write(error + "\n");
-            response.end();
-        } else {
-            response.writeHead(200, {
-                "Content-Type": "image/png"
-            });
-            response.write(file, "binary");
-            response.end();
-        }
-    });
-}
 
 
 
@@ -273,9 +207,6 @@ function show(response) {
  *Exports all the request handlers function outside the module
  */
 exports.index = index;
-exports.start = start;
 exports.loader = loader;
 exports.encodeVideo = encodeVideo;
-exports.searchVideo = searchVideo;
-exports.upload = upload;
-exports.show = show;
+//exports.searchVideo = searchVideo;

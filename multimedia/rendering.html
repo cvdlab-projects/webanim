@@ -1,0 +1,90 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Tween.js for smooth animation - LearningThreejs blog</title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				background-color: #aabbcc;
+			}
+			#controlButtons {
+				text-align: right;
+				float: right;
+			}
+			#divStats {
+			  margin : 10px;
+			}
+			#container {
+        		margin: 0px;
+			}
+			#info {
+				text-align:center;
+				z-index	: 1;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			} 
+			a {
+				color: #0080bb;
+			}			
+		</style>
+	</head>
+	<body>
+		<div>
+			<div id="controlButtons">
+			</div>
+		<div id="stats"></div>
+		<div id="container">
+			<canvas id="canvas" width="640" height="480"></canvas>
+		</div>
+
+    	<div id="camera_buttons"></div><br />
+
+		<button type = "button" onClick = "play()" >Play</button>
+		<button type = "button" onClick = "pause()" >Pause</button>
+		<button type = "button" onClick = "stop()" >Stop</button>
+
+		<button type = "button" onClick = "ffAnimation()" >FF</button>
+		<button type = "button" onClick = "rwAnimation()" >RW</button>
+		<button type = "button" onClick = "lookAtCenter()" >Look At Center</button>
+
+		<button id="recordButton" type="button">Record</button>
+
+<!--		<button type = "button" onClick = "changeCamera(cameras[0])" >Camera1</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[1])" >Camera2</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[2])" >Camera3</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[3])" >Camera4</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[4])" >Camera5</button>-->
+<!--		<button type = "button" onClick = "changeCamera(cameras[5])" >Camera6</button>-->
+		</div>
+		
+		<script type="text/javascript" src="js/Three.js"></script>
+		<script type="text/javascript" src="js/effects.js"></script>
+		<script type="text/javascript" src="js/startFrom.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Detector.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/mrdoob/three.js/r46/examples/js/Stats.js"></script>
+		<script type="text/javascript" src="js/Tween.js"></script>
+		<script type="text/javascript" src="js/DAT.GUI.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/videoGenerator.js"></script>
+
+		<script type="text/javascript" src="js/prova.js"></script>
+
+		<script type="text/javascript">
+			setRecordingCanvas('#canvas');
+			prependVideoControls($('#controlButtons'));
+			loadButtons();
+			var tempB = $("#recordButton");
+			tempB.on('click', function() {
+				if(self.f !== null && self.f !== undefined) {
+					stop();
+					self.f = undefined;
+				} else {
+					self.f = videoRecording;
+					play();
+				}
+			});
+		</script>
+	</body>
+</html>
