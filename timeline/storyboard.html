@@ -32,7 +32,7 @@
         <script type="text/javascript">
             $(function () {
                 $("#Timeline").Timeline({ 
-                    data: storyboardController,
+                    data: timelineData,
                     slideWidth: 900,
                     
                     behavior: {
@@ -41,7 +41,11 @@
                             $("#eventMessage").text(msg);
                         },
                         onClick2: function (t) { 
-                            var msg = "You clicked on column: " + t;
+                            var msg = "You clicked on column: " + t.val();
+                            $("#eventMessage").text(msg);
+                        },
+                        onClick3: function (t) { 
+                            var msg = "You clicked on actor: " + t;
                             $("#eventMessage").text(msg);
                         }
                     }
