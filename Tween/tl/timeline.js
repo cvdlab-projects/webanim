@@ -50,9 +50,9 @@
 				var w = jQuery("div.timeline-vtheader", container).outerWidth() +
 					jQuery("div.timeline-slide-container", container).outerWidth();
 	            container.css("width", (w + 2) + "px");
-	            
+          
 	            new Behavior(container, opts).apply();
-
+                
                 if (opts.onLoad)
                     opts.onLoad(container);
 	        });
@@ -94,11 +94,18 @@
         function addVtHeader(div, data, cellHeight) {
             var headerDiv = jQuery("<div>", { "class": "timeline-vtheader" });
             for (var i = 0; i < data.length; i++) {
-                var itemDiv = jQuery("<div>", { "class": "timeline-vtheader-item" });
+                var itemDiv = jQuery("<div>", { "class": "timeline-vtheader-item", "hide":"true", "id":i });
+                
                 itemDiv.append(jQuery("<div>", {
                     "class": "timeline-vtheader-item-name",
                     "css": { "height": cellHeight + "px" }
-                }).append(data[i].name + " " + data[i].id)); //nome/tipo attore
+                }).append(jQuery("<input>", { 
+                    "id": "check", 
+                    "type":"checkbox", 
+                    "checked" : "true",
+                    "id" : i
+                })).append(data[i].name + " " + data[i].id)); //nome/tipo attore
+
                 headerDiv.append(itemDiv);
             }
             div.append(headerDiv);
@@ -106,8 +113,8 @@
 
         function addHzHeader(div, times, cellWidth) {
           
-            var msDiv = jQuery("<div>", { "class": "timeline-hzheader-ms" }); //minuti
-            var secsDiv = jQuery("<div>", { "class": "timeline-hzheader-secs" }); //secondi
+            var msDiv = jQuery("<div>", { "class": "timeline-hzheader-ms" });
+            var secsDiv = jQuery("<div>", { "class": "timeline-hzheader-secs" });
             var totalW = 0;
             var w = times.length * cellWidth;
             totalW = totalW + w;
@@ -206,6 +213,7 @@
 			if (opts.behavior.clickable) { 
             	bindBlockEvent(div, "click", opts.behavior.onClick);
                 bindColumnEvent(div, "click", opts.behavior.onClick2);
+                ActorSelection();
         	}
 
 		}
@@ -237,7 +245,8 @@
                 if (callback) { callback(jQuery(this).text(), this); }
             });
         }   
-    
+   
+
         function selectColumn (index){
             index = parseInt(index);
             if (frame.length == 0){
@@ -261,8 +270,6 @@
                 frame=[];frame[0]=index;
                 jQuery('div.timeline-grid-row-cell[id =' + index + ']', div).addClass('special');
             }
-
-            //l' opacità del blocco viene attivata se c'è un blocco (aggiungere)
         }
 
         function deselectColumn (index){
@@ -292,10 +299,27 @@
             jQuery('div.timeline-hzheader-sec[id = 1]', div).attr('id','0'); 
         }
 
+        function ActorSelection(){
+            $(":checkbox").change(function(){
+                
+                if($(this).attr("checked"))
+                {
+                    var id_check = jQuery(this).attr('id');
+                    jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',true);
+                }
+                else
+                {   var id_check = jQuery(this).attr('id');
+                    jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',false);
+                }
+            });
+        }
+
         return {
         	apply: apply	
         };
 	}
 
+
+    
 
 })(jQuery);
