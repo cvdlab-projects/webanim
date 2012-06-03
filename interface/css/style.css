@@ -86,48 +86,48 @@ input {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-    width: 50px;
-    height: 50px;
+/*    width: 50px;*/
+/*    height: 50px;*/
 }
 
-#moveImg {
-    width: 48px;
-    height: 48px;
-    background-image: url('../assets/move.png');
-    background-repeat: no-repeat;
-}
+/*#moveImg {*/
+/*    width: 48px;*/
+/*    height: 48px;*/
+/*    background-image: url('../assets/move.png');*/
+/*    background-repeat: no-repeat;*/
+/*}*/
 
 #addArc {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-    width: 50px;
-    height: 50px;
+/*    width: 50px;*/
+/*    height: 50px;*/
 }
 
-#addArcImg {
-    width: 48px;
-    height: 48px;
-    background-image: url('../assets/addArc.png');
-    background-repeat: no-repeat;
-}
+/*#addArcImg {*/
+/*    width: 48px;*/
+/*    height: 48px;*/
+/*    background-image: url('../assets/addArc.png');*/
+/*    background-repeat: no-repeat;*/
+/*}*/
 
 #rmEvt {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-    width: 50px;
-    height: 50px;
+/*    width: 50px;*/
+/*    height: 50px;*/
 }
 
-#removeImg {
-    width: 48px;
-    height: 48px;
-    background-image: url('../assets/remove.png');
-    background-repeat: no-repeat;
-}
+/*#removeImg {*/
+/*    width: 48px;*/
+/*    height: 48px;*/
+/*    background-image: url('../assets/remove.png');*/
+/*    background-repeat: no-repeat;*/
+/*}*/
 
-.button {
+button {
     outline: 0;
     padding: 5px 12px;
     color: #9fa8b0;
