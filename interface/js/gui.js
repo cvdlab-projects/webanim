@@ -80,8 +80,17 @@ var storyboardController = new StoryboardController(handler);
 var GraphState = {
     addArc: false,
     rmEvt: false,
+    edit: false,
     currentLabel: null
 };
+
+$("#accordion").accordion({collapsible: true});
+
+
+$("#error").dialog({
+    autoOpen: false,
+    modal: true
+});
 
 $("#edit-segment-dialog-form").dialog({
     autoOpen: false,
@@ -90,8 +99,13 @@ $("#edit-segment-dialog-form").dialog({
     modal: true,
     buttons: {
         "Confirm": function () {
+            var model = $("#segment-model").val();
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
+
+            var check = true;
+
+            check = check && (model !== "default");
 
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
@@ -103,6 +117,11 @@ $("#edit-segment-dialog-form").dialog({
         Cancel: function() {
             $( this ).dialog( "close" );
         }
+    },
+    open: function (event, ui) {
+        storyboardController.actors.forEach(function (actor) {
+            $("#segment-actor").append($('<option></option>').val(actor.model).html(actor.description));
+        });
     }
 });
 
@@ -116,30 +135,41 @@ $("#add-actor-dialog-form").dialog({
             var description = $("#actor-description").val();
             var model = $("#actor-model").val();
 
-            //TODO: eventually check and sanitize the input
-            //TODO: storyboardController.addActor(model, description);
+            console.log(description);
+            console.log(model);
+
+            // TODO: eventually check and sanitize the input
+            // TODO: storyboardController.addActor(model, description);
+            storyboardController.addActor(model, description);
             $(this).dialog("close");
         },
 
         Cancel: function () {
             $(this).dialog("close");
         }
+    },
+
+    open: function (event, ui) {
+        $("#actor-description").val("");
     }
 });
 
 
 var editSegment = function (label, evt) {
-    GraphState.currentLabel = label;
-    GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+    if(GraphState.edit) {
+        GraphState.currentLabel = label;
+        GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
 
-    $("#duration").val(GraphState.currentLogicSegment.duration);
-    $("#description").val(GraphState.currentLogicSegment.description);
-    $("#edit-segment-dialog-form").dialog("open");
+        $("#duration").val(GraphState.currentLogicSegment.duration);
+        $("#description").val(GraphState.currentLogicSegment.description);
+        $("#edit-segment-dialog-form").dialog("open");
+    }
 };
+
 
 jsPlumb.importDefaults({
     Endpoint : ["Dot", {radius:2}],
-    HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:1 },
+    // HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:1 },
     ConnectionOverlays : [
         [ "Arrow", { 
             location:1,
@@ -168,11 +198,9 @@ jsPlumb.bind("jsPlumbConnection", function (info) {
 });
 
 
-
-
 // remove segment
 
-jsPlumb.bind("contextmenu", function(conn) {
+jsPlumb.bind("click", function(conn) {
     jsPlumb.detach(conn);
 
 });
@@ -184,90 +212,6 @@ jsPlumb.bind("beforeDetach", function(conn) {
     return GraphState.rmEvt;
 });
 
-
-// $("#rmEvt").toggle(
-//     function () {
-//         $(this).toggleClass("selected").children("span").html("ON");
-//         GraphState.rmEvt = true;
-//         $(".event").on("click.webGraph", function () {
-//             // remove the event from the logic. 
-//             // The logic will take care of removing all the connections
-//             storyboardController.removeEvent(parseInt($(this).attr("storyboard_id"),10));
-// 
-//             // remove the event from the UI with all the connections
-//             jsPlumb.detachAllConnections($(this).attr("id"));
-//             $(this).remove();
-//         });
-//     },
-//     function () {
-//         $(this).toggleClass("selected").children("span").html("OFF");
-//         GraphState.rmEvt = false;
-//         $(".event").off("click.webGraph");
-//     }
-// );
-// 
-// $("#addArc").toggle(
-//     function () {
-//         $(this).toggleClass("selected");
-//         $(".holder").show();
-//         GraphState.addArc = true;
-//     },
-//     function () {
-//         $(this).toggleClass("selected");
-//         $(".holder").hide();
-//         GraphState.addArc = false;
-//     }
-// );
-// 
-// $("#insertEvt").toggle(
-//     function () {
-//         $(this).toggleClass("selected");
-//         $("#paper").on("click.webGraph", function (e) {
-//             if (e.target.id === "paper") {
-//                 var x = e.pageX - 25;
-//                 var y = e.pageY - 25;
-//                 var offset = $("#paper").offset();
-//                 var width = $("#paper").width();
-//                 var height = $("#paper").height();
-// 
-//                 if ( y < offset.top) {
-//                     y = offset.top;
-//                 }
-//                 else if( y > height + offset.top) {
-//                     y = height + offset.top;
-//                 }
-// 
-//                 if ( x < offset.left) {
-//                     x = offset.top;
-//                 }
-//                 else if( x > width + offset.left) {
-//                     x = width + offset.left;
-//                 }
-// 
-// 
-//                 createEvt(x,y);
-//             }
-//         });
-//     },
-// 
-//     function () {
-//         $(this).toggleClass("selected");
-//         $("#paper").off("click.webGraph");
-// 
-//     }
-// );
-// 
-// $("#moveEvt").toggle(
-//     function () {
-//         $(this).toggleClass("selected");
-//         jsPlumb.setDraggable($(".event"), true);
-//     },
-//     function () {
-//         $(this).toggleClass("selected");
-//         jsPlumb.setDraggable($(".event"), false);
-//     }
-// );
-// 
 
 $("#addActor").on("click.webGraph", function () {
     $("#add-actor-dialog-form").dialog("open");
@@ -356,7 +300,6 @@ var tool = {
                         x = width + offset.left;
                     }
 
-
                     createEvt(x,y);
                 }
             });
@@ -368,6 +311,7 @@ var tool = {
 
         el: "insertEvt"
     },
+
     addSegment: {
         on: function () {
             $(".holder").show();
@@ -381,10 +325,17 @@ var tool = {
 
         el: "addSegment"
     },
+
     rm: {
         on: function () {
             GraphState.rmEvt = true;
-            $(".event").on("click.webGraph", function () {
+
+            jsPlumb.select().each(function (conn) {
+                conn.setHoverPaintStyle({strokeStyle: "#AA0000"});
+            });
+
+            $(".event")
+            .on("click.webGraph", function () {
                 // remove the event from the logic. 
                 // The logic will take care of removing all the connections
                 storyboardController.removeEvent(parseInt($(this).attr("storyboard_id"),10));
@@ -392,15 +343,44 @@ var tool = {
                 // remove the event from the UI with all the connections
                 jsPlumb.detachAllConnections($(this).attr("id"));
                 $(this).remove();
+            })
+            .on("mouseenter.webGraph", function () {
+                $(this).addClass("eventRemove");
+                jsPlumb.select({source: $(this).attr("id") }).setPaintStyle({strokeStyle: "#A00"});
+                jsPlumb.select({target: $(this).attr("id") }).setPaintStyle({strokeStyle: "#A00"});
+            })
+            .on("mouseleave.webGraph",function () {
+                $(this).removeClass("eventRemove");
+                jsPlumb.select({source: $(this).attr("id") }).setPaintStyle({strokeStyle: "#000"});
+                jsPlumb.select({target: $(this).attr("id") }).setPaintStyle({strokeStyle: "#000"});
             });
         },
 
         off: function () {
             GraphState.rmEvt = false;
-            $(".event").off("click.webGraph");
+            jsPlumb.select().each(function (conn) {
+                conn.setHover(false);
+            });
+
+            $(".event")
+            .off("click.webGraph")
+            .off("mouseenter.webGraph")
+            .off("mouseleave.webGraph");
         },
 
         el: "rm"
+    },
+
+    edit: {
+        on: function () {
+            GraphState.edit = true;
+        },
+
+        off: function () {
+            GraphState.edit = false;
+        },
+
+        el: "edit"
     }
 
 };
@@ -442,6 +422,10 @@ var tool = {
 
     $("#rm").on("click.toolbox", function () {
         self.change(buttons.rm);
+    });
+
+    $("#edit").on("click.toolbox", function () {
+        self.change(buttons.edit);
     });
 
 }(tool));

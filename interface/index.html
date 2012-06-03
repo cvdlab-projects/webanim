@@ -14,11 +14,11 @@
               <button id="addActor" style="display : block">
                 Add Actor
               </button>
-              <button id="moveEvt" style="display : block">
-                <img src="assets/move.png" />
-              </button>
               <button id="insertEvt" style="display : block">
                 Insert Event
+              </button>
+              <button id="moveEvt" style="display : block">
+                <img src="assets/move.png" />
               </button>
               <button id="addSegment" style="display : block">
                 <img src="assets/addArc.png" />
@@ -26,25 +26,21 @@
               <button id="rm" style="display : block">
                 <img src="assets/remove.png" />
               </button>
-<!--                <div class="button" id="addActor">-->
-<!--                    <div id="addActorImg">Add Actor</div>-->
-<!--                </div>-->
-<!--                <div class="button" id="moveEvt">-->
-<!--                    <div id="moveImg"></div>-->
-<!--                </div>-->
-<!--                <div class="button" id="insertEvt">-->
-<!--                    <div id="insertImg">Insert Event</div>-->
-<!--                </div>-->
-<!--                <div id="addSegment" class="button">-->
-<!--                    <div id="addArcImg"></div>-->
-<!--                </div>-->
-<!--                <div id="rm" class="button">-->
-<!--                    <div id="removeImg"></div>-->
-<!--                </div>-->
+              <button id="edit" style="display : block">
+                Edit
+              </button>
+
+              <button id="calculate" style="display : block">
+                Calculate
+              </button>
             </div>
             <div id="paper"></div>
         </div>
         <div id="footer"></div>
+    </div>
+
+    <div id="error">
+        <div>There are some error with the graph</div>
     </div>
 
     <div id="add-actor-dialog-form">
@@ -54,23 +50,26 @@
                 <input type="text" name="description" class="text ui-widget-content ui-corner-all" id="actor-description" />
                 <label for="type">Type</label>
                 <select name="type" id="actor-model">
-                    <option value="1">dummy 1</option>
-                    <option value="2">dummy 2</option>
-                    <option value="3">dummy 3</option>
-                    <option value="4">dummy 4</option>
+                    <option value="default">select a model</option>
                 </select>
             </fieldset>
         </form>
     </div>
 
     <div id="edit-segment-dialog-form" title="Edit Segment">
-
         <form>
             <fieldset>
+
+                <label for="actor">Actor</label>
+                <select name="actor" id="segment-actor">
+                    <option value="default">select an actor</option>
+                </select>
+
                 <label for="name">Duration</label>
                 <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
                 <label for="name">Description</label>
                 <input type="text" name="description" id="segment-description" class="text ui-widget-content ui-corner-all" />
+
                 <div id="accordion">
                     <h3><a href="#">Translate</a></h3>
                     <div>
@@ -100,6 +99,7 @@
                         <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
                     </div>
                 </div>
+
             </fieldset>
         </form>
     </div>

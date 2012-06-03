@@ -64,6 +64,10 @@ input {
     border-radius: 25px;
 }
 
+.eventRemove {
+    background-color: #822;
+}
+
 .dragHover {
     box-shadow: 2px 2px 19px #822;
     -o-box-shadow: 2px 2px 19px #822;
