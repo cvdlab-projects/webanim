@@ -73,13 +73,13 @@ input {
 
 .holder {
     background-color: #0087AF;
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
     z-index: 14;
     position: relative;
-    top: 15px;
-    left: 15px;
-    border-radius: 10px;
+    /* top: 15px; */
+    /* left: 15px; */
+    border-radius: 25px;
 }
 
 #moveEvt {
@@ -105,10 +105,10 @@ input {
     height: 50px;
 }
 
-#addImg {
+#addArcImg {
     width: 48px;
     height: 48px;
-    background-image: url('../assets/add.png');
+    background-image: url('../assets/addArc.png');
     background-repeat: no-repeat;
 }
 
@@ -183,9 +183,10 @@ l1 {
 
 }
 
-label, input { 
-    display:block; 
-}
+/* label, input {  */
+/*     display:block;  */
+/* } */
+
 
 input.text { margin-bottom:12px; width:95%; padding: .4em; }
 fieldset { padding:0; border:0; margin-top:25px; }

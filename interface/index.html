@@ -11,11 +11,17 @@
         </div>
         <div id="content">
             <div id="menu">
+                <div class="button" id="addActor">
+                    <div id="addActorImg">Add Actor</div>
+                </div>
                 <div class="button" id="moveEvt">
                     <div id="moveImg"></div>
                 </div>
+                <div class="button" id="insertEvt">
+                    <div id="insertImg">Insert Event</div>
+                </div>
                 <div id="addArc" class="button">
-                    <div id="addImg"></div>
+                    <div id="addArcImg"></div>
                 </div>
                 <div id="rmEvt" class="button">
                     <div id="removeImg"></div>
@@ -26,14 +32,59 @@
         <div id="footer"></div>
     </div>
 
-    <div id="dialog-form" title="Edit Segment">
+    <div id="add-actor-dialog-form">
+        <form>
+            <fieldset>
+                <label for="description">Description</label>
+                <input type="text" name="description" class="text ui-widget-content ui-corner-all" id="actor-description" />
+                <label for="type">Type</label>
+                <select name="type" id="actor-model">
+                    <option value="1">dummy 1</option>
+                    <option value="2">dummy 2</option>
+                    <option value="3">dummy 3</option>
+                    <option value="4">dummy 4</option>
+                </select>
+            </fieldset>
+        </form>
+    </div>
+
+    <div id="edit-segment-dialog-form" title="Edit Segment">
 
         <form>
             <fieldset>
                 <label for="name">Duration</label>
-                <input type="text" name="duration" id="duration" class="text ui-widget-content ui-corner-all" />
+                <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
                 <label for="name">Description</label>
-                <input type="text" name="description" id="description" class="text ui-widget-content ui-corner-all" />
+                <input type="text" name="description" id="segment-description" class="text ui-widget-content ui-corner-all" />
+                <div id="accordion">
+                    <h3><a href="#">Translate</a></h3>
+                    <div>
+                        <label for="x">x</label>
+                        <input type="text" name="x" id="x" class="text ui-widget-content ui-corner-all" />
+                        <label for="y">y</label>
+                        <input type="text" name="y" id="y" class="text ui-widget-content ui-corner-all" />
+                        <label for="x">x</label>
+                        <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
+                    </div>
+                    <h3><a href="#">Rotation</a></h3>
+                    <div>
+                        <label for="x">x</label>
+                        <input type="text" name="x" id="x" class="text ui-widget-content ui-corner-all" />
+                        <label for="y">y</label>
+                        <input type="text" name="y" id="y" class="text ui-widget-content ui-corner-all" />
+                        <label for="x">x</label>
+                        <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
+                    </div>
+                    <h3><a href="#">Scale</a></h3>
+                    <div>
+                        <label for="x">x</label>
+                        <input type="text" name="x" id="x" class="text ui-widget-content ui-corner-all" />
+                        <label for="y">y</label>
+                        <input type="text" name="y" id="y" class="text ui-widget-content ui-corner-all" />
+                        <label for="x">x</label>
+                        <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
+                    </div>
+                </div>
             </fieldset>
         </form>
     </div>
@@ -69,5 +120,5 @@
 
     <script src="../storyboard/storyboard.js"></script>
     <script src="../storyboard/controller.js"></script>
-    <script src="js/jsPlumb_based.js"></script>
+    <script src="js/gui.js"></script>
 </html>

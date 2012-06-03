@@ -1,4 +1,79 @@
-var storyboardController = new StoryboardController();
+var handler = {
+    createSink: function () {
+        var evt = $("<div>", {
+            "class": "event" //TODO: check for id and class
+        })
+        .offset({
+            top: $("#paper").hight() - 25,
+            left: $("#paper").width() - 28
+        });
+
+        var holder = $("<div>", {
+            "class": "holder"
+        });
+        if (!GraphState.addArc) {
+            holder.hide();
+        }
+
+        holder.appendTo(evt);
+
+        jsPlumb.draggable(evt, {
+            containment: "parent"
+        });
+
+        jsPlumb.makeTarget(evt, {
+            dropOptions:{ hoverClass:"dragHover" },
+            anchor:"Continuous"
+        });
+
+        evt.appendTo("#paper");
+    },
+
+    createSource: function () {
+        var evt = $("<div>", {
+            "class": "event" //TODO: check for id and class
+        })
+        .offset({
+            top: $("#paper").hight() - 25,
+            left: 28 
+        });
+
+        var holder = $("<div>", {
+            "class": "holder"
+        });
+        if (!GraphState.addArc) {
+            holder.hide();
+        }
+
+        holder.appendTo(evt);
+
+        jsPlumb.draggable(evt, {
+            containment: "parent"
+        });
+
+        jsPlumb.makeSource(holder, {
+            parent: holder.parent(),
+            //anchor:"BottomCenter",
+            anchor: "Continuous",
+            connector: [ "StateMachine", { curviness:20 } ],
+            connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:2 },
+            maxConnections: -1
+        });
+
+        evt.appendTo("#paper");
+    },
+
+    storyboardNotValid: function (validityReport) {
+
+    },
+
+    storyboardProcessingCompleted: function (storyboard) {
+
+    }
+
+};
+
+var storyboardController = new StoryboardController(handler);
 
 var GraphState = {
     addArc: false,
@@ -6,15 +81,15 @@ var GraphState = {
     currentLabel: null
 };
 
-$("#dialog-form").dialog({
+$("#edit-segment-dialog-form").dialog({
     autoOpen: false,
     height: 600,
     width: 350,
     modal: true,
     buttons: {
         "Confirm": function () {
-            var duration = $("#duration").val();
-            var description = $("#description").val();
+            var duration = $("#segment-duration").val();
+            var description = $("#segment-description").val();
 
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
@@ -29,13 +104,35 @@ $("#dialog-form").dialog({
     }
 });
 
+$("#add-actor-dialog-form").dialog({
+    autoOpen: false,
+    width: 350,
+    height: 400,
+    modal: true,
+    buttons: {
+        "Confirm": function () {
+            var description = $("#actor-description").val();
+            var model = $("#actor-model").val();
+
+            //TODO: eventually check and sanitize the input
+            //TODO: storyboardController.addActor(model, description);
+            $(this).dialog("close");
+        },
+
+        Cancel: function () {
+            $(this).dialog("close");
+        }
+    }
+});
+
+
 var editSegment = function (label, evt) {
     GraphState.currentLabel = label;
     GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
 
     $("#duration").val(GraphState.currentLogicSegment.duration);
     $("#description").val(GraphState.currentLogicSegment.description);
-    $("#dialog-form").dialog("open");
+    $("#edit-segment-dialog-form").dialog("open");
 };
 
 jsPlumb.importDefaults({
@@ -73,9 +170,11 @@ jsPlumb.bind("jsPlumbConnection", function (info) {
 
 // remove segment
 
-jsPlumb.bind("click", function(conn) {
+jsPlumb.bind("contextmenu", function(conn) {
     jsPlumb.detach(conn);
+
 });
+
 jsPlumb.bind("beforeDetach", function(conn) {
     if (GraphState.rmEvt) {
         storyboardController.removeSegment(conn.getParameter("storyboard_id"));
@@ -118,26 +217,58 @@ $("#addArc").toggle(
     }
 );
 
-$("#moveEvt").toggle(
+$("#insertEvt").toggle(
     function () {
         $(this).toggleClass("selected");
-        jsPlumb.setDraggable($(".event"), true);
         $("#paper").on("click.webGraph", function (e) {
             if (e.target.id === "paper") {
-                var x = e.pageX;
-                var y = e.pageY;
+                var x = e.pageX - 25;
+                var y = e.pageY - 25;
+                var offset = $("#paper").offset();
+                var width = $("#paper").width();
+                var height = $("#paper").height();
+
+                if ( y < offset.top) {
+                    y = offset.top;
+                }
+                else if( y > height + offset.top) {
+                    y = height + offset.top;
+                }
+
+                if ( x < offset.left) {
+                    x = offset.top;
+                }
+                else if( x > width + offset.left) {
+                    x = width + offset.left;
+                }
+
 
                 createEvt(x,y);
             }
         });
     },
+
     function () {
         $(this).toggleClass("selected");
         $("#paper").off("click.webGraph");
-        jsPlumb.setDraggable($(".event"), false);
 
     }
 );
+
+$("#moveEvt").toggle(
+    function () {
+        $(this).toggleClass("selected");
+        jsPlumb.setDraggable($(".event"), true);
+    },
+    function () {
+        $(this).toggleClass("selected");
+        jsPlumb.setDraggable($(".event"), false);
+    }
+);
+
+$("#addActor").on("click.webGraph", function () {
+    $("#add-actor-dialog-form").dialog("open");
+});
 
 
 var createEvt =  function(x,y) {
@@ -146,8 +277,8 @@ var createEvt =  function(x,y) {
         "storyboard_id": storyboardController.nextEventId
     })
     .offset({
-        top: y - 25, 
-        left: x - 25
+        top: y,
+        left: x
     });
 
     var holder = $("<div>", {
@@ -162,6 +293,9 @@ var createEvt =  function(x,y) {
     jsPlumb.draggable(evt, {
         containment: "parent"
     });
+
+    jsPlumb.setDraggable(evt, false);
+
     jsPlumb.makeTarget(evt, {
         dropOptions:{ hoverClass:"dragHover" },
         anchor:"Continuous"
