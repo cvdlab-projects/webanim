@@ -1,5 +1,5 @@
 /**
- * A controller to handle storyboard associated operations
+ * @class Represents a controller to handle storyboard associated operations
  * @param {Listener} listener An object entitled to communicate to the UI
  */
 StoryboardController = function(listener) {
@@ -76,12 +76,14 @@ StoryboardController = function(listener) {
  * Adds an actor with the specified model and description properties to the controller
  * @param {String} description The description of the new actor to add
  * @param model The representation to associate to the new actor
+ * @param startingConfiguration The initial configuration of the new actor
  */
-StoryboardController.prototype.addActor = function(model, description) {
+StoryboardController.prototype.addActor = function(model, description, startingConfiguration) {
 	var newActor = new Actor();
 	newActor.id = this.getActorId();
 	newActor.model = model;
 	newActor.description = description;
+	newActor.startingConfiguration = startingConfiguration;
 	this.actors.push(newActor);
 };
 
@@ -119,6 +121,18 @@ StoryboardController.prototype.startAddSegment = function(fromId, toId) {
  */
 StoryboardController.prototype.setDescriptionForNewSegment = function(description) {
 	this.newSegment.description = description;
+};
+
+/**
+ * Sets the description property of the specified segment
+ * @param {number} id The id of the segment whose description has to be set
+ * @param {String} description The description of the new segment
+ * @
+ */
+
+StoryboardController.prototype.setDescriptionForSegment = function(id, description) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.description = description;
 };
 
 /**
@@ -192,3 +206,12 @@ StoryboardController.prototype.removeSegment = function(segmentId) {
 	var segment = this.storyboard.getSegmentById(segmentId);
 	this.storyboard.removeSegment(segment);
 };
+
+/**
+ * Returns the structured data the timeline might needs to show the segments of the actors
+ * @return {Object[]} Structured data of the segments associated to the actor
+ */
+StoryboardController.prototype.populateTimeline = function() {
+	return this.storyboard.actors2SegmentsData(this.actors);
+}
+
