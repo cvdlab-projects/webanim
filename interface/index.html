@@ -61,10 +61,18 @@
                     <option value="Tetrahedron">Tetrahedron</option>
                     <option value="Torus">Torus</option>
                 </select>
+                <div style="margin-top:20px">Starting configuration</div>
+                <div>
+                    <label for="x">x</label>
+                    <input type="text" name="x" id="actor-start-x" class="text ui-widget-content ui-corner-all" />
+                    <label for="y">y</label>
+                    <input type="text" name="y" id="actor-start-y" class="text ui-widget-content ui-corner-all" />
+                    <label for="x">x</label>
+                    <input type="text" name="z" id="actor-start-z" class="text ui-widget-content ui-corner-all" />
+                </div>
             </fieldset>
         </form>
     </div>
-
     <div id="edit-segment-dialog-form" title="Edit Segment">
         <form>
             <fieldset>
@@ -74,7 +82,7 @@
                     <option value="default">select an actor</option>
                 </select>
 
-                <label for="name">Duration</label>
+                <label for="name" style="display : block">Duration</label>
                 <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
                 <label for="name">Description</label>
                 <input type="text" name="description" id="segment-description" class="text ui-widget-content ui-corner-all" />

@@ -99,10 +99,15 @@ $("#edit-segment-dialog-form").dialog({
     modal: true,
     buttons: {
         "Confirm": function () {
-            var model = $("#segment-model").val();
+            //TODO: connect to logic!!!
+            var actor = $("#segment-actor").val();
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
 
+            // GraphState.currentLogicSegment.duration = duration;
+            // GraphState.currentLogicSegment.description = description;
+
+            GraphState.currentLogicSegment.actor = actor;
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
 
@@ -130,10 +135,14 @@ $("#add-actor-dialog-form").dialog({
         "Confirm": function () {
             var description = $("#actor-description").val();
             var model = $("#actor-model").val();
+            var x = $("#actor-start-x").val();
+            var y = $("#actor-start-y").val();
+            var z = $("#actor-start-z").val();
 
             // TODO: eventually check and sanitize the input
             // TODO: storyboardController.addActor(model, description);
-            storyboardController.addActor(model, description);
+            storyboardController.addActor(model, description, {x0: x, y0: y, z0: z});
+
             $(this).dialog("close");
         },
 
@@ -144,17 +153,28 @@ $("#add-actor-dialog-form").dialog({
 
     open: function (event, ui) {
         $("#actor-description").val("");
+        $("#actor-model option").filter(function () {
+            return $(this).val() === "default";
+        }).attr('selected', true);
     }
 });
 
 
 var editSegment = function (label, evt) {
     if(GraphState.edit) {
+        console.log(label);
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+        console.log(GraphState.currentLogicSegment);
 
-        $("#duration").val(GraphState.currentLogicSegment.duration);
-        $("#description").val(GraphState.currentLogicSegment.description);
+        var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
+        $("#segment-actor option").filter(function() {
+            return $(this).val() === act;
+        }).attr('selected', true);
+
+        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
+        $("#segment-description").val(GraphState.currentLogicSegment.description);
+
         $("#edit-segment-dialog-form").dialog("open");
     }
 };
