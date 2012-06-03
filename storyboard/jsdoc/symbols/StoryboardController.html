@@ -271,7 +271,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#addActor">addActor</a></b>(description, model, startingConfiguration)
 								</div>
-								<div class="description">Adds an actor with the specified model and description properties to the controller</div>
+								<div class="description">Adds an actor with the specified model, description and startingConfiguration properties to the controller</div>
 							</td>
 						</tr>
 					
@@ -280,7 +280,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#addEvent">addEvent</a></b>(description)
 								</div>
-								<div class="description">Adds a new event to the storyboard object of the controller</div>
+								<div class="description">Adds a new event to the controller storyboard object</div>
 							</td>
 						</tr>
 					
@@ -334,7 +334,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#populateTimeline">populateTimeline</a></b>()
 								</div>
-								<div class="description">Returns the structured data the timeline might needs to show the segments of the actors</div>
+								<div class="description">Returns the structured data the timeline might need to show the segments of the actors</div>
 							</td>
 						</tr>
 					
@@ -343,14 +343,14 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#processStoryboard">processStoryboard</a></b>()
 								</div>
-								<div class="description">Processes the storyboard object of the controller</div>
+								<div class="description">Processes the controller storyboard object</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#removeEvent">removeEvent</a></b>(eventId)
+								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#removeEvent">removeEvent</a></b>(id)
 								</div>
 								<div class="description">Removes the event with the specified id from the controller storyboard</div>
 							</td>
@@ -359,7 +359,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#removeSegment">removeSegment</a></b>(segmentId)
+								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#removeSegment">removeSegment</a></b>(id)
 								</div>
 								<div class="description">Removes the segment with the specified id from the controller storyboard</div>
 							</td>
@@ -415,7 +415,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/StoryboardController.html#startAddSegment">startAddSegment</a></b>(fromId, toId)
 								</div>
-								<div class="description">Creates a new segment</div>
+								<div class="description">Creates a new segment for the controller storyboard object</div>
 							</td>
 						</tr>
 					
@@ -455,7 +455,7 @@ ul.inheritsList
 								<span class="light fixedFont">{Listener}</span>  <b>listener</b>
 								
 							</dt>
-								<dd>An object entitled to communicate to the UI</dd>
+								<dd>An object entitled to communicate with the UI</dd>
 						
 						</dl>
 					
@@ -486,7 +486,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Adds an actor with the specified model and description properties to the controller
+						Adds an actor with the specified model, description and startingConfiguration properties to the controller
 						
 						
 					</div>
@@ -534,7 +534,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Adds a new event to the storyboard object of the controller
+						Adds a new event to the controller storyboard object
 						
 						
 					</div>
@@ -621,7 +621,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/Actor.html">Actor</a>}</span> Actor with the specified id</dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/Actor.html">Actor</a>}</span> The actor with the specified id</dd>
 							
 							</dl>
 						
@@ -734,7 +734,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Returns the structured data the timeline might needs to show the segments of the actors
+						Returns the structured data the timeline might need to show the segments of the actors
 						
 						
 					</div>
@@ -749,7 +749,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Object[]}</span> Structured data of the segments associated to the actor</dd>
+								<dd><span class="light fixedFont">{Object[]}</span> Structured data of the segments associated to each actor</dd>
 							
 							</dl>
 						
@@ -766,7 +766,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Processes the storyboard object of the controller
+						Processes the controller storyboard object
 						
 						
 					</div>
@@ -787,7 +787,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>removeEvent</b>(eventId)
+					<b>removeEvent</b>(id)
 					
 					</div>
 					<div class="description">
@@ -803,7 +803,7 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>eventId</b>
+									<span class="light fixedFont">{number}</span> <b>id</b>
 									
 								</dt>
 								<dd>The id of the event to remove</dd>
@@ -823,7 +823,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>removeSegment</b>(segmentId)
+					<b>removeSegment</b>(id)
 					
 					</div>
 					<div class="description">
@@ -839,7 +839,7 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{number}</span> <b>segmentId</b>
+									<span class="light fixedFont">{number}</span> <b>id</b>
 									
 								</dt>
 								<dd>The id of the segment to remove</dd>
@@ -911,10 +911,10 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Function[]}</span> <b>behaviour</b>
+									<span class="light fixedFont">{Object}</span> <b>behaviour</b>
 									
 								</dt>
-								<dd>The behaviour to associate to the new egment</dd>
+								<dd>The behaviour to associate to the new segment</dd>
 							
 							</dl>
 						
@@ -992,7 +992,7 @@ ul.inheritsList
 									<span class="light fixedFont">{String}</span> <b>description</b>
 									
 								</dt>
-								<dd>The description of the new segment</dd>
+								<dd>The description of the segment</dd>
 							
 							</dl>
 						
@@ -1049,7 +1049,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Creates a new segment
+						Creates a new segment for the controller storyboard object
 						
 						
 					</div>
@@ -1095,7 +1095,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Jun 03 2012 18:03:38 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Jun 03 2012 19:14:32 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

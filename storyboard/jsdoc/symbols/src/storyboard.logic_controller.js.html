@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
 <span class='line'>  2</span>  * @class Represents a controller to handle storyboard associated operations
-<span class='line'>  3</span>  * @param {Listener} listener An object entitled to communicate to the UI
+<span class='line'>  3</span>  * @param {Listener} listener An object entitled to communicate with the UI
 <span class='line'>  4</span>  */</span><span class="WHIT">
 <span class='line'>  5</span> </span><span class="NAME">StoryboardController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">listener</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>  6</span> </span><span class="WHIT">	</span><span class="NAME">this.listener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">listener</span><span class="PUNC">;</span><span class="WHIT">
@@ -59,7 +59,7 @@
 <span class='line'> 52</span> 
 <span class='line'> 53</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'> 54</span> 	 * Returns the actor with the specified id
-<span class='line'> 55</span> 	 * @return {Actor} Actor with the specified id
+<span class='line'> 55</span> 	 * @return {Actor} The actor with the specified id
 <span class='line'> 56</span> 	 * @param {number} id The id of the actor to return
 <span class='line'> 57</span> 	 */</span><span class="WHIT">
 <span class='line'> 58</span> </span><span class="WHIT">	</span><span class="NAME">this.getActorById</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -80,7 +80,7 @@
 <span class='line'> 73</span> </span><span class="COMM">/* UC1: Add Actor. */</span><span class="WHIT">
 <span class='line'> 74</span> 
 <span class='line'> 75</span> </span><span class="COMM">/**
-<span class='line'> 76</span>  * Adds an actor with the specified model and description properties to the controller
+<span class='line'> 76</span>  * Adds an actor with the specified model, description and startingConfiguration properties to the controller
 <span class='line'> 77</span>  * @param {String} description The description of the new actor to add
 <span class='line'> 78</span>  * @param model The representation to associate to the new actor
 <span class='line'> 79</span>  * @param startingConfiguration The initial configuration of the new actor
@@ -97,7 +97,7 @@
 <span class='line'> 90</span> </span><span class="COMM">/* UC2: Add Event. */</span><span class="WHIT">
 <span class='line'> 91</span> 
 <span class='line'> 92</span> </span><span class="COMM">/**
-<span class='line'> 93</span>  * Adds a new event to the storyboard object of the controller
+<span class='line'> 93</span>  * Adds a new event to the controller storyboard object
 <span class='line'> 94</span>  * @param {String} description The description of the event to add
 <span class='line'> 95</span>  */</span><span class="WHIT">
 <span class='line'> 96</span> </span><span class="NAME">StoryboardController.prototype.addEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">description</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -110,7 +110,7 @@
 <span class='line'>103</span> </span><span class="COMM">/* UC3: Add Segment. */</span><span class="WHIT">
 <span class='line'>104</span> 
 <span class='line'>105</span> </span><span class="COMM">/**
-<span class='line'>106</span>  * Creates a new segment
+<span class='line'>106</span>  * Creates a new segment for the controller storyboard object
 <span class='line'>107</span>  * @param {number} fromId The id of the event the new segment departs from
 <span class='line'>108</span>  * @param {number} toId The id of the event the new segment arrives to
 <span class='line'>109</span>  */</span><span class="WHIT">
@@ -133,7 +133,7 @@
 <span class='line'>126</span> </span><span class="COMM">/**
 <span class='line'>127</span>  * Sets the description property of the specified segment
 <span class='line'>128</span>  * @param {number} id The id of the segment whose description has to be set
-<span class='line'>129</span>  * @param {String} description The description of the new segment
+<span class='line'>129</span>  * @param {String} description The description of the segment
 <span class='line'>130</span>  * @
 <span class='line'>131</span>  */</span><span class="WHIT">
 <span class='line'>132</span> 
@@ -153,7 +153,7 @@
 <span class='line'>146</span> 
 <span class='line'>147</span> </span><span class="COMM">/**
 <span class='line'>148</span>  * Sets the behaviour property of the new segment
-<span class='line'>149</span>  * @param {Function[]} behaviour The behaviour to associate to the new egment
+<span class='line'>149</span>  * @param {Object} behaviour The behaviour to associate to the new segment
 <span class='line'>150</span>  */</span><span class="WHIT">
 <span class='line'>151</span> </span><span class="NAME">StoryboardController.prototype.setBehaviourForNewSegment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">behaviour</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>152</span> </span><span class="WHIT">	</span><span class="NAME">this.newSegment.behaviour</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">behaviour</span><span class="PUNC">;</span><span class="WHIT">
@@ -178,7 +178,7 @@
 <span class='line'>171</span> </span><span class="COMM">/* UC4: Process Storyboard. */</span><span class="WHIT">
 <span class='line'>172</span> 
 <span class='line'>173</span> </span><span class="COMM">/**
-<span class='line'>174</span>  * Processes the storyboard object of the controller
+<span class='line'>174</span>  * Processes the controller storyboard object
 <span class='line'>175</span>  */</span><span class="WHIT">
 <span class='line'>176</span> </span><span class="NAME">StoryboardController.prototype.processStoryboard</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>177</span> </span><span class="WHIT">	</span><span class="COMM">// Validity check</span><span class="WHIT">
@@ -196,10 +196,10 @@
 <span class='line'>189</span> 
 <span class='line'>190</span> </span><span class="COMM">/**
 <span class='line'>191</span>  * Removes the event with the specified id from the controller storyboard
-<span class='line'>192</span>  * @param {number} eventId The id of the event to remove
+<span class='line'>192</span>  * @param {number} id The id of the event to remove
 <span class='line'>193</span>  */</span><span class="WHIT">
-<span class='line'>194</span> </span><span class="NAME">StoryboardController.prototype.removeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">eventId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>195</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.storyboard.getEventById</span><span class="PUNC">(</span><span class="NAME">eventId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="NAME">StoryboardController.prototype.removeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.storyboard.getEventById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>196</span> </span><span class="WHIT">	</span><span class="NAME">this.storyboard.removeEvent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>197</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>198</span> 
@@ -207,16 +207,16 @@
 <span class='line'>200</span> 
 <span class='line'>201</span> </span><span class="COMM">/**
 <span class='line'>202</span>  * Removes the segment with the specified id from the controller storyboard
-<span class='line'>203</span>  * @param {number} segmentId The id of the segment to remove
+<span class='line'>203</span>  * @param {number} id The id of the segment to remove
 <span class='line'>204</span>  */</span><span class="WHIT">
-<span class='line'>205</span> </span><span class="NAME">StoryboardController.prototype.removeSegment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">segmentId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>206</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">segment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.storyboard.getSegmentById</span><span class="PUNC">(</span><span class="NAME">segmentId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="NAME">StoryboardController.prototype.removeSegment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">segment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.storyboard.getSegmentById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>207</span> </span><span class="WHIT">	</span><span class="NAME">this.storyboard.removeSegment</span><span class="PUNC">(</span><span class="NAME">segment</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>208</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>209</span> 
 <span class='line'>210</span> </span><span class="COMM">/**
-<span class='line'>211</span>  * Returns the structured data the timeline might needs to show the segments of the actors
-<span class='line'>212</span>  * @return {Object[]} Structured data of the segments associated to the actor
+<span class='line'>211</span>  * Returns the structured data the timeline might need to show the segments of the actors
+<span class='line'>212</span>  * @return {Object[]} Structured data of the segments associated to each actor
 <span class='line'>213</span>  */</span><span class="WHIT">
 <span class='line'>214</span> </span><span class="NAME">StoryboardController.prototype.populateTimeline</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>215</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.storyboard.actors2SegmentsData</span><span class="PUNC">(</span><span class="NAME">this.actors</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
