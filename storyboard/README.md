@@ -101,7 +101,7 @@ Returns the segments of the storyboard associated to the specified actor.
 - - -
 
 ### `actors2SegmentsData(actors)`
-Returns the structured data the timeline might needs to show the segments of the actors.
+Returns the structured data the timeline might need to show the segments of the actors.
 
 #### I/O
 

@@ -490,7 +490,7 @@ Storyboard.prototype.actor2Segments = function(actor) {
 
 
 /**
- * Returns the structured data the timeline might needs to show the segments of the actors
+ * Returns the structured data the timeline might need to show the segments of the actors
  * @return {Object[]} Structured data of the segments associated to the actor
  * @param {Actor[]} actors The actors whose associated segment data must be returned
  */
