@@ -1,5 +1,5 @@
 var handler = {
-    createSink: function () {
+    sinkCreated: function () {
         var evt = $("<div>", {
             "class": "event" //TODO: check for id and class
         })
@@ -29,7 +29,7 @@ var handler = {
         evt.appendTo("#paper");
     },
 
-    createSource: function () {
+    sourceCreated: function () {
         var evt = $("<div>", {
             "class": "event" //TODO: check for id and class
         })
@@ -103,10 +103,6 @@ $("#edit-segment-dialog-form").dialog({
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
 
-            var check = true;
-
-            check = check && (model !== "default");
-
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
 
@@ -134,9 +130,6 @@ $("#add-actor-dialog-form").dialog({
         "Confirm": function () {
             var description = $("#actor-description").val();
             var model = $("#actor-model").val();
-
-            console.log(description);
-            console.log(model);
 
             // TODO: eventually check and sanitize the input
             // TODO: storyboardController.addActor(model, description);
@@ -189,12 +182,16 @@ jsPlumb.importDefaults({
 });
 
 jsPlumb.bind("jsPlumbConnection", function (info) {
-    info.connection.setParameter("storyboard_id", storyboardController.nextSegmentId);
-    var idStart = parseInt($("#" + info.sourceId).attr("storyboard_id"), 10);
-    var idEnd = parseInt($("#" + info.targetId).attr("storyboard_id"), 10);
+        info.connection.setParameter("storyboard_id", storyboardController.nextSegmentId);
+        var idStart = parseInt($("#" + info.sourceId).attr("storyboard_id"), 10);
+        var idEnd = parseInt($("#" + info.targetId).attr("storyboard_id"), 10);
 
-    storyboardController.startAddSegment(idStart, idEnd);
-    storyboardController.addSegment();
+        storyboardController.startAddSegment(idStart, idEnd);
+        storyboardController.addSegment();
+});
+
+jsPlumb.bind("beforeDrop", function (info) {
+    return info.sourceId !== info.targetId;
 });
 
 
