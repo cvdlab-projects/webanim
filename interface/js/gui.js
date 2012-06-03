@@ -64,11 +64,13 @@ var handler = {
     },
 
     storyboardNotValid: function (validityReport) {
-
+        console.log(validityReport);
+        //TODO
     },
 
     storyboardProcessingCompleted: function (storyboard) {
-
+        console.log("Storyboard processed successfully");
+        //TODO
     }
 
 };
@@ -183,88 +185,89 @@ jsPlumb.bind("beforeDetach", function(conn) {
 });
 
 
-$("#rmEvt").toggle(
-    function () {
-        $(this).toggleClass("selected").children("span").html("ON");
-        GraphState.rmEvt = true;
-        $(".event").on("click.webGraph", function () {
-            // remove the event from the logic. 
-            // The logic will take care of removing all the connections
-            storyboardController.removeEvent(parseInt($(this).attr("storyboard_id"),10));
-
-            // remove the event from the UI with all the connections
-            jsPlumb.detachAllConnections($(this).attr("id"));
-            $(this).remove();
-        });
-    },
-    function () {
-        $(this).toggleClass("selected").children("span").html("OFF");
-        GraphState.rmEvt = false;
-        $(".event").off("click.webGraph");
-    }
-);
-
-$("#addArc").toggle(
-    function () {
-        $(this).toggleClass("selected");
-        $(".holder").show();
-        GraphState.addArc = true;
-    },
-    function () {
-        $(this).toggleClass("selected");
-        $(".holder").hide();
-        GraphState.addArc = false;
-    }
-);
-
-$("#insertEvt").toggle(
-    function () {
-        $(this).toggleClass("selected");
-        $("#paper").on("click.webGraph", function (e) {
-            if (e.target.id === "paper") {
-                var x = e.pageX - 25;
-                var y = e.pageY - 25;
-                var offset = $("#paper").offset();
-                var width = $("#paper").width();
-                var height = $("#paper").height();
-
-                if ( y < offset.top) {
-                    y = offset.top;
-                }
-                else if( y > height + offset.top) {
-                    y = height + offset.top;
-                }
-
-                if ( x < offset.left) {
-                    x = offset.top;
-                }
-                else if( x > width + offset.left) {
-                    x = width + offset.left;
-                }
-
-
-                createEvt(x,y);
-            }
-        });
-    },
-
-    function () {
-        $(this).toggleClass("selected");
-        $("#paper").off("click.webGraph");
-
-    }
-);
-
-$("#moveEvt").toggle(
-    function () {
-        $(this).toggleClass("selected");
-        jsPlumb.setDraggable($(".event"), true);
-    },
-    function () {
-        $(this).toggleClass("selected");
-        jsPlumb.setDraggable($(".event"), false);
-    }
-);
+// $("#rmEvt").toggle(
+//     function () {
+//         $(this).toggleClass("selected").children("span").html("ON");
+//         GraphState.rmEvt = true;
+//         $(".event").on("click.webGraph", function () {
+//             // remove the event from the logic. 
+//             // The logic will take care of removing all the connections
+//             storyboardController.removeEvent(parseInt($(this).attr("storyboard_id"),10));
+// 
+//             // remove the event from the UI with all the connections
+//             jsPlumb.detachAllConnections($(this).attr("id"));
+//             $(this).remove();
+//         });
+//     },
+//     function () {
+//         $(this).toggleClass("selected").children("span").html("OFF");
+//         GraphState.rmEvt = false;
+//         $(".event").off("click.webGraph");
+//     }
+// );
+// 
+// $("#addArc").toggle(
+//     function () {
+//         $(this).toggleClass("selected");
+//         $(".holder").show();
+//         GraphState.addArc = true;
+//     },
+//     function () {
+//         $(this).toggleClass("selected");
+//         $(".holder").hide();
+//         GraphState.addArc = false;
+//     }
+// );
+// 
+// $("#insertEvt").toggle(
+//     function () {
+//         $(this).toggleClass("selected");
+//         $("#paper").on("click.webGraph", function (e) {
+//             if (e.target.id === "paper") {
+//                 var x = e.pageX - 25;
+//                 var y = e.pageY - 25;
+//                 var offset = $("#paper").offset();
+//                 var width = $("#paper").width();
+//                 var height = $("#paper").height();
+// 
+//                 if ( y < offset.top) {
+//                     y = offset.top;
+//                 }
+//                 else if( y > height + offset.top) {
+//                     y = height + offset.top;
+//                 }
+// 
+//                 if ( x < offset.left) {
+//                     x = offset.top;
+//                 }
+//                 else if( x > width + offset.left) {
+//                     x = width + offset.left;
+//                 }
+// 
+// 
+//                 createEvt(x,y);
+//             }
+//         });
+//     },
+// 
+//     function () {
+//         $(this).toggleClass("selected");
+//         $("#paper").off("click.webGraph");
+// 
+//     }
+// );
+// 
+// $("#moveEvt").toggle(
+//     function () {
+//         $(this).toggleClass("selected");
+//         jsPlumb.setDraggable($(".event"), true);
+//     },
+//     function () {
+//         $(this).toggleClass("selected");
+//         jsPlumb.setDraggable($(".event"), false);
+//     }
+// );
+// 
 
 $("#addActor").on("click.webGraph", function () {
     $("#add-actor-dialog-form").dialog("open");
@@ -314,3 +317,131 @@ var createEvt =  function(x,y) {
 
     evt.appendTo("#paper");
 };
+
+
+var tool = {
+    moveEvt: {
+        on: function () {
+            jsPlumb.setDraggable($(".event"), true);
+        },
+
+        off: function () {
+            jsPlumb.setDraggable($(".event"), false);
+        },
+
+        el: "moveEvt"
+    },
+
+    insertEvt: {
+        on: function () {
+            $("#paper").on("click.webGraph", function (e) {
+                if (e.target.id === "paper") {
+                    var x = e.pageX - 25;
+                    var y = e.pageY - 25;
+                    var offset = $("#paper").offset();
+                    var width = $("#paper").width();
+                    var height = $("#paper").height();
+
+                    if ( y < offset.top) {
+                        y = offset.top;
+                    }
+                    else if( y > height + offset.top) {
+                        y = height + offset.top;
+                    }
+
+                    if ( x < offset.left) {
+                        x = offset.top;
+                    }
+                    else if( x > width + offset.left) {
+                        x = width + offset.left;
+                    }
+
+
+                    createEvt(x,y);
+                }
+            });
+        },
+
+        off: function () {
+            $("#paper").off("click.webGraph");
+        },
+
+        el: "insertEvt"
+    },
+    addSegment: {
+        on: function () {
+            $(".holder").show();
+            GraphState.addArc = true;
+        },
+
+        off: function () {
+            $(".holder").hide();
+            GraphState.addArc = false;
+        },
+
+        el: "addSegment"
+    },
+    rm: {
+        on: function () {
+            GraphState.rmEvt = true;
+            $(".event").on("click.webGraph", function () {
+                // remove the event from the logic. 
+                // The logic will take care of removing all the connections
+                storyboardController.removeEvent(parseInt($(this).attr("storyboard_id"),10));
+
+                // remove the event from the UI with all the connections
+                jsPlumb.detachAllConnections($(this).attr("id"));
+                $(this).remove();
+            });
+        },
+
+        off: function () {
+            GraphState.rmEvt = false;
+            $(".event").off("click.webGraph");
+        },
+
+        el: "rm"
+    }
+
+};
+
+(function (buttons) {
+    this.selected = undefined;
+
+    this.change = function(newFunction) {
+        if( this.selected !== newFunction) {
+            if(this.selected) {
+                this.selected.off();
+                $("#"+this.selected.el).toggleClass("selected");
+            }
+
+            this.selected = newFunction;
+            this.selected.on();
+            $("#"+this.selected.el).toggleClass("selected");
+        }
+        else {
+            $("#"+this.selected.el).toggleClass("selected");
+            this.selected.off();
+            this.selected = undefined;
+        }
+    };
+
+    var self = this;
+
+    $("#moveEvt").on("click.toolbox", function () {
+        self.change(buttons.moveEvt);
+    });
+
+    $("#insertEvt").on("click.toolbox", function () {
+        self.change(buttons.insertEvt);
+    });
+
+    $("#addSegment").on("click.toolbox", function () {
+        self.change(buttons.addSegment);
+    });
+
+    $("#rm").on("click.toolbox", function () {
+        self.change(buttons.rm);
+    });
+
+}(tool));
