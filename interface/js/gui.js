@@ -87,6 +87,11 @@ var GraphState = {
 $("#accordion").accordion({collapsible: true});
 
 
+$("#error").dialog({
+    autoOpen: false,
+    modal: true
+});
+
 $("#edit-segment-dialog-form").dialog({
     autoOpen: false,
     height: 600,
@@ -94,8 +99,13 @@ $("#edit-segment-dialog-form").dialog({
     modal: true,
     buttons: {
         "Confirm": function () {
+            var model = $("#segment-model").val();
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
+
+            var check = true;
+
+            check = check && (model !== "default");
 
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
@@ -107,6 +117,11 @@ $("#edit-segment-dialog-form").dialog({
         Cancel: function() {
             $( this ).dialog( "close" );
         }
+    },
+    open: function (event, ui) {
+        storyboardController.actors.forEach(function (actor) {
+            $("#segment-actor").append($('<option></option>').val(actor.model).html(actor.description));
+        });
     }
 });
 
@@ -120,14 +135,22 @@ $("#add-actor-dialog-form").dialog({
             var description = $("#actor-description").val();
             var model = $("#actor-model").val();
 
-            //TODO: eventually check and sanitize the input
-            //TODO: storyboardController.addActor(model, description);
+            console.log(description);
+            console.log(model);
+
+            // TODO: eventually check and sanitize the input
+            // TODO: storyboardController.addActor(model, description);
+            storyboardController.addActor(model, description);
             $(this).dialog("close");
         },
 
         Cancel: function () {
             $(this).dialog("close");
         }
+    },
+
+    open: function (event, ui) {
+        $("#actor-description").val("");
     }
 });
 
@@ -173,8 +196,6 @@ jsPlumb.bind("jsPlumbConnection", function (info) {
     storyboardController.startAddSegment(idStart, idEnd);
     storyboardController.addSegment();
 });
-
-
 
 
 // remove segment
@@ -279,7 +300,6 @@ var tool = {
                         x = width + offset.left;
                     }
 
-
                     createEvt(x,y);
                 }
             });
@@ -327,10 +347,12 @@ var tool = {
             .on("mouseenter.webGraph", function () {
                 $(this).addClass("eventRemove");
                 jsPlumb.select({source: $(this).attr("id") }).setPaintStyle({strokeStyle: "#A00"});
+                jsPlumb.select({target: $(this).attr("id") }).setPaintStyle({strokeStyle: "#A00"});
             })
             .on("mouseleave.webGraph",function () {
                 $(this).removeClass("eventRemove");
                 jsPlumb.select({source: $(this).attr("id") }).setPaintStyle({strokeStyle: "#000"});
+                jsPlumb.select({target: $(this).attr("id") }).setPaintStyle({strokeStyle: "#000"});
             });
         },
 
