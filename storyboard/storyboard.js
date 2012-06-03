@@ -116,6 +116,7 @@ Storyboard.prototype.setSink = function(event) {
 /**
  *	Returns an event of the storyboard graph with the specified id
  *	@param {number} id The id of the event to return
+ *  @return {Event} The event of the storyboard with the specified id
  */
 Storyboard.prototype.getEventById = function(id) {
 	var event;
@@ -134,6 +135,7 @@ Storyboard.prototype.getEventById = function(id) {
 /**
  *	Returns a segment of the storyboard graph with the specified id
  *	@param {number} id The id of the segment to return
+ *  @return {Segment} The segment of the storyboard with the specified id
  */
 Storyboard.prototype.getSegmentById = function(id) {
 	var segment;
@@ -320,7 +322,7 @@ Storyboard.prototype.hasAllEventsReachable = function() {
 /**
  * Resets the topological order of the events of the storyboard
  */
-Storyboard.prototype.resetTopologicOrder = function() {
+Storyboard.prototype.resetTopologicalOrder = function() {
 	this.topologicallySorted = false;
 	this.events.forEach(function(event) {
 		if (event.topologicalOrder !== undefined) {
@@ -337,7 +339,7 @@ Storyboard.prototype.resetTopologicOrder = function() {
 Storyboard.prototype.hasCycles = function() {
 	// Resetting...
 	this.resetMarks();
-	this.resetTopologicOrder();
+	this.resetTopologicalOrder();
 
 	// Kahn's algorithm
 	var S = [ this.source ];
