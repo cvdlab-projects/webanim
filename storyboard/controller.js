@@ -76,12 +76,14 @@ StoryboardController = function(listener) {
  * Adds an actor with the specified model and description properties to the controller
  * @param {String} description The description of the new actor to add
  * @param model The representation to associate to the new actor
+ * @param startingConfiguration The initial configuration of the new actor
  */
-StoryboardController.prototype.addActor = function(model, description) {
+StoryboardController.prototype.addActor = function(model, description, startingConfiguration) {
 	var newActor = new Actor();
 	newActor.id = this.getActorId();
 	newActor.model = model;
 	newActor.description = description;
+	newActor.startingConfiguration = startingConfiguration;
 	this.actors.push(newActor);
 };
 

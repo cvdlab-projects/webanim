@@ -1,8 +1,8 @@
 var sbc = new StoryboardController(new Listener());
 sbc.addEvent("A");
 sbc.addEvent("B");
-sbc.addActor("quadrato","quadrato");
-sbc.addActor("triangolo","triangolo");
+sbc.addActor("quadrato","quadrato","starting configuration quadrato");
+sbc.addActor("triangolo","triangolo","starting configuration triangolo");
 sbc.startAddSegment(1,3);
 sbc.setActorForNewSegment(1);
 sbc.setDescriptionForNewSegment("1-A");
