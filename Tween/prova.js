@@ -96,11 +96,11 @@
 			}
 		}
 
-		function setupScene(){
+		function setupScene(storyboard){
 
-			createMeshes();
+//			createMeshes();
 			//sovrapponiEffetti(animations);
-		    init(800, 600);
+		    init(800, 600, storyboard);
 
 		    saveOriginalState();
 		    meshesStartingState();
@@ -255,9 +255,124 @@
 
 
 
-      function createMeshesFromStoryboard (storyboard)
+      function createMeshesFromStoryboard (storyboard, w, h)
       {
-        
+        var actors = [];
+        var animation;
+
+        // 1) Colleziono tutti gli attori
+        for (var i in storyboard.segments) {
+
+          var segment = storyboard.segments[i];
+
+          var tmpActors = actors.filter (function (element) {
+            return element.id === segment.actor.id;
+          });
+          if (tmpActors.length === 0) {
+            actors.push (segment.actor);
+          }
+        }
+
+        // 2) Per ogni attore processo tutti i suoi segmenti
+        for (var i in actors) {
+
+          var actor = actors[i];
+
+          animation = {
+            id : actor.id,
+            obj : undefined,
+            transitions : [],
+            x0 : 0, y0 : 0, z0 : 0,
+            dx : 0, dy : 0, dz : 0,
+            sx : 1, sy : 1, sz : 1,
+            rx : 0, sy : 0, z : 0
+          };
+
+          if (actor.model === "Camera") {
+            var camera = new THREE.PerspectiveCamera (45, w / h, 0.1, 10000);
+            animation.obj = camera;
+            cameras.push (camera);
+          } else if (actor.model === "Cube")
+            animation.obj = new THREE.Mesh (new THREE.CubeGeometry ());
+          else if (actor.model === "Cylinder")
+            animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
+          else if (actor.model === "Icosahedron")
+            animation.obj = new THREE.Mesh (new THREE.IcosahedronGeometry ());
+          else if (actor.model === "Octahedron")
+            animation.obj = new THREE.Mesh (new THREE.OctahedronGeometry ());
+          else if (actor.model === "Plane")
+            animation.obj = new THREE.Mesh (new THREE.PlaneGeometry ());
+          else if (actor.model === "Sphere")
+            animation.obj = new THREE.Mesh (new THREE.SphereGeometry ());
+          else if (actor.model === "Tetrahedron")
+            animation.obj = new THREE.Mesh (new THREE.TetrahedronGeometry ());
+          else if (actor.model === "Torus")
+            animation.obj = new THREE.Mesh (new THREE.TorusGeometry ());
+          else
+            animation.obj = actor.model; // per input da Web3D
+
+          animation.obj.position.set (actor.startingConfiguration.tx,
+                                      actor.startingConfiguration.ty,
+                                      actor.startingConfiguration.tz);
+          animation.obj.rotation.set (actor.startingConfiguration.rx,
+                                      actor.startingConfiguration.ry,
+                                      actor.startingConfiguration.rz);
+          animation.obj.scale.set (actor.startingConfiguration.sx,
+                                   actor.startingConfiguration.sy,
+                                   actor.startingConfiguration.sz);
+
+          if (actor.model !== "Camera")
+            scene.add (animation.obj);
+
+          for (var j in storyboard.segments) {
+
+            var segment = storyboard.segments[j];
+
+            if (segment.actor.id === actor.id) {
+
+              if (segment.position !== undefined) {
+                animation.transitions.push ({
+                  id : segment.id * 10 + 1,
+                  t : "translate",
+                  t0 : segment.tStart,
+                  t1 : segment.duration,
+                  dxf : segment.position.x,
+                  dyf : segment.position.y,
+                  dzf : segment.position.z
+                });
+              }
+
+              if (segment.rotation != undefined) {
+                animation.transitions.push ({
+                  id : segment.id * 10 + 2,
+                  t : "rotate",
+                  t0 : segment.tStart,
+                  t1 : segment.duration,
+                  dgx : segment.rotation.x,
+                  dgy : segment.rotation.y,
+                  dgz : segment.rotation.z
+                });
+              }
+
+              if (segment.scale != undefined) {
+                animation.transitions.push ({
+                  id : segment.id * 10 + 3,
+                  t : "scale",
+                  t0 : segment.tStart,
+                  t1 : segment.duration,
+                  sxf : segment.scale.x,
+                  syf : segment.scale.y,
+                  szf : segment.scale.z
+                });
+              }
+
+            }
+
+          }
+
+          animations.push (animation);
+
+        }
       }
 
 
@@ -514,7 +629,7 @@
 		    }
 		}
 
-	    function init(width, height, _meshes) {
+	    function init(width, height, storyboard) {
 
 
 	//    	geometry = new THREE.CubeGeometry( 200, 200, 200 );
@@ -527,7 +642,7 @@
 	  	    
 
 
-	    	var meshes;
+//	    	var meshes;
 
 	    
 
@@ -549,37 +664,39 @@
 	//        camera.lookAt( scene.position );
 	//        scene.add( camera );
 
-	      if (_meshes === undefined) {
+        createMeshesFromStoryboard (storyboard, w, h);
 
-	        meshes = animations;
+//	      if (_meshes === undefined) {
 
-	        cameras[0] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[0].position = {x : 0, y : 0, z : 1500};
-	        cameras[1] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[1].position = {x : 1500, y : 0, z : 0};
-	        cameras[2] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[2].position = {x : 0, y : 0, z : -1500};
-	        cameras[3] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[3].position = {x : -1500, y : 0, z : 0};
-	        cameras[4] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[4].position = {x : 0, y : 1500, z : 0};
-	        cameras[5] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
-	        cameras[5].position = {x : 0, y : -1500, z : 0};
+//	        meshes = animations;
 
-	        for (var i in cameras)
-	          cameras[i].lookAt ({x : 0, y : 0, z : 0});
-	      } else {
+//	        cameras[0] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[0].position = {x : 0, y : 0, z : 1500};
+//	        cameras[1] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[1].position = {x : 1500, y : 0, z : 0};
+//	        cameras[2] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[2].position = {x : 0, y : 0, z : -1500};
+//	        cameras[3] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[3].position = {x : -1500, y : 0, z : 0};
+//	        cameras[4] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[4].position = {x : 0, y : 1500, z : 0};
+//	        cameras[5] = new THREE.PerspectiveCamera (45, width / height, 0.1, 10000);
+//	        cameras[5].position = {x : 0, y : -1500, z : 0};
 
-	        meshes = _meshes;
+//	        for (var i in cameras)
+//	          cameras[i].lookAt ({x : 0, y : 0, z : 0});
+//	      } else {
 
-	        for (var i in _meshes) {
-	          if (_meshes[i].obj instanceof THREE.PerspectiveCamera) {
-	            _meshes[i].obj.position = {x : 0, y : 0, z : 100}; // TODO: dove si prendono le coordinate iniziali?
-	            cameras.push (_meshes[i].obj);
-	          }
-	        }
+//	        meshes = _meshes;
 
-	      }
+//	        for (var i in _meshes) {
+//	          if (_meshes[i].obj instanceof THREE.PerspectiveCamera) {
+//	            _meshes[i].obj.position = {x : 0, y : 0, z : 100}; // TODO: dove si prendono le coordinate iniziali?
+//	            cameras.push (_meshes[i].obj);
+//	          }
+//	        }
+
+//	      }
 
 	        camera = cameras[0];
 	        scene.add (camera);
@@ -606,11 +723,11 @@
 
 
 
-	        for (var i in meshes) {
-	        	var m = meshes[i].obj;
-	        	scene.add( m );
+//	        for (var i in meshes) {
+//	        	var m = meshes[i].obj;
+//	        	scene.add( m );
 
-	        }
+//	        }
 
 	        light = new THREE.DirectionalLight( 0xffffff, 1.5 );
 					light.position.set( 0, 1, 1 ).normalize();

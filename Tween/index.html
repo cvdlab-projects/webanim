@@ -67,7 +67,7 @@
 		<script type="text/javascript" src="prova.js"></script>
 
 		<script type="text/javascript">
-		  setupScene ();
+		  setupScene ({});
 		</script>
 
     <br />
@@ -98,6 +98,10 @@
                         },
                         onClick3: function (t) { 
                             var msg = "You clicked on actor: " + t;
+                            $("#eventMessage").text(msg);
+                        },
+                        onClick4: function (t) { 
+                            var msg = "You deselect the actor " + t;
                             $("#eventMessage").text(msg);
                         }
                     }

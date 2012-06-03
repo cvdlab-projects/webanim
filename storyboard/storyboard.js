@@ -95,6 +95,8 @@ Storyboard = function() {
 	 *	@type Segment[]
 	 */
 	this.segments = [];
+
+  this.actors = 0;
 };
 
 /**

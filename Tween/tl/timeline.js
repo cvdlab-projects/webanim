@@ -213,7 +213,7 @@
 			if (opts.behavior.clickable) { 
             	bindBlockEvent(div, "click", opts.behavior.onClick);
                 bindColumnEvent(div, "click", opts.behavior.onClick2);
-                ActorSelection(opts.behavior.onClick3);
+                ActorSelection(opts.behavior.onClick3,opts.behavior.onClick4);
         	}
 
 		}
@@ -299,19 +299,19 @@
             jQuery('div.timeline-hzheader-sec[id = 1]', div).attr('id','0'); 
         }
 
-        function ActorSelection(callback){
+        function ActorSelection(callback, callback2){
             $(":checkbox").change(function(){
                 
                 if($(this).attr("checked"))
                 {
                     var id_check = jQuery(this).attr('id');
-                    //id_check = parseInt(id_check);
                     jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',true);
                     if (callback) { callback(id_check); }
                 }
                 else
                 {   var id_check = jQuery(this).attr('id');
                     jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',false);
+                    if (callback2) { callback2(id_check); }
                 }
 
             });
