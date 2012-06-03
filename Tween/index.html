@@ -95,6 +95,10 @@
                             var msg = "You clicked on column: " + t;
                             $("#eventMessage").text(msg);
                             gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
+                        },
+                        onClick3: function (t) { 
+                            var msg = "You clicked on actor: " + t;
+                            $("#eventMessage").text(msg);
                         }
                     }
                 });
