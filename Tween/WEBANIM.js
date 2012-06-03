@@ -1,5 +1,0 @@
-WEBANIM = (function () {
-
-  return {};
-
-}) ();
