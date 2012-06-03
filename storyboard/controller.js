@@ -43,9 +43,11 @@ StoryboardController = function(listener) {
 	sink.id = this.getEventId();
 	sink.description = "End of the animation.";
 	this.storyboard.addEvent(source);
-	this.storyboard.addEvent(sink);
 	this.storyboard.setSource(source);
+	this.listener.sourceCreated();
+	this.storyboard.addEvent(sink);
 	this.storyboard.setSink(sink);
+	this.listener.sinkCreated();
 
 	// Actors stuff
 	this.actors = [];
