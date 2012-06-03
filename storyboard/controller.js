@@ -1,5 +1,5 @@
 /**
- * A controller to handle storyboard associated operations
+ * @class Represents a controller to handle storyboard associated operations
  * @param {Listener} listener An object entitled to communicate to the UI
  */
 StoryboardController = function(listener) {
@@ -122,6 +122,18 @@ StoryboardController.prototype.setDescriptionForNewSegment = function(descriptio
 };
 
 /**
+ * Sets the description property of the specified segment
+ * @param {number} id The id of the segment whose description has to be set
+ * @param {String} description The description of the new segment
+ * @
+ */
+
+StoryboardController.prototype.setDescriptionForSegment = function(id, description) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.description = description;
+};
+
+/**
  * Sets the actor property of the new segment
  * @param {number} actorId The id of the actor to associate the new segment to
  */
@@ -192,3 +204,12 @@ StoryboardController.prototype.removeSegment = function(segmentId) {
 	var segment = this.storyboard.getSegmentById(segmentId);
 	this.storyboard.removeSegment(segment);
 };
+
+/**
+ * Returns the structured data the timeline might needs to show the segments of the actors
+ * @return {Object[]} Structured data of the segments associated to the actor
+ */
+StoryboardController.prototype.populateTimeline = function() {
+	return this.storyboard.actors2SegmentsData(this.actors);
+}
+

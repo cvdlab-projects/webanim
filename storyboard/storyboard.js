@@ -74,6 +74,12 @@ Event.prototype.removeOutgoingSegment = function(segment) {
 */
 Segment = function() {};
 
+
+/**
+ *	@class Represents an object of type Actor
+*/
+Actor = function() {};
+
 /**
  *	@class Represents an object of type Storyboard, a graph
 */
@@ -465,7 +471,7 @@ Storyboard.prototype.executeCPM = function() {
  * It's meant to be called right after the Critical Path Method execution
  */
 Storyboard.prototype.setStartTimeForSegments = function() {
-	this.segments.forEach(function(segment) {
+	this.segments.forEach(function (segment) {
 		var from = segment.from;
 		segment.tStart = (from.tMax + from.tMin) / 2 ;
 	});
@@ -477,7 +483,45 @@ Storyboard.prototype.setStartTimeForSegments = function() {
  * @param {Actor} actor The actor whose associated segments must be returned
  */
 Storyboard.prototype.actor2Segments = function(actor) {
-	return this.segments.filter(function(segment) {
+	return this.segments.filter(function (segment) {
 			return segment.actor === actor;
 		});
 };
+
+
+/**
+ * Returns the structured data the timeline might needs to show the segments of the actors
+ * @return {Object[]} Structured data of the segments associated to the actor
+ * @param {Actor[]} actors The actors whose associated segment data must be returned
+ */
+Storyboard.prototype.actors2SegmentsData = function (actors) {
+
+	var ActorSegments = function (actor) {
+		this.id = actor.id;
+		this.name = actor.description;
+		this.series = [];
+	}
+	var timelineData = [];
+	var actorSegmentList = [];
+	actors.forEach(function (actor) {
+		var as = new ActorSegments(actor);
+		actorSegmentList.push(as);
+	});
+
+	this.segments.forEach(function (segment) {
+		var stop = false;
+		for(var i=0; i < actorSegmentList.length && !stop; i++) {
+			if(segment.actor.id === actorSegmentList[i].id){
+				stop = true;
+				var bar = {name: segment.id, start: segment.tStart, end: (segment.tStart + segment.duration)};
+				actorSegmentList[i].series.push(bar);
+			}
+		}
+	});
+
+	actorSegmentList.forEach(function (as) {
+		var al = {id: as.id, name: as.name, series: as.series};
+		timelineData.push(al);
+	});
+	return timelineData;
+}
