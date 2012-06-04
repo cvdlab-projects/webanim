@@ -307,10 +307,6 @@ Storyboard.prototype.hasAllEventsReachable = function() {
 	};
 
 	// Filling validity report
-	if (this.validityReport === undefined) {
-		this.validityReport = {};
-		this.validityReport.reachability = false;
-	};
 	if (nonMarked) {
 		this.validityReport.reachability = true;
 	};
