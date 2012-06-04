@@ -100,7 +100,7 @@
 
 //			createMeshes();
 			//sovrapponiEffetti(animations);
-		    init(800, 600, storyboard);
+		    init(640, 480, storyboard);
 
 		    saveOriginalState();
 		    meshesStartingState();
@@ -657,7 +657,7 @@
 	//        var divStats = document.getElementById ('stats');
 	        var divStats = $('#stats');
 
-	//        var canvas = document.getElementById("renderingCanvas");
+	        var canvas = document.getElementById("canvas");
 
 
 	//        camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
@@ -747,11 +747,12 @@
 	  renderer = new THREE.WebGLRenderer ({
 	    antialias : true,
 	    clearAlpha : 1.0,
-	    precision : "highp"
+	    precision : "highp",
+	    canvas : canvas
 	  });
 	        renderer.setSize( width, height );
 
-	        container.append ( $(renderer.domElement) );
+//	        container.append ( $(renderer.domElement) );
 
 	        //document.addEventListener( 'keypress', onKeyPressEventHandler, false );
 
@@ -798,6 +799,10 @@
 
 	    }
 
+	    var self = {
+	    	f: undefined
+	    };
+
 
 	    function animate() {
 
@@ -808,6 +813,10 @@
 				if(lookAtScene){
 						camera.lookAt(scene.position);
 				}
+			if(self.f !== null && self.f !== undefined) {
+//				console.log(renderer);
+				self.f(renderer.context.canvas);
+			}
 	    }
 
 	    function render() {
