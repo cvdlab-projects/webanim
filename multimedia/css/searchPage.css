@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import "style-reset.css";
+@import "reset.css";
 
 ul{
 	float:left;
