@@ -282,7 +282,9 @@
             id : actor.id,
             obj : undefined,
             transitions : [],
-            x0 : 0, y0 : 0, z0 : 0,
+            x0 : actor.startingConfiguration.tx,
+            y0 : actor.startingConfiguration.ty,
+            z0 : actor.startingConfiguration.tz,
             dx : 0, dy : 0, dz : 0,
             sx : 1, sy : 1, sz : 1,
             rx : 0, sy : 0, z : 0
