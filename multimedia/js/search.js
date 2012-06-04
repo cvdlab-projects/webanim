@@ -6,7 +6,7 @@
 				type: "GET",
 				dataType: "text",
 				url: ("./searchVideo/"),
-				data: "q="+q+" OR searchTag="+q+" OR videoDescription="+q+" OR videoName="+q,
+				data: "q="+q+"* OR searchTag="+q+"* OR videoDescription="+q+"* OR videoName="+q+"*",
 				error: function(data) {
 						console.log(data);
 						if(data.status===404)
