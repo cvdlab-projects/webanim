@@ -2,8 +2,8 @@
     <head>
         <title>WebAnimation</title>
         <link href="css/reset.css" rel="stylesheet" />
-        <link href="css/style.css" rel="stylesheet" />
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
     </head>
     <div id="container">
         <div id="header">
@@ -31,7 +31,7 @@
               </button>
 
               <button id="calculate" style="display : block">
-                Calculate
+                Process Storyboard
               </button>
             </div>
             <div id="paper"></div>
@@ -115,6 +115,47 @@
                         <label for="x">x</label>
                         <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
                     </div>
+                    <h3><a href="#">Easing</a></h3>
+                    <div>
+                        <select name="easing" id="segment-easing">
+                            <option value="">Choose a function</option>
+                            <option value="">Linear.None</option>
+                            <option value="">Quadratic.In</option>
+                            <option value="">Quadratic.Out</option>
+                            <option value="">Quadratic.InOut</option>
+                            <option value="">Cubic.In</option>
+                            <option value="">Cubic.Out</option>
+                            <option value="">Cubic.InOut</option>
+                            <option value="">Quartic.In</option>
+                            <option value="">Quartic.Out</option>
+                            <option value="">Quartic.InOut</option>
+                            <option value="">Quindic.In</option>
+                            <option value="">Quindic.Out</option>
+                            <option value="">Quindic.InOut</option>
+                            <option value="">Sinusoidal.In</option>
+                            <option value="">Sinusoidal.Out</option>
+                            <option value="">Sinusoidal.InOut</option>
+                            <option value="">Exponential.In</option>
+                            <option value="">Exponential.Out</option>
+                            <option value="">Exponential.InOut</option>
+                            <option value="">Circular.In</option>
+                            <option value="">Circular.Out</option>
+                            <option value="">Circular.InOut</option>
+                            <option value="">Elastic.In</option>
+                            <option value="">Elastic.Out</option>
+                            <option value="">Elastic.InOut</option>
+                            <option value="">Back.In</option>
+                            <option value="">Back.Out</option>
+                            <option value="">Back.InOut</option>
+                            <option value="">Bounce.In</option>
+                            <option value="">Bounce.Out</option>
+                            <option value="">Bounce.InOut</option>
+                        </select>
+                            <label>easing function</label>
+                        <div id="segment-easing-display">
+                            <canvas id="segment-easing-canvas"></canvas>
+                        </div>
+                    </div>
                 </div>
 
             </fieldset>
@@ -150,6 +191,11 @@
     <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
     <!-- /JS -->
 
+    <!--Tween stuff-->
+    <script src="lib/Tween.js"></script>
+    <script src="lib/RequestAnimationFrame.js"></script>
+
+    <!--my stuff-->
     <script src="../storyboard/storyboard.js"></script>
     <script src="../storyboard/controller.js"></script>
     <script src="js/gui.js"></script>

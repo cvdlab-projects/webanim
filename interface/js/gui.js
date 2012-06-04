@@ -1,11 +1,24 @@
+var GraphState = {
+    addArc: false,
+    rmEvt: false,
+    edit: false,
+    currentLabel: null
+};
+
 var handler = {
     sinkCreated: function () {
+
+        var offset = $("#paper").offset();
+        var width = $("#paper").width();
+        var height = $("#paper").height();
+
         var evt = $("<div>", {
-            "class": "event" //TODO: check for id and class
+            "class": "sink",
+            "storyboard_id": 2
         })
         .offset({
-            top: $("#paper").hight() - 25,
-            left: $("#paper").width() - 28
+            top: offset.top + (height/2) - 25,
+            left: offset.left + width - 53 
         });
 
         var holder = $("<div>", {
@@ -20,6 +33,8 @@ var handler = {
         jsPlumb.draggable(evt, {
             containment: "parent"
         });
+
+        jsPlumb.setDraggable(evt, false);
 
         jsPlumb.makeTarget(evt, {
             dropOptions:{ hoverClass:"dragHover" },
@@ -30,12 +45,18 @@ var handler = {
     },
 
     sourceCreated: function () {
+
+        var offset = $("#paper").offset();
+        var width = $("#paper").width();
+        var height = $("#paper").height();
+
         var evt = $("<div>", {
-            "class": "event" //TODO: check for id and class
+            "class": "source",
+            "storyboard_id": 1
         })
         .offset({
-            top: $("#paper").hight() - 25,
-            left: 28 
+            top: offset.top + (height/2) - 25,
+            left: offset.left + 3 
         });
 
         var holder = $("<div>", {
@@ -50,13 +71,14 @@ var handler = {
         jsPlumb.draggable(evt, {
             containment: "parent"
         });
+        jsPlumb.setDraggable(evt, false);
 
         jsPlumb.makeSource(holder, {
             parent: holder.parent(),
             //anchor:"BottomCenter",
             anchor: "Continuous",
             connector: [ "StateMachine", { curviness:20 } ],
-            connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:2 },
+            connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
             maxConnections: -1
         });
 
@@ -75,14 +97,48 @@ var handler = {
 
 };
 
+var editSegment = function (label, evt) {
+    if(GraphState.edit) {
+        console.log(label);
+        GraphState.currentLabel = label;
+        GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+        console.log(GraphState.currentLogicSegment);
+
+        var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
+        $("#segment-actor option").filter(function() {
+            return $(this).val() === act;
+        }).attr('selected', true);
+
+        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
+        $("#segment-description").val(GraphState.currentLogicSegment.description);
+
+        $("#edit-segment-dialog-form").dialog("open");
+    }
+};
+
+jsPlumb.importDefaults({
+    Endpoint : ["Dot", {radius:2}],
+    // HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:1 },
+    ConnectionOverlays : [
+        [ "Arrow", { 
+            location:1,
+            id:"arrow",
+            length:10,
+            foldback:0.8
+        } ],
+        [ "Label", {
+            label:"",
+            cssClass:"l1 component label",
+            location:0.7,
+            events:{
+                "click": editSegment
+            }
+        }]
+    ]
+});
+
 var storyboardController = new StoryboardController(handler);
 
-var GraphState = {
-    addArc: false,
-    rmEvt: false,
-    edit: false,
-    currentLabel: null
-};
 
 $("#accordion").accordion({collapsible: true});
 
@@ -90,6 +146,60 @@ $("#accordion").accordion({collapsible: true});
 $("#error").dialog({
     autoOpen: false,
     modal: true
+});
+
+function updateCanvas(f) {
+
+    var canvas = document.getElementById("segment-easing-canvas");
+    canvas.width = 180;
+    canvas.height = 100;
+
+    var context = canvas.getContext( '2d' );
+    context.fillStyle = "rgb(250,250,250)";
+    context.fillRect( 0, 0, 180, 100 );
+
+    context.lineWidth = 0.5;
+    context.strokeStyle = "rgb(230,230,230)";
+
+    context.beginPath();
+    context.moveTo( 0, 20 );
+    context.lineTo( 180, 20 );
+    context.moveTo( 0, 80 );
+    context.lineTo( 180, 80 );
+    context.closePath();
+    context.stroke();
+
+    context.lineWidth = 2;
+    context.strokeStyle = "rgb(255,127,127)";
+
+    var position = { x: 5, y: 80 };
+    var position_old = { x: 5, y: 80 };
+
+    new TWEEN.Tween( position ).to( { x: 175 }, 2000 ).easing( TWEEN.Easing.Linear.None ).start();
+    new TWEEN.Tween( position ).to( { y: 20 }, 2000 ).easing( f ).onUpdate( function () {
+
+        context.beginPath();
+        context.moveTo( position_old.x, position_old.y );
+        context.lineTo( position.x, position.y );
+        context.closePath();
+        context.stroke();
+
+        position_old.x = position.x;
+        position_old.y = position.y;
+
+    }).start();
+}
+
+
+function animate() {
+    requestAnimationFrame( animate );
+    TWEEN.update();
+}
+
+$("#segment-easing").on("change", function () {
+    var func = $('option:selected', this).html().split(".");
+    updateCanvas(TWEEN.Easing[func[0]][func[1]]);
+    animate();
 });
 
 $("#edit-segment-dialog-form").dialog({
@@ -103,9 +213,6 @@ $("#edit-segment-dialog-form").dialog({
             var actor = $("#segment-actor").val();
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
-
-            // GraphState.currentLogicSegment.duration = duration;
-            // GraphState.currentLogicSegment.description = description;
 
             GraphState.currentLogicSegment.actor = actor;
             GraphState.currentLogicSegment.duration = duration;
@@ -160,46 +267,6 @@ $("#add-actor-dialog-form").dialog({
 });
 
 
-var editSegment = function (label, evt) {
-    if(GraphState.edit) {
-        console.log(label);
-        GraphState.currentLabel = label;
-        GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
-        console.log(GraphState.currentLogicSegment);
-
-        var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
-        $("#segment-actor option").filter(function() {
-            return $(this).val() === act;
-        }).attr('selected', true);
-
-        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
-        $("#segment-description").val(GraphState.currentLogicSegment.description);
-
-        $("#edit-segment-dialog-form").dialog("open");
-    }
-};
-
-
-jsPlumb.importDefaults({
-    Endpoint : ["Dot", {radius:2}],
-    // HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:1 },
-    ConnectionOverlays : [
-        [ "Arrow", { 
-            location:1,
-            id:"arrow",
-            length:10,
-            foldback:0.8
-        } ],
-        [ "Label", {
-            label:"",
-            cssClass:"l1 component label",
-            location:0.7,
-            events:{
-                "click": editSegment
-            }
-        }]
-    ]
-});
 
 jsPlumb.bind("jsPlumbConnection", function (info) {
         info.connection.setParameter("storyboard_id", storyboardController.nextSegmentId);
@@ -270,7 +337,7 @@ var createEvt =  function(x,y) {
         //anchor:"BottomCenter",
         anchor: "Continuous",
         connector: [ "StateMachine", { curviness:20 } ],
-        connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:2 },
+        connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
         maxConnections: -1
     });
 

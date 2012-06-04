@@ -53,6 +53,7 @@ input {
     position: absolute;
 }
 
+.source, .sink,
 .event {
     background-color: #888;
     color: #AAA;
@@ -191,6 +192,19 @@ l1 {
 /*     display:block;  */
 /* } */
 
+#segment-easing-display {
+    width: 200px;
+    height: 120px;
+}
+
+#segment-easing-canvas {
+    width: 180px;
+    height: 100px;
+}
+
+.ui-state-disabled {
+    opacity: .65;
+}
 
 input.text { margin-bottom:12px; width:95%; padding: .4em; }
 fieldset { padding:0; border:0; margin-top:25px; }
