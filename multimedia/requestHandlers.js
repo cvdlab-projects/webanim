@@ -111,12 +111,14 @@ function encodeVideo(response, request) {
  */
 function searchVideo(response, request) {
     console.log("Request handler 'searchVideo' was called.");
-	var q = url.parse(request.url, true).query["searchTag"];
+	console.log(request.url);
+	var q = url.parse(request.url, true).query['q'];
     console.log("Searching for videos...");
 
         if (q !== "" && q !== undefined && q!==null) {
-                        
-            var queryTerm = q.replace("=",":");
+            console.log(q);          
+            var queryTerm = q.replace(/=/gi ,":");
+			console.log(queryTerm);
 			lucene.search(cluceneDatabasePath, queryTerm, function(err, results) {
                 if (err) {
 					response.writeHead(500)
