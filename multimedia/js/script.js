@@ -164,6 +164,8 @@
 			});
 		});
 
+		// DELETABLE
+		/*
 		self.searchVideoButton.on('click', function(e) {
 			$.ajax({
 				type: "POST",
@@ -178,9 +180,10 @@
                     for(var i = result.indexOf('}') + 1; i != 0; i = result.indexOf('}') + 1) {
                     	var temp = $.parseJSON(result.substring(0,i));
                     	resp += '<li class="resultItem">' + 
-                            	'<div>Name: <a href="' + temp.videoPath + '" >' + temp.videoName.substring(0,temp.videoName.lastIndexOf('_')) + '</a>(right->Save as..)</div>' +
+                            	'<div>Name: ' + temp.videoName.substring(0,temp.videoName.lastIndexOf('_')) + '</div>' +
                             	'<div>Tag: ' + temp.searchTag + '</div>' +
                             	'<div>Description: ' + temp.videoDescription + '</div>' +
+                            	'<div><input type="button" value="Download"></input></div>' +
                             	'</li>';
                            result = result.substring(i);
                     }
@@ -191,6 +194,7 @@
 			});
 		});
 	}
+	*/
 
 
 	//Exported functions outside the env

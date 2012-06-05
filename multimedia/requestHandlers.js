@@ -124,7 +124,6 @@ function searchVideo(response, request) {
 					response.writeHead(500)
                     console.log('Search error: ' + err);
 					response.end();
-                    //return;
                 }
 				if(results!==null && results!==undefined && results.length > 0){
 					response.writeHead(200, { 'Content-Type': 'text/html'});
@@ -202,7 +201,30 @@ function loader(response, request) {
     });
 }
 
+/*Download video*/
+function downloadVideo(response, request){
+    var filename =  "./media/video/" + url.parse(request.url).pathname.split("/").pop();
+    var dlprogress = 0;
+    console.log(filename);
+    
+    // setInterval(function () {
+    //    console.log("Download progress: " + dlprogress + " bytes");
+    // }, 1000);
+    
+    //response.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    //response.setHeader('Content-type', 'video/ogg');
 
+    var downloadfile = fs.createReadStream(filename);
+    console.log("Download file vale: " + downloadfile);
+    downloadfile.on('data', function (chunk) {
+        dlprogress += chunk.length;
+        response.write(chunk, encoding='binary');
+    });
+    downloadfile.on("end", function() {
+        response.end();
+        console.log("Finished downloading " + filename);
+    });
+}
 
 
 
@@ -213,3 +235,4 @@ exports.index = index;
 exports.loader = loader;
 exports.encodeVideo = encodeVideo;
 exports.searchVideo = searchVideo;
+exports.downloadVideo = downloadVideo;

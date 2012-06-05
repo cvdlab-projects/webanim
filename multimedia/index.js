@@ -35,9 +35,7 @@ handle["/css"] = requestHandlers.loader;
 handle["/media"] = requestHandlers.loader;
 handle["/encodeVideo"] = requestHandlers.encodeVideo;
 handle["/searchVideo"] = requestHandlers.searchVideo;
-handle["/start"] = requestHandlers.start;
-handle["/upload"] = requestHandlers.upload;
-handle["/show"] = requestHandlers.show;
+handle["/downloadVideo"] = requestHandlers.downloadVideo;
 
 
 
