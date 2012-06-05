@@ -7,6 +7,7 @@
 ## `Event()`
 ### Representation of a node of the storyboard graph.
 
+
 ### `addIncomingSegment(segment)`
 Adds a segment to the incoming segments of the event
 
@@ -73,18 +74,24 @@ Removes a segment from the outgoing segments of the event.
 
 - - -
 
+
 ## `Segment()`
 ### Representation of an edge of the storyboard graph.
 
+
 - - -
+
 
 ## `Actor()`
 ### Representation of an actor.
 
+
 - - -
+
 
 ## `Storyboard()`
 ### Representation of the storyboard graph.
+
 
 ### `actor2Segments(actor)`
 Returns the segments of the storyboard associated to the specified actor.
@@ -293,8 +300,10 @@ Detects cycles and provides topological sorting. It's necessary to the Critical 
 
 - - -
 
+
 ## `StoryboardController(listener)`
 ### Representation of a controller to handle storyboard associated operations.
+
 
 #### I/O
 
