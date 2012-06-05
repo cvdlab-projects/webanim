@@ -338,9 +338,9 @@
                   t : "translate",
                   t0 : segment.tStart,
                   t1 : segment.duration,
-                  dxf : segment.position.x,
-                  dyf : segment.position.y,
-                  dzf : segment.position.z
+                  dxf : segment.behaviour.position.x,
+                  dyf : segment.behaviour.position.y,
+                  dzf : segment.behaviour.position.z
                 });
               }
 
@@ -350,9 +350,9 @@
                   t : "rotate",
                   t0 : segment.tStart,
                   t1 : segment.duration,
-                  dgx : segment.rotation.x,
-                  dgy : segment.rotation.y,
-                  dgz : segment.rotation.z
+                  dgx : segment.behaviour.rotation.x,
+                  dgy : segment.behaviour.rotation.y,
+                  dgz : segment.behaviour.rotation.z
                 });
               }
 
@@ -362,9 +362,9 @@
                   t : "scale",
                   t0 : segment.tStart,
                   t1 : segment.duration,
-                  sxf : segment.scale.x,
-                  syf : segment.scale.y,
-                  szf : segment.scale.z
+                  sxf : segment.behaviour.scale.x,
+                  syf : segment.behaviour.scale.y,
+                  szf : segment.behaviour.scale.z
                 });
               }
 
