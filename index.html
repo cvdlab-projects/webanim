@@ -43,7 +43,31 @@
         <div>There are some error with the graph</div>
     </div>
 
-    <div id="renderContainer"></div>
+   <div id="storyboard-tools">
+        <div id="Timeline"></div>
+        <br/><br/>
+        <div id="eventMessage">Click on timebar to select a frame or a frame range</div><br/><br/>
+   </div>
+
+	<div>
+		<div id="controlButtons">
+		</div>
+		<div id="stats"></div>
+<!--		<div id="container"></div>-->
+		<canvas id="canvas" width="640" height="480"></canvas>
+
+    <div id="camera_buttons"></div><br />
+
+		<button type = "button" onClick = "play()" >Play</button>
+		<button type = "button" onClick = "pause()" >Pause</button>
+		<button type = "button" onClick = "stop()" >Stop</button>
+
+		<button type = "button" onClick = "ffAnimation()" >FF</button>
+		<button type = "button" onClick = "rwAnimation()" >RW</button>
+		<button type = "button" onClick = "lookAtCenter()" >Look At Center</button>
+
+    <button id="recordButton" type = "button" >Record</button>
+	</div>
 
     <div id="add-actor-dialog-form">
         <form>
@@ -188,5 +212,37 @@
 <script type="text/javascript" src="js/timeline.js"></script>
 <script type="text/javascript" src="js/prova.js"></script>
 <script type="text/javascript" src="js/gui.js"></script>
+
+        <script type="text/javascript" src="js/timeline.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#Timeline").Timeline({ 
+                    data: undefined, // TODO
+                    slideWidth: 900,
+                    
+                    behavior: {
+                        onClick: function (data) { 
+                            var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
+                            $("#eventMessage").text(msg);
+                            // Qui facciamo il scene.remove () ...
+                        },
+                        onClick2: function (t) { 
+                            var msg = "You clicked on column: " + t;
+                            $("#eventMessage").text(msg);
+                            gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
+                        },
+                        onClick3: function (t) { 
+                            var msg = "You clicked on actor: " + t;
+                            $("#eventMessage").text(msg);
+                        },
+                        onClick4: function (t) { 
+                            var msg = "You deselect the actor " + t;
+                            $("#eventMessage").text(msg);
+                        }
+                    }
+                });
+                
+            });
+        </script>
 
 </html>
