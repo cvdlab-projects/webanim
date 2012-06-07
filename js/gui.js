@@ -75,10 +75,8 @@ var handler = {
 
         jsPlumb.makeSource(holder, {
             parent: holder.parent(),
-            //anchor:"BottomCenter",
             anchor: "Continuous",
             connector: [ "StateMachine", { curviness:20 } ],
-            // connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
             maxConnections: -1
         });
 
@@ -94,6 +92,7 @@ var handler = {
 
     storyboardProcessingCompleted: function (storyboard) {
         console.log("Ci sto dentro");
+        init($("#canvas").width(), $("#canvas").height(), storyboard);
         //TODO
     }
 
@@ -204,6 +203,36 @@ $("#segment-easing").on("change", function () {
     animate();
 });
 
+function updateTips( t ) {
+    $(".validateTips")
+    .text( t )
+    .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+        $(".validateTips").removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+}
+
+function checkRegexp( o, regexp, n ) {
+    if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function checkDigits( o, n) {
+    var number = o.val();
+    if (!(!isNaN(parseFloat(number)) && isFinite(number))) {
+        o.addClass("ui-state-error");
+        updateTips(n);
+    }
+    else {
+        return true;
+    }
+}
+
 $("#edit-segment-dialog-form").dialog({
     autoOpen: false,
     height: 600,
@@ -211,25 +240,29 @@ $("#edit-segment-dialog-form").dialog({
     modal: true,
     buttons: {
         "Confirm": function () {
-            //TODO: connect to logic!!!
-            var actor = $("#segment-actor").val();
-            var duration = $("#segment-duration").val();
-            var description = $("#segment-description").val();
+            var actor = $("#segment-actor");
+            var duration = $("#segment-duration");
+            var description = $("#segment-description");
+
+            var check = true;
+            check= check && checkDigits(duration, "Only digits allowed");
 
 
             //check if it is all alright
-            // if (check) {
+            if (check) {
                 GraphState.currentLabel.component.setParameter("initialize", true);
-            // }
+
+                GraphState.currentLogicSegment.actor = actor.val();
+                GraphState.currentLogicSegment.duration = duration.val();
+                GraphState.currentLogicSegment.description = description.val();
+
+                GraphState.currentLabel.setLabel(duration);
+                GraphState.currentLabel.component.setPaintStyle({strokeStyle: "#000"});
+
+                $( this ).dialog( "close" );
+            }
 
 
-            GraphState.currentLogicSegment.actor = actor;
-            GraphState.currentLogicSegment.duration = duration;
-            GraphState.currentLogicSegment.description = description;
-
-            GraphState.currentLabel.setLabel(duration);
-            GraphState.currentLabel.component.setPaintStyle({strokeStyle: "#000"});
-            $( this ).dialog( "close" );
         },
 
         Cancel: function() {
@@ -347,10 +380,8 @@ var createEvt =  function(x,y) {
 
     jsPlumb.makeSource(holder, {
         parent: holder.parent(),
-        //anchor:"BottomCenter",
         anchor: "Continuous",
         connector: [ "StateMachine", { curviness:20 } ],
-        // connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
         maxConnections: -1
     });
 
@@ -365,6 +396,12 @@ $("#calculate").on("click.webGraph", function () {
     jsPlumb.select().each(function (conn) {
         allValid = allValid && conn.getParameter("initialize");
     });
+
+    if (!allValid) {
+        alert("not all segment are initialize! check the orange one!");
+
+        return;
+    }
 
     $("#Timeline").Timeline({ 
         data: storyboardController.populateTimeline(), // TODO
