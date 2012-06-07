@@ -24,7 +24,7 @@ input {
 
 .sinistra { float:left; }
 
-#container { 
+#container {
     background:#bbb;
     padding:5px;
     width:auto;
@@ -39,7 +39,7 @@ input {
 
 #paper {
     width: auto;
-    height: 600px; 
+    height: 600px;
     border: 2px solid gray;
     background-color: #eee;
     margin-left: 80px;
@@ -91,46 +91,20 @@ input {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-/*    width: 50px;*/
-/*    height: 50px;*/
 }
-
-/*#moveImg {*/
-/*    width: 48px;*/
-/*    height: 48px;*/
-/*    background-image: url('../assets/move.png');*/
-/*    background-repeat: no-repeat;*/
-/*}*/
 
 #addArc {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-/*    width: 50px;*/
-/*    height: 50px;*/
 }
-
-/*#addArcImg {*/
-/*    width: 48px;*/
-/*    height: 48px;*/
-/*    background-image: url('../assets/addArc.png');*/
-/*    background-repeat: no-repeat;*/
-/*}*/
 
 #rmEvt {
     color: #DDD;
     border: 1px solid #DDD;
     background-color: blue;
-/*    width: 50px;*/
-/*    height: 50px;*/
 }
 
-/*#removeImg {*/
-/*    width: 48px;*/
-/*    height: 48px;*/
-/*    background-image: url('../assets/remove.png');*/
-/*    background-repeat: no-repeat;*/
-/*}*/
 
 button {
     outline: 0;
@@ -167,15 +141,16 @@ button {
 }
 
 .label {
-    border:1px solid #346789; 
+    border:1px solid #346789;
     padding:8px;
     padding:8px;
-}
-.label:hover {
-    border-color:#5d94a6;	
 }
 
-l1 { 
+.label:hover {
+    border-color:#5d94a6;
+}
+
+l1 {
     font-size:13px;
 }
 
@@ -184,13 +159,9 @@ l1 {
     background-color:white;
     color:black;
     font-family:helvetica;
-    padding:0.5em; 
+    padding:0.5em;
 
 }
-
-/* label, input {  */
-/*     display:block;  */
-/* } */
 
 #segment-easing-display {
     width: 200px;

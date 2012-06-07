@@ -78,7 +78,7 @@ var handler = {
             //anchor:"BottomCenter",
             anchor: "Continuous",
             connector: [ "StateMachine", { curviness:20 } ],
-            connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
+            // connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
             maxConnections: -1
         });
 
@@ -86,7 +86,9 @@ var handler = {
     },
 
     storyboardNotValid: function (validityReport) {
+        console.log("The storyboard is not valid");
         console.log(validityReport);
+        console.log(JSON.stringify(validityReport));
         //TODO
     },
 
@@ -99,10 +101,8 @@ var handler = {
 
 var editSegment = function (label, evt) {
     if(GraphState.edit) {
-        console.log(label);
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
-        console.log(GraphState.currentLogicSegment);
 
         var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
         $("#segment-actor option").filter(function() {
@@ -118,7 +118,7 @@ var editSegment = function (label, evt) {
 
 jsPlumb.importDefaults({
     Endpoint : ["Dot", {radius:2}],
-    // HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:1 },
+    PaintStyle : {strokeStyle:"#F70", lineWidth:1 },
     ConnectionOverlays : [
         [ "Arrow", { 
             location:1,
@@ -214,11 +214,19 @@ $("#edit-segment-dialog-form").dialog({
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
 
+
+            //check if it is all alright
+            // if (check) {
+                GraphState.currentLabel.component.setParameter("initialize", true);
+            // }
+
+
             GraphState.currentLogicSegment.actor = actor;
             GraphState.currentLogicSegment.duration = duration;
             GraphState.currentLogicSegment.description = description;
 
             GraphState.currentLabel.setLabel(duration);
+            GraphState.currentLabel.component.setPaintStyle({strokeStyle: "#000"});
             $( this ).dialog( "close" );
         },
 
@@ -242,9 +250,9 @@ $("#add-actor-dialog-form").dialog({
         "Confirm": function () {
             var description = $("#actor-description").val();
             var model = $("#actor-model").val();
-            var x = $("#actor-start-x").val();
-            var y = $("#actor-start-y").val();
-            var z = $("#actor-start-z").val();
+            var x = $("#actor-start-pos-x").val();
+            var y = $("#actor-start-pos-y").val();
+            var z = $("#actor-start-pos-z").val();
 
             // TODO: eventually check and sanitize the input
             // TODO: storyboardController.addActor(model, description);
@@ -270,6 +278,7 @@ $("#add-actor-dialog-form").dialog({
 
 jsPlumb.bind("jsPlumbConnection", function (info) {
         info.connection.setParameter("storyboard_id", storyboardController.nextSegmentId);
+        info.connection.setParameter("initialize", false);
         var idStart = parseInt($("#" + info.sourceId).attr("storyboard_id"), 10);
         var idEnd = parseInt($("#" + info.targetId).attr("storyboard_id"), 10);
 
@@ -300,7 +309,6 @@ jsPlumb.bind("beforeDetach", function(conn) {
 $("#addActor").on("click.webGraph", function () {
     $("#add-actor-dialog-form").dialog("open");
 });
-
 
 var createEvt =  function(x,y) {
     var evt = $("<div>", {
@@ -337,7 +345,7 @@ var createEvt =  function(x,y) {
         //anchor:"BottomCenter",
         anchor: "Continuous",
         connector: [ "StateMachine", { curviness:20 } ],
-        connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
+        // connectorStyle: { strokeStyle: "rgb(0,0,0)", lineWidth:1 },
         maxConnections: -1
     });
 
@@ -345,6 +353,18 @@ var createEvt =  function(x,y) {
 
     evt.appendTo("#paper");
 };
+
+$("#calculate").on("click.webGraph", function () {
+    var allValid = true;
+
+    jsPlumb.select().each(function (conn) {
+        allValid = allValid && conn.getParameter("initialize");
+    });
+
+    console.log(allValid);
+
+    storyboardController.processStoryboard();
+});
 
 
 var tool = {

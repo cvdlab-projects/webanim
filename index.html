@@ -11,28 +11,28 @@
         </div>
         <div id="content">
             <div id="menu">
-              <button id="addActor" style="display : block">
-                Add Actor
-              </button>
-              <button id="insertEvt" style="display : block">
-                Insert Event
-              </button>
-              <button id="moveEvt" style="display : block">
-                <img src="assets/move.png" />
-              </button>
-              <button id="addSegment" style="display : block">
-                <img src="assets/addArc.png" />
-              </button>
-              <button id="rm" style="display : block">
-                <img src="assets/remove.png" />
-              </button>
-              <button id="edit" style="display : block">
-                Edit
-              </button>
+                <button id="addActor" style="display : block">
+                    Add Actor
+                </button>
+                <button id="insertEvt" style="display : block">
+                    Insert Event
+                </button>
+                <button id="moveEvt" style="display : block">
+                    <img src="assets/move.png" />
+                </button>
+                <button id="addSegment" style="display : block">
+                    <img src="assets/addArc.png" />
+                </button>
+                <button id="rm" style="display : block">
+                    <img src="assets/remove.png" />
+                </button>
+                <button id="edit" style="display : block">
+                    Edit
+                </button>
 
-              <button id="calculate" style="display : block">
-                Process Storyboard
-              </button>
+                <button id="calculate" style="display : block">
+                    Process Storyboard
+                </button>
             </div>
             <div id="paper"></div>
         </div>
@@ -43,31 +43,31 @@
         <div>There are some error with the graph</div>
     </div>
 
-   <div id="storyboard-tools">
+    <div id="storyboard-tools">
         <div id="Timeline"></div>
         <br/><br/>
         <div id="eventMessage">Click on timebar to select a frame or a frame range</div><br/><br/>
-   </div>
+    </div>
 
-	<div>
-		<div id="controlButtons">
-		</div>
-		<div id="stats"></div>
-<!--		<div id="container"></div>-->
-		<canvas id="canvas" width="640" height="480"></canvas>
+    <div>
+        <div id="controlButtons">
+        </div>
+        <div id="stats"></div>
+        <!--     <div id="container"></div>-->
+        <canvas id="canvas" width="640" height="480"></canvas>
 
-    <div id="camera_buttons"></div><br />
+        <div id="camera_buttons"></div><br />
 
-		<button type = "button" onClick = "play()" >Play</button>
-		<button type = "button" onClick = "pause()" >Pause</button>
-		<button type = "button" onClick = "stop()" >Stop</button>
+        <button type = "button" onClick = "play()" >Play</button>
+        <button type = "button" onClick = "pause()" >Pause</button>
+        <button type = "button" onClick = "stop()" >Stop</button>
 
-		<button type = "button" onClick = "ffAnimation()" >FF</button>
-		<button type = "button" onClick = "rwAnimation()" >RW</button>
-		<button type = "button" onClick = "lookAtCenter()" >Look At Center</button>
+        <button type = "button" onClick = "ffAnimation()" >FF</button>
+        <button type = "button" onClick = "rwAnimation()" >RW</button>
+        <button type = "button" onClick = "lookAtCenter()" >Look At Center</button>
 
-    <button id="recordButton" type = "button" >Record</button>
-	</div>
+        <button id="recordButton" type = "button" >Record</button>
+    </div>
 
     <div id="add-actor-dialog-form">
         <form>
@@ -87,14 +87,33 @@
                     <option value="Tetrahedron">Tetrahedron</option>
                     <option value="Torus">Torus</option>
                 </select>
-                <div style="margin-top:20px">Starting configuration</div>
-                <div>
+                <div style="margin:20px 0px">Starting configuration</div>
+                <p>Start position</p>
+                <div id="actor-start-pos">
                     <label for="x">x</label>
-                    <input type="text" name="x" id="actor-start-x" class="text ui-widget-content ui-corner-all" />
+                    <input type="text" name="x" id="actor-start-pos-x" class="text ui-widget-content ui-corner-all" />
                     <label for="y">y</label>
-                    <input type="text" name="y" id="actor-start-y" class="text ui-widget-content ui-corner-all" />
+                    <input type="text" name="y" id="actor-start-pos-y" class="text ui-widget-content ui-corner-all" />
+                    <label for="z">z</label>
+                    <input type="text" name="z" id="actor-start-pos-z" class="text ui-widget-content ui-corner-all" />
+                </div>
+                <p>Start rotate</p>
+                <div id="actor-start-rotate">
+                    <label for="x">a</label>
+                    <input type="text" name="x" id="actor-start-rotate-a" class="text ui-widget-content ui-corner-all" />
+                    <label for="y">b</label>
+                    <input type="text" name="y" id="actor-start-rotate-b" class="text ui-widget-content ui-corner-all" />
+                    <label for="x">g</label>
+                    <input type="text" name="z" id="actor-start-rotate-g" class="text ui-widget-content ui-corner-all" />
+                </div>
+                <p>Start scale</p>
+                <div id="actor-start-scale">
                     <label for="x">x</label>
-                    <input type="text" name="z" id="actor-start-z" class="text ui-widget-content ui-corner-all" />
+                    <input type="text" name="x" id="actor-start-scale-x" class="text ui-widget-content ui-corner-all" />
+                    <label for="y">y</label>
+                    <input type="text" name="y" id="actor-start-scale-y" class="text ui-widget-content ui-corner-all" />
+                    <label for="x">z</label>
+                    <input type="text" name="z" id="actor-start-scale-z" class="text ui-widget-content ui-corner-all" />
                 </div>
             </fieldset>
         </form>
@@ -102,12 +121,10 @@
     <div id="edit-segment-dialog-form" title="Edit Segment">
         <form>
             <fieldset>
-
                 <label for="actor">Actor</label>
                 <select name="actor" id="segment-actor">
                     <option value="default">select an actor</option>
                 </select>
-
                 <label for="name" style="display : block">Duration</label>
                 <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
                 <label for="name">Description</label>
@@ -120,7 +137,7 @@
                         <input type="text" name="x" id="x" class="text ui-widget-content ui-corner-all" />
                         <label for="y">y</label>
                         <input type="text" name="y" id="y" class="text ui-widget-content ui-corner-all" />
-                        <label for="x">x</label>
+                        <label for="z">z</label>
                         <input type="text" name="z" id="z" class="text ui-widget-content ui-corner-all" />
                     </div>
                     <h3><a href="#">Rotation</a></h3>
@@ -177,72 +194,70 @@
                             <option value="">Bounce.Out</option>
                             <option value="">Bounce.InOut</option>
                         </select>
-                            <label>easing function</label>
+                        <label>easing function</label>
                         <div id="segment-easing-display">
                             <canvas id="segment-easing-canvas"></canvas>
                         </div>
                     </div>
                 </div>
-
             </fieldset>
         </form>
     </div>
 
-<script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
-<script type="text/javascript" src="lib/jquery-ui-1.8.20.custom.min.js"></script>
-<script type="text/javascript" src="lib/Three.js"></script>
-<script type="text/javascript" src="lib/Tween.js"></script>
-<script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
+    <script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.20.custom.min.js"></script>
+    <script type="text/javascript" src="lib/Three.js"></script>
+    <script type="text/javascript" src="lib/Tween.js"></script>
+    <script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
 
-<script type="text/javascript" src="js/storyboard.js"></script>
-<script type="text/javascript" src="js/controller.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-util-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-defaults-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-connectors-statemachine-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-canvas-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
 
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-util-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-defaults-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-connectors-statemachine-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-canvas-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
-<script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
+    <script type="text/javascript" src="js/storyboard.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
 
-<script type="text/javascript" src="js/DAT.GUI.js"></script>
-<script type="text/javascript" src="js/effects.js"></script>
-<script type="text/javascript" src="js/startFrom.js"></script>
-<script type="text/javascript" src="js/timeline.js"></script>
-<script type="text/javascript" src="js/prova.js"></script>
-<script type="text/javascript" src="js/gui.js"></script>
+    <script type="text/javascript" src="js/DAT.GUI.js"></script>
+    <script type="text/javascript" src="js/effects.js"></script>
+    <script type="text/javascript" src="js/startFrom.js"></script>
+    <script type="text/javascript" src="js/timeline.js"></script>
+    <script type="text/javascript" src="js/prova.js"></script>
+    <script type="text/javascript" src="js/gui.js"></script>
 
-        <script type="text/javascript" src="js/timeline.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                $("#Timeline").Timeline({ 
-                    data: undefined, // TODO
+    <script type="text/javascript" src="js/timeline.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#Timeline").Timeline({ 
+                data: undefined, // TODO
                     slideWidth: 900,
-                    
-                    behavior: {
-                        onClick: function (data) { 
-                            var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
-                            $("#eventMessage").text(msg);
-                            // Qui facciamo il scene.remove () ...
-                        },
-                        onClick2: function (t) { 
-                            var msg = "You clicked on column: " + t;
-                            $("#eventMessage").text(msg);
-                            gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
-                        },
-                        onClick3: function (t) { 
-                            var msg = "You clicked on actor: " + t;
-                            $("#eventMessage").text(msg);
-                        },
-                        onClick4: function (t) { 
-                            var msg = "You deselect the actor " + t;
-                            $("#eventMessage").text(msg);
-                        }
-                    }
-                });
-                
-            });
-        </script>
 
+                behavior: {
+                    onClick: function (data) { 
+                        var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
+                        $("#eventMessage").text(msg);
+                        // Qui facciamo il scene.remove () ...
+                    },
+                    onClick2: function (t) { 
+                        var msg = "You clicked on column: " + t;
+                        $("#eventMessage").text(msg);
+                        gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
+                    },
+                    onClick3: function (t) { 
+                        var msg = "You clicked on actor: " + t;
+                        $("#eventMessage").text(msg);
+                    },
+                    onClick4: function (t) { 
+                        var msg = "You deselect the actor " + t;
+                        $("#eventMessage").text(msg);
+                    }
+                }
+            });
+
+        });
+    </script>
 </html>
