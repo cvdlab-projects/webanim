@@ -93,7 +93,7 @@ var handler = {
     },
 
     storyboardProcessingCompleted: function (storyboard) {
-        console.log("Storyboard processed successfully");
+        console.log("Ci sto dentro");
         //TODO
     }
 
@@ -103,6 +103,8 @@ var editSegment = function (label, evt) {
     if(GraphState.edit) {
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+        //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
+        console.log(GraphState.currentLogicSegment);
 
         var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
         $("#segment-actor option").filter(function() {
@@ -236,7 +238,7 @@ $("#edit-segment-dialog-form").dialog({
     },
     open: function (event, ui) {
         storyboardController.actors.forEach(function (actor) {
-            $("#segment-actor").append($('<option></option>').val(actor.model).html(actor.description));
+            $("#segment-actor").append($('<option></option>').val(actor.id).html(actor.description));
         });
     }
 });
@@ -257,7 +259,9 @@ $("#add-actor-dialog-form").dialog({
             // TODO: eventually check and sanitize the input
             // TODO: storyboardController.addActor(model, description);
             storyboardController.addActor(model, description, {x0: x, y0: y, z0: z});
-
+            storyboardController.actors.forEach(function (actor) {
+                console.log(actor);
+            });
             $(this).dialog("close");
         },
 
@@ -310,6 +314,7 @@ $("#addActor").on("click.webGraph", function () {
     $("#add-actor-dialog-form").dialog("open");
 });
 
+
 var createEvt =  function(x,y) {
     var evt = $("<div>", {
         "class": "event",
@@ -361,7 +366,10 @@ $("#calculate").on("click.webGraph", function () {
         allValid = allValid && conn.getParameter("initialize");
     });
 
-    console.log(allValid);
+    $("#Timeline").Timeline({ 
+        data: storyboardController.populateTimeline(), // TODO
+            slideWidth: 900
+    });
 
     storyboardController.processStoryboard();
 });

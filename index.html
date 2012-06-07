@@ -4,6 +4,7 @@
         <link href="css/reset.css" rel="stylesheet" />
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
     </head>
     <div id="container">
         <div id="header">
@@ -121,10 +122,12 @@
     <div id="edit-segment-dialog-form" title="Edit Segment">
         <form>
             <fieldset>
+
                 <label for="actor">Actor</label>
                 <select name="actor" id="segment-actor">
                     <option value="default">select an actor</option>
                 </select>
+
                 <label for="name" style="display : block">Duration</label>
                 <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
                 <label for="name">Description</label>
@@ -200,6 +203,7 @@
                         </div>
                     </div>
                 </div>
+
             </fieldset>
         </form>
     </div>
@@ -231,9 +235,10 @@
 
     <script type="text/javascript" src="js/timeline.js"></script>
     <script type="text/javascript">
+
         $(function () {
             $("#Timeline").Timeline({ 
-                data: undefined, // TODO
+                data: storyboardController.populateTimeline(), // TODO
                     slideWidth: 900,
 
                 behavior: {

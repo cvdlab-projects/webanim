@@ -126,3 +126,11 @@ div.timeline-block-text {
 div.timeline-block {
 	bottom: -0;
 }
+
+.timeline-hzheader-sec.special {
+    background-color: yellow;
+}
+
+.timeline-grid-row-cell.special {
+    background-color: yellow;
+}

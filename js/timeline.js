@@ -5,11 +5,11 @@
     	var args = Array.prototype.slice.call(arguments);
     	
     	if (args.length == 1 && typeof(args[0]) == "object") {
-        	build.call(this, args[0]);
+        	buildInit.call(this, args[0]);
     	}
     };
     
-    function build(options) {
+    function buildInit(options) {
     	
     	var els = this;
         var defaults = {
@@ -228,18 +228,25 @@
         function bindColumnEvent(div, eventName, callback) {
             jQuery("div.timeline-hzheader-sec", div).live(eventName, function () {
                 
-                    if(jQuery(this).attr('id') == "0"){
-                        selectColumn( jQuery(this).text() );
+                    // if(jQuery(this).attr('id') == "0"){
+                    //     selectColumn( jQuery(this).text() );
+                        
+                    //     $(this).attr('id','1'); 
+                    //     $(this).addClass('special');
+                    //     console.log($(this));
+                    // }
+                    // else {
+                    //     jQuery(this).attr('id','0'); 
+                    //     jQuery(this).removeClass('special');
 
-                        jQuery(this).attr('id','1'); 
-                        jQuery(this).addClass('special');
-
+                    //     deselectColumn( jQuery(this).text() );
+                    // }
+                    console.log($(this).attr("class").indexOf("special"));
+                    if($(this).attr("class").indexOf("special") === -1){
+                        $(this).addClass('special');
                     }
-                    else {
-                        jQuery(this).attr('id','0'); 
-                        jQuery(this).removeClass('special');
-
-                        deselectColumn( jQuery(this).text() );
+                    else{
+                        $(this).removeClass('special');
                     }
 
                 if (callback) { callback(jQuery(this).text(), this); }
