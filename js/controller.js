@@ -62,12 +62,13 @@ StoryboardController = function(listener) {
 		var found = false;
 
 		for (var i = 0; i < this.actors.length && !found; i++) {
+			console.log(this.actors[i]);
 			if (this.actors[i].id === id) {
 				found = true;
 				actor = this.actors[i];
 			};
 		};
-
+		console.log(actor);
 		return actor;
 	};
 };
@@ -147,6 +148,16 @@ StoryboardController.prototype.setActorForNewSegment = function(actorId) {
 };
 
 /**
+ * Sets the actor property of the specified segment
+ * @param {number} id The id of the segment whose actor has to be set
+ * @param {number} actorId The id of the actor to associate the specified segment to
+ */
+StoryboardController.prototype.setActorForSegment = function(id, actorId) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.actor = this.getActorById(actorId);
+};
+
+/**
  * Sets the behaviour property of the new segment
  * @param {Object} behaviour The behaviour to associate to the new segment
  */
@@ -155,11 +166,31 @@ StoryboardController.prototype.setBehaviourForNewSegment = function(behaviour) {
 };
 
 /**
+ * Sets the behaviour property of the specified segment
+ * @param {number} id The id of the segment whose behaviour has to be set
+ * @param {Object} behaviour The behaviour to associate to the specified segment
+ */
+StoryboardController.prototype.setBehaviourForSegment = function(id, behaviour) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.behaviour = behaviour;
+};
+
+/**
  * Sets the duration property of the new segment
  * @param {number} duration The duration to associate to the new segment
  */
 StoryboardController.prototype.setDurationForNewSegment = function(duration) {
 	this.newSegment.duration = duration;
+};
+
+/**
+ * Sets the duration property of the specified segment
+ * @param {number} id The id of the segment whose duration has to be set
+ * @param {number} duration The duration to associate to the specified segment
+ */
+StoryboardController.prototype.setDurationForSegment = function(id, duration) {
+	var segment = this.storyboard.getSegmentById(id);
+	segment.duration = duration;
 };
 
 /**

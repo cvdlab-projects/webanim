@@ -91,7 +91,7 @@ var handler = {
     },
 
     storyboardProcessingCompleted: function (storyboard) {
-        console.log("Storyboard processed successfully");
+        console.log("Ci sto dentro");
         //TODO
     }
 
@@ -102,6 +102,7 @@ var editSegment = function (label, evt) {
         console.log(label);
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+        //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
         console.log(GraphState.currentLogicSegment);
 
         var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
@@ -214,9 +215,14 @@ $("#edit-segment-dialog-form").dialog({
             var duration = $("#segment-duration").val();
             var description = $("#segment-description").val();
 
-            GraphState.currentLogicSegment.actor = actor;
-            GraphState.currentLogicSegment.duration = duration;
-            GraphState.currentLogicSegment.description = description;
+            console.log(actor);
+            storyboardController.setDescriptionForSegment(GraphState.currentLogicSegment.id, description);
+            storyboardController.setDurationForSegment(GraphState.currentLogicSegment.id, duration);
+            storyboardController.setActorForSegment(GraphState.currentLogicSegment.id, parseInt(actor));
+
+            // GraphState.currentLogicSegment.actor = actor;
+            // GraphState.currentLogicSegment.duration = duration;
+            // GraphState.currentLogicSegment.description = description;
 
             GraphState.currentLabel.setLabel(duration);
             $( this ).dialog( "close" );
@@ -228,7 +234,7 @@ $("#edit-segment-dialog-form").dialog({
     },
     open: function (event, ui) {
         storyboardController.actors.forEach(function (actor) {
-            $("#segment-actor").append($('<option></option>').val(actor.model).html(actor.description));
+            $("#segment-actor").append($('<option></option>').val(actor.id).html(actor.description));
         });
     }
 });
@@ -249,7 +255,9 @@ $("#add-actor-dialog-form").dialog({
             // TODO: eventually check and sanitize the input
             // TODO: storyboardController.addActor(model, description);
             storyboardController.addActor(model, description, {x0: x, y0: y, z0: z});
-
+            storyboardController.actors.forEach(function (actor) {
+                console.log(actor);
+            });
             $(this).dialog("close");
         },
 
@@ -511,5 +519,12 @@ var tool = {
     $("#edit").on("click.toolbox", function () {
         self.change(buttons.edit);
     });
-
+    $("button#calculate").on("click.toolbox", function(){
+        storyboardController.processStoryboard();
+        //$("#Timeline").children().remove();
+        $("#Timeline").Timeline({ 
+                    data: storyboardController.populateTimeline(), // TODO
+                    slideWidth: 900
+                });
+    });
 }(tool));

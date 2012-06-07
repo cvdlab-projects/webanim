@@ -4,6 +4,7 @@
         <link href="css/reset.css" rel="stylesheet" />
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
     </head>
     <div id="container">
         <div id="header">
@@ -217,7 +218,7 @@
         <script type="text/javascript">
             $(function () {
                 $("#Timeline").Timeline({ 
-                    data: undefined, // TODO
+                    data: storyboardController.populateTimeline(), // TODO
                     slideWidth: 900,
                     
                     behavior: {
