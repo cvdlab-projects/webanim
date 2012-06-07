@@ -4,6 +4,7 @@
 
 - - -
 
+
 ## `Event()`
 ### Representation of a node of the storyboard graph.
 
@@ -441,12 +442,36 @@ Sets the actor property of the new segment.
 
 - - -
 
+### `setActorForSegment(id, actorId)`
+Sets the actor property of the specified segment.
+
+#### I/O
+
+> #### in
+> `Number` `id`: The id of the segment whose actor has to be set.
+> `Number` `actorId`: The id of the actor to associate the new segment to.
+>  
+
+- - -
+
 ### `setBehaviourForNewSegment(behaviour)'
 Sets the behaviour property of the new segment.
 
 #### I/O
 
 > #### in
+> 'Object' `behaviour`: The behaviour to associate to the new segment.
+>  
+
+- - -
+
+### `setBehaviourForSegment(id, behaviour)'
+Sets the behaviour property of the specified segment.
+
+#### I/O
+
+> #### in
+> `Number` `id`: The id of the segment whose behaviour has to be set.
 > 'Object' `behaviour`: The behaviour to associate to the new segment.
 >  
 
@@ -481,6 +506,18 @@ Sets the duration property of the new segment.
 #### I/O
 
 > #### in
+> 'Number' `duration`: The duration to associate to the new segment.
+>  
+
+- - -
+
+### `setDurationForSegment(id, duration)'
+Sets the duration property of the specified segment.
+
+#### I/O
+
+> #### in
+> 'Number' `id`: The id of the segment whose duration has to be set.
 > 'Number' `duration`: The duration to associate to the new segment.
 >  
 
