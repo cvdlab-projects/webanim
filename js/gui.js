@@ -261,9 +261,33 @@ $("#edit-segment-dialog-form").dialog({
             var duration = $("#segment-duration");
             var description = $("#segment-description");
 
-            var check = true;
-            check= check && checkDigits(duration, "Only digits allowed");
+            var pos_x = $("#segment-pos-to-x");
+            var pos_y = $("#segment-pos-to-y");
+            var pos_z = $("#segment-pos-to-z");
 
+            var rotate_a = $("#segment-rot-to-a");
+            var rotate_b = $("#segment-rot-to-b");
+            var rotate_g = $("#segment-rot-to-g");
+
+            var scale_x = $("#segment-scale-to-x");
+            var scale_y = $("#segment-scale-to-y");
+            var scale_z = $("#segment-scale-to-z");
+
+            var check = true;
+
+            check= check && checkDigits(duration, "This must be a number");
+
+            check = check && checkDigits(pos_x, "This must be a number");
+            check = check && checkDigits(pos_y, "This must be a number");
+            check = check && checkDigits(pos_z, "This must be a number");
+
+            check = check && checkDigits(rotate_a, "This must be a number");
+            check = check && checkDigits(rotate_b, "This must be a number");
+            check = check && checkDigits(rotate_g, "This must be a number");
+
+            check = check && checkDigits(scale_x, "This must be a number");
+            check = check && checkDigits(scale_y, "This must be a number");
+            check = check && checkDigits(scale_z, "This must be a number");
 
             //check if it is all alright
             if (check) {
