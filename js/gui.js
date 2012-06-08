@@ -285,11 +285,6 @@ $("#edit-segment-dialog-form").dialog({
         Cancel: function() {
             $( this ).dialog( "close" );
         }
-    },
-    open: function (event, ui) {
-        storyboardController.actors.forEach(function (actor) {
-            $("#segment-actor").append($('<option></option>').val(actor.id).html(actor.description));
-        });
     }
 });
 
@@ -334,6 +329,8 @@ $("#add-actor-dialog-form").dialog({
             check = check && checkDigits(scale_z, "This must be a number");
 
             if (check) {
+                $("#segment-actor").append($('<option></option>').val(storyboardController.nextActorId).html(description.val()));
+
                 //TODO: pass the rotate and scaling information on the logic
                 storyboardController.addActor(model.val(), description.val(), {x0: pos_x.val(), y0: pos_y.val(), z0: pos_z.val()});
 
