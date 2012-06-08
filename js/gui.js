@@ -218,6 +218,7 @@ function checkRegexp( o, regexp, n ) {
         updateTips( n );
         return false;
     } else {
+        o.removeClass("ui-state-error")
         return true;
     }
 }
@@ -227,8 +228,24 @@ function checkDigits( o, n) {
     if (!(!isNaN(parseFloat(number)) && isFinite(number))) {
         o.addClass("ui-state-error");
         updateTips(n);
+
+        return false;
     }
     else {
+        o.removeClass("ui-state-error")
+        return true;
+    }
+}
+
+function checkSelect(o, m) {
+    if (o.val() === 'default') {
+        o.addClass("ui-state-error");
+        updateTips(m);
+
+        return false;
+    }
+    else {
+        o.removeClass("ui-state-error")
         return true;
     }
 }
@@ -283,19 +300,49 @@ $("#add-actor-dialog-form").dialog({
     modal: true,
     buttons: {
         "Confirm": function () {
-            var description = $("#actor-description").val();
-            var model = $("#actor-model").val();
-            var x = $("#actor-start-pos-x").val();
-            var y = $("#actor-start-pos-y").val();
-            var z = $("#actor-start-pos-z").val();
+            var check = true;
 
-            // TODO: eventually check and sanitize the input
-            // TODO: storyboardController.addActor(model, description);
-            storyboardController.addActor(model, description, {x0: x, y0: y, z0: z});
-            storyboardController.actors.forEach(function (actor) {
-                console.log(actor);
-            });
-            $(this).dialog("close");
+            var pos_x = $("#actor-start-pos-x");
+            var pos_y = $("#actor-start-pos-y");
+            var pos_z = $("#actor-start-pos-z");
+
+            var rotate_a = $("#actor-start-rotate-a");
+            var rotate_b = $("#actor-start-rotate-b");
+            var rotate_g = $("#actor-start-rotate-g");
+
+            var scale_x = $("#actor-start-scale-x");
+            var scale_y = $("#actor-start-scale-y");
+            var scale_z = $("#actor-start-scale-z");
+
+            var description = $("#actor-description");
+
+            var model = $("#actor-model");
+
+            check = check && checkRegexp(description, /^[0-9a-zA-Z_][0-9a-zA-Z_\s]+$/i, "This field is required");
+            check = check && checkSelect(model, "You must choose a model");
+
+            check = check && checkDigits(pos_x, "This must be a number");
+            check = check && checkDigits(pos_y, "This must be a number");
+            check = check && checkDigits(pos_z, "This must be a number");
+
+            check = check && checkDigits(rotate_a, "This must be a number");
+            check = check && checkDigits(rotate_b, "This must be a number");
+            check = check && checkDigits(rotate_g, "This must be a number");
+
+            check = check && checkDigits(scale_x, "This must be a number");
+            check = check && checkDigits(scale_y, "This must be a number");
+            check = check && checkDigits(scale_z, "This must be a number");
+
+            if (check) {
+                //TODO: pass the rotate and scaling information on the logic
+                storyboardController.addActor(model.val(), description.val(), {x0: pos_x.val(), y0: pos_y.val(), z0: pos_z.val()});
+
+                storyboardController.actors.forEach(function (actor) {
+                    console.log(actor);
+                });
+
+                $(this).dialog("close");
+            }
         },
 
         Cancel: function () {
@@ -304,7 +351,29 @@ $("#add-actor-dialog-form").dialog({
     },
 
     open: function (event, ui) {
-        $("#actor-description").val("");
+
+        var pos_x = $("#actor-start-pos-x");
+        var pos_y = $("#actor-start-pos-y");
+        var pos_z = $("#actor-start-pos-z");
+
+        var rotate_a = $("#actor-start-rotate-a");
+        var rotate_b = $("#actor-start-rotate-b");
+        var rotate_g = $("#actor-start-rotate-g");
+
+        var scale_x = $("#actor-start-scale-x");
+        var scale_y = $("#actor-start-scale-y");
+        var scale_z = $("#actor-start-scale-z");
+
+        var description = $("#actor-description");
+
+        $([])
+            .add(description)
+            .add(pos_x).add(pos_y).add(pos_z)
+            .add(rotate_a).add(rotate_b).add(rotate_g)
+            .add(scale_x).add(scale_y).add(scale_z)
+            .val("")
+            .removeClass("ui-state-error");
+
         $("#actor-model option").filter(function () {
             return $(this).val() === "default";
         }).attr('selected', true);
