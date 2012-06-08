@@ -273,6 +273,8 @@ $("#edit-segment-dialog-form").dialog({
             var scale_y = $("#segment-scale-to-y");
             var scale_z = $("#segment-scale-to-z");
 
+            var easing = $("#segment-easing");
+
             var check = true;
 
             check= check && checkDigits(duration, "This must be a number");
@@ -288,6 +290,8 @@ $("#edit-segment-dialog-form").dialog({
             check = check && checkDigits(scale_x, "This must be a number");
             check = check && checkDigits(scale_y, "This must be a number");
             check = check && checkDigits(scale_z, "This must be a number");
+
+            check = check && checkSelect(easing, "You must choose an easing function");
 
             //check if it is all alright
             if (check) {
