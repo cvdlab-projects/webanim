@@ -758,46 +758,46 @@
 
 	    }
 
-		document.onkeypress=function(e){
+//		document.onkeypress=function(e){
 
 
-	    	var e= window.event || e;
-			var keyunicode = e.charCode;
+//	    	var e= window.event || e;
+//			var keyunicode = e.charCode;
 
-			var currentPosition = {z:(camera.position.z)};
-			var currentz = camera.position.z;
+//			var currentPosition = {z:(camera.position.z)};
+//			var currentz = camera.position.z;
 
-			
-			var i = 0;
-			var changeDistance = function(){
-				camera.position.z = currentPosition.z;
+//			
+//			var i = 0;
+//			var changeDistance = function(){
+//				camera.position.z = currentPosition.z;
 
-			}
+//			}
 
 
 
-			if(keyunicode === 43){
-				var tos = {z: (currentz - 500)};
-				var tween = new TWEEN.Tween(currentPosition)
-						.to(tos, 2000)
-						.delay(0)
-						.easing(TWEEN.Easing.Linear.None)
-						.onUpdate(changeDistance);
-				tween.start();
-				}
+//			if(keyunicode === 43){
+//				var tos = {z: (currentz - 500)};
+//				var tween = new TWEEN.Tween(currentPosition)
+//						.to(tos, 2000)
+//						.delay(0)
+//						.easing(TWEEN.Easing.Linear.None)
+//						.onUpdate(changeDistance);
+//				tween.start();
+//				}
 
-			
-			if(keyunicode === 45){
-				var tos = {z: (currentz + 500)};
-				var tween = new TWEEN.Tween(currentPosition)
-						.to(tos, 2000)
-						.delay(0)
-						.easing(TWEEN.Easing.Linear.None)
-						.onUpdate(changeDistance);
-				tween.start();
-				}
+//			
+//			if(keyunicode === 45){
+//				var tos = {z: (currentz + 500)};
+//				var tween = new TWEEN.Tween(currentPosition)
+//						.to(tos, 2000)
+//						.delay(0)
+//						.easing(TWEEN.Easing.Linear.None)
+//						.onUpdate(changeDistance);
+//				tween.start();
+//				}
 
-	    }
+//	    }
 
 	    var self = {
 	    	f: undefined
