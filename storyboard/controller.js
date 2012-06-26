@@ -169,7 +169,7 @@ StoryboardController.prototype.setBehaviourForNewSegment = function(behaviour) {
  * @param {number} id The id of the segment whose behaviour has to be set
  * @param {Object} behaviour The behaviour to associate to the specified segment
  */
-StoryboardController.prototype.setBehaviourForSegment = function(behaviour) {
+StoryboardController.prototype.setBehaviourForSegment = function(id, behaviour) {
 	var segment = this.storyboard.getSegmentById(id);
 	segment.behaviour = behaviour;
 };
@@ -187,7 +187,7 @@ StoryboardController.prototype.setDurationForNewSegment = function(duration) {
  * @param {number} id The id of the segment whose duration has to be set
  * @param {number} duration The duration to associate to the specified segment
  */
-StoryboardController.prototype.setDurationForSegment = function(duration) {
+StoryboardController.prototype.setDurationForSegment = function(id, duration) {
 	var segment = this.storyboard.getSegmentById(id);
 	segment.duration = duration;
 };
