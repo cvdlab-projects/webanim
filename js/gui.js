@@ -274,7 +274,7 @@ function checkSelect(o, m, i) {
 $("#edit-segment-dialog-form").dialog({
     autoOpen: false,
     height: 600,
-    width: 870,
+    width: 370,
     modal: true,
     buttons: {
         "Confirm": function() {
