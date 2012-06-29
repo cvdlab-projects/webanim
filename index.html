@@ -19,13 +19,13 @@
                     Insert Event
                 </button>
                 <button id="moveEvt" style="display : block">
-                    <img src="assets/move.png" />
+                    <img src="media/images/move.png" />
                 </button>
                 <button id="addSegment" style="display : block">
-                    <img src="assets/addArc.png" />
+                    <img src="media/images/addArc.png" />
                 </button>
                 <button id="rm" style="display : block">
-                    <img src="assets/remove.png" />
+                    <img src="media/images/remove.png" />
                 </button>
                 <button id="edit" style="display : block">
                     Edit
@@ -265,6 +265,23 @@
                 }
             });
 
+        });
+    </script>
+
+    <script type="text/javascript" src="js/videoGenerator.js"></script>
+    <script type="text/javascript">
+        setRecordingCanvas('#canvas');
+        prependVideoControls($('#controlButtons'));
+        loadButtons();
+        var tempB = $("#recordButton");
+        tempB.on('click', function() {
+            if(self.f !== null && self.f !== undefined) {
+                stop();
+                self.f = undefined;
+            } else {
+                self.f = videoRecording;
+                play();
+            }
         });
     </script>
 </html>

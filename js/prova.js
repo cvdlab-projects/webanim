@@ -368,6 +368,10 @@
                 });
               }
 
+              if (segment.easing !== undefined) {
+                // TODO: da fare
+              }
+
             }
 
           }

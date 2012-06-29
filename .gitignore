@@ -1,0 +1,4 @@
+*.DS_Store
+media/video/*
+clucene_index/*
+node_modules/*
