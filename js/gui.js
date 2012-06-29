@@ -339,7 +339,6 @@ $("#edit-segment-dialog-form").dialog({
 
             //check if it is all alright
 
-            // Put the behaviour object only if needed
             if (check) {
                 var behaviour = {
                     easing: easing.val()
