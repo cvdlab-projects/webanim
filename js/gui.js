@@ -153,7 +153,7 @@ var storyboardController = new StoryboardController(handler);
 
 
 $("#accordion").accordion({
-    collapsible: true
+    collapsible: false
 });
 
 
@@ -228,9 +228,9 @@ $("#segment-easing").on("change", function() {
 
 function updateTips(t) {
     $(".validateTips").text(t).addClass("ui-state-highlight");
-    setTimeout(function() {
-        $(".validateTips").removeClass("ui-state-highlight", 1500);
-    }, 500);
+    // setTimeout(function() {
+    //     $(".validateTips").removeClass("ui-state-highlight", 1500);
+    // }, 500);
 }
 
 function checkRegexp(o, regexp, n) {
@@ -244,11 +244,12 @@ function checkRegexp(o, regexp, n) {
     }
 }
 
-function checkDigits(o, n) {
+function checkDigits(o, n, i) {
     var number = o.val();
     if (!(!isNaN(parseFloat(number)) && isFinite(number))) {
         o.addClass("ui-state-error");
         updateTips(n);
+        $("#accordion").accordion('activate', i);
 
         return false;
     } else {
@@ -257,10 +258,11 @@ function checkDigits(o, n) {
     }
 }
 
-function checkSelect(o, m) {
+function checkSelect(o, m, i) {
     if (o.val() === 'default') {
         o.addClass("ui-state-error");
         updateTips(m);
+        $("#accordion").accordion('activate', i);
 
         return false;
     } else {
@@ -272,7 +274,7 @@ function checkSelect(o, m) {
 $("#edit-segment-dialog-form").dialog({
     autoOpen: false,
     height: 600,
-    width: 350,
+    width: 870,
     modal: true,
     buttons: {
         "Confirm": function() {
@@ -303,36 +305,37 @@ $("#edit-segment-dialog-form").dialog({
 
             var check = true;
 
+            check = check && checkSelect(actor, "You must choose an actor");
             check = check && checkDigits(duration, "This must be a number");
 
             var posCheck = pos.some(function (e) {
                 return e.val() !== "";
             });
             if (posCheck) {
-                check = check && checkDigits(pos_x, "This must be a number");
-                check = check && checkDigits(pos_y, "This must be a number");
-                check = check && checkDigits(pos_z, "This must be a number");
+                check = check && checkDigits(pos_x, "This must be a number", 0);
+                check = check && checkDigits(pos_y, "This must be a number", 0);
+                check = check && checkDigits(pos_z, "This must be a number", 0);
             }
 
             var rotateCheck = rotate.some(function (e) {
                 return e.val() !== "";
             });
             if (rotateCheck) {
-                check = check && checkDigits(rotate_a, "This must be a number");
-                check = check && checkDigits(rotate_b, "This must be a number");
-                check = check && checkDigits(rotate_g, "This must be a number");
+                check = check && checkDigits(rotate_a, "This must be a number", 1);
+                check = check && checkDigits(rotate_b, "This must be a number", 1);
+                check = check && checkDigits(rotate_g, "This must be a number", 1);
             }
 
             var scaleCheck = scale.some(function (e) {
                 return e.val() !== "";
             });
             if (scaleCheck) {
-                check = check && checkDigits(scale_x, "This must be a number");
-                check = check && checkDigits(scale_y, "This must be a number");
-                check = check && checkDigits(scale_z, "This must be a number");
+                check = check && checkDigits(scale_x, "This must be a number", 2);
+                check = check && checkDigits(scale_y, "This must be a number", 2);
+                check = check && checkDigits(scale_z, "This must be a number", 2);
             }
 
-            check = check && checkSelect(easing, "You must choose an easing function");
+            check = check && checkSelect(easing, "You must choose an easing function", 3);
 
             //check if it is all alright
 
@@ -384,6 +387,11 @@ $("#edit-segment-dialog-form").dialog({
         Cancel: function() {
             $(this).dialog("close");
         }
+    },
+
+    beforeClose: function (event, ui) {
+        $(".validateTips").text("").removeClass("ui-state-highlight");
+        $(".ui-state-error").removeClass("ui-state-error");
     }
 });
 
@@ -479,6 +487,11 @@ $("#add-actor-dialog-form").dialog({
         $("#actor-model option").filter(function() {
             return $(this).val() === "default";
         }).attr('selected', true);
+    },
+
+    beforeClose: function (event, ui) {
+        $(".validateTips").text("").removeClass("ui-state-highlight");
+        $(".ui-state-error").removeClass("ui-state-error");
     }
 });
 
