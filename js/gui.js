@@ -110,7 +110,7 @@ var editSegment = function(label, evt) {
 
             var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
             $("#segment-actor option").filter(function() {
-                return $(this).val() === act;
+                return $(this).text() === act;
             }).attr('selected', true);
 
             $("#segment-duration").val(GraphState.currentLogicSegment.duration);
