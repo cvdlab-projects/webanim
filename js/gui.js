@@ -102,23 +102,23 @@ var handler = {
 };
 
 var editSegment = function(label, evt) {
-        if (GraphState.edit) {
-            GraphState.currentLabel = label;
-            GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
-            //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
-            console.log(GraphState.currentLogicSegment);
+    if (!GraphState.rmEvt) {
+        GraphState.currentLabel = label;
+        GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
+        //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
+        console.log(GraphState.currentLogicSegment);
 
-            var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
-            $("#segment-actor option").filter(function() {
-                return $(this).val() === act;
-            }).attr('selected', true);
+        var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
+        $("#segment-actor option").filter(function() {
+            return $(this).val() === act;
+        }).attr('selected', true);
 
-            $("#segment-duration").val(GraphState.currentLogicSegment.duration);
-            $("#segment-description").val(GraphState.currentLogicSegment.description);
+        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
+        $("#segment-description").val(GraphState.currentLogicSegment.description);
 
-            $("#edit-segment-dialog-form").dialog("open");
-        }
-    };
+        $("#edit-segment-dialog-form").dialog("open");
+    }
+};
 
 jsPlumb.importDefaults({
     Endpoint: ["Dot",
@@ -361,7 +361,7 @@ $("#edit-segment-dialog-form").dialog({
                     behaviour.scale = {
                         x: scale_x.val(),
                         y: scale_y.val(),
-                        z: scales_z.val()
+                        z: scale_z.val()
                     };
                 }
 
@@ -391,6 +391,22 @@ $("#edit-segment-dialog-form").dialog({
     beforeClose: function (event, ui) {
         $(".validateTips").text("").removeClass("ui-state-highlight");
         $(".ui-state-error").removeClass("ui-state-error");
+
+        // $("#segment-actor").val("");
+        $("#segment-duration").val("");
+        $("#segment-description").val("");
+
+        $("#segment-pos-to-x").val("");
+        $("#segment-pos-to-y").val("");
+        $("#segment-pos-to-z").val("");
+
+        $("#segment-rot-to-a").val("");
+        $("#segment-rot-to-b").val("");
+        $("#segment-rot-to-g").val("");
+
+        $("#segment-scale-to-x").val("");
+        $("#segment-scale-to-y").val("");
+        $("#segment-scale-to-z").val("");
     }
 });
 
@@ -715,20 +731,7 @@ var tool = {
         },
 
         el: "rm"
-    },
-
-    edit: {
-        on: function() {
-            GraphState.edit = true;
-        },
-
-        off: function() {
-            GraphState.edit = false;
-        },
-
-        el: "edit"
     }
-
 };
 
 (function(buttons) {
