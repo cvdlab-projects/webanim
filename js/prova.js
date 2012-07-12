@@ -96,21 +96,22 @@
 			}
 		}
 
-		function setupScene(storyboard){
+		function setupScene(width, height, storyboard){
 
 //			createMeshes();
 			//sovrapponiEffetti(animations);
-		    init(640, 480, storyboard);
+		    init(width, height, storyboard);
 
 		    saveOriginalState();
 		    meshesStartingState();
-		    animate();
+		    renderingAnimate();
 
 		}
 
 	//	setupScene();
 
 		function pause(){
+		  console.log ("PAUSE");
 			for (var i in tweens){
 				tweens[i].stop();
 				ispaused = true;
@@ -119,6 +120,7 @@
 		}
 
 		function play(){
+		  console.log ("PLAY");
 			playFrom();
 			
 			if(!isanimating || ispaused){
@@ -132,10 +134,12 @@
 		}
 
 		function rwAnimation(){
+		  console.log ("RW");
 			stop();
 		}
 
 		function ffAnimation(){
+		  console.log ("FF");
 			startFromSecond(animations,endTime);
 			meshesIntermediateState();
 			tweens = [];
@@ -159,6 +163,7 @@
     }
 
 		function stop(){
+		  console.log ("STOP");
 			for(var i in tweens){
 
 					tweens[i].stop();		
@@ -286,16 +291,17 @@
             y0 : actor.startingConfiguration.ty,
             z0 : actor.startingConfiguration.tz,
             dx : 0, dy : 0, dz : 0,
-            sx : 1, sy : 1, sz : 1,
-            rx : 0, sy : 0, z : 0
+            rx : 0, ry : 0, rz : 0,
+            sx : 1, sy : 1, sz : 1
           };
 
           if (actor.model === "Camera") {
             var camera = new THREE.PerspectiveCamera (45, w / h, 0.1, 10000);
+            camera.lookAt (scene.position);
             animation.obj = camera;
             cameras.push (camera);
           } else if (actor.model === "Cube")
-            animation.obj = new THREE.Mesh (new THREE.CubeGeometry ());
+            animation.obj = new THREE.Mesh (new THREE.CubeGeometry (1, 1, 1)); // , new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
           else if (actor.model === "Cylinder")
             animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
           else if (actor.model === "Icosahedron")
@@ -332,7 +338,7 @@
 
             if (segment.actor.id === actor.id) {
 
-              if (segment.position !== undefined) {
+              if (segment.behaviour.position !== undefined) {
                 animation.transitions.push ({
                   id : segment.id * 10 + 1,
                   t : "translate",
@@ -344,7 +350,7 @@
                 });
               }
 
-              if (segment.rotation != undefined) {
+              if (segment.behaviour.rotation !== undefined) {
                 animation.transitions.push ({
                   id : segment.id * 10 + 2,
                   t : "rotate",
@@ -356,7 +362,7 @@
                 });
               }
 
-              if (segment.scale != undefined) {
+              if (segment.behaviour.scale !== undefined) {
                 animation.transitions.push ({
                   id : segment.id * 10 + 3,
                   t : "scale",
@@ -656,10 +662,10 @@
 	        scene = new THREE.Scene();
 
 	//        container = document.getElementById( 'container' );
-	        container = $('#container');
+	        //container = $('#container');
 	//		document.body.appendChild( container );
 	//        var divStats = document.getElementById ('stats');
-	        var divStats = $('#stats');
+	        //var divStats = $('#stats');
 
 	        var canvas = document.getElementById("canvas");
 
@@ -670,7 +676,7 @@
 	//        camera.lookAt( scene.position );
 	//        scene.add( camera );
 
-        createMeshesFromStoryboard (storyboard, w, h);
+        createMeshesFromStoryboard (storyboard, width, height);
 
 //	      if (_meshes === undefined) {
 
@@ -705,6 +711,8 @@
 //	      }
 
 	        camera = cameras[0];
+	        if (camera === undefined)
+	          alert ("Si deve aggiungere almeno una camera!");
 	        scene.add (camera);
 	
 	        
@@ -740,10 +748,10 @@
 
 			scene.add(light);
 			
-			stats = new Stats();
+			//stats = new Stats();
 	//		stats.domElement.style.position = 'absolute';
 	//		stats.domElement.style.top = '20px';
-			divStats.append ( $(stats.domElement) );
+			//divStats.append ( $(stats.domElement) );
 
 	        
 	        
@@ -754,7 +762,8 @@
 	    precision : "highp",
 	    canvas : canvas
 	  });
-	        renderer.setSize( width, height );
+	  renderer.setSize( width, height );
+    //renderer.render (scene, camera);
 
 //	        container.append ( $(renderer.domElement) );
 
@@ -808,11 +817,12 @@
 	    };
 
 
-	    function animate() {
+	    function renderingAnimate() {
 
-	        requestAnimationFrame( animate );
+          console.log ("LOOP ...");
+	        requestAnimationFrame( renderingAnimate );
 	        render();
-	        stats.update();
+	        //stats.update();
 	        TWEEN.update();
 				if(lookAtScene){
 						camera.lookAt(scene.position);

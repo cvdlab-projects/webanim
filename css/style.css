@@ -48,8 +48,8 @@ input {
 
 #menu {
     width: 50px;
-    height: auto;
-    min-height: 100%;
+/*    height: auto;*/
+/*    min-height: 100%;*/
     position: absolute;
 }
 

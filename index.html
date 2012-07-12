@@ -50,19 +50,19 @@
     <div>
         <div id="controlButtons">
         </div>
-        <div id="stats"></div>
-        <!--     <div id="container"></div>-->
+        <!--div id="stats"></div-->
+        <!--div id="container2"></div-->
         <canvas id="canvas" width="640" height="480"></canvas>
 
         <div id="camera_buttons"></div><br />
 
-        <button type = "button" onClick = "play()" >Play</button>
-        <button type = "button" onClick = "pause()" >Pause</button>
-        <button type = "button" onClick = "stop()" >Stop</button>
+        <button id="playBtn" type = "button">Play</button>
+        <button id="pauseBtn" type = "button">Pause</button>
+        <button id="stopBtn" type = "button">Stop</button>
 
-        <button type = "button" onClick = "ffAnimation()" >FF</button>
-        <button type = "button" onClick = "rwAnimation()" >RW</button>
-        <button type = "button" onClick = "lookAtCenter()" >Look At Center</button>
+        <button id="ffAnimBtn" type = "button">FF</button>
+        <button id="rwAnimBtn" type = "button">RW</button>
+        <button id="lacBtn" type = "button">Look At Center</button>
 
         <button id="recordButton" type = "button" >Record</button>
     </div>
@@ -231,6 +231,15 @@
     <script type="text/javascript" src="js/timeline.js"></script>
     <script type="text/javascript" src="js/prova.js"></script>
     <script type="text/javascript" src="js/gui.js"></script>
+
+    <script type="text/javascript">
+      $("#playBtn").click (play);
+      $("#pauseBtn").click (pause);
+      $("#stopBtn").click (stop);
+      $("#ffAnimBtn").click (ffAnimation);
+      $("#rwAnimBtn").click (rwAnimation);
+      $("#lacBtn").click (lookAtCenter);
+    </script>
 
     <script type="text/javascript" src="js/timeline.js"></script>
     <script type="text/javascript">
