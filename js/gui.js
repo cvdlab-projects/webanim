@@ -108,14 +108,40 @@ var editSegment = function(label, evt) {
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
         //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
         console.log(GraphState.currentLogicSegment);
+        var segment = GraphState.currentLogicSegment;
 
-        var act = (GraphState.currentLogicSegment.actor && GraphState.currentLogicSegment.description) || "default";
+        var act = (segment.actor && segment.actor.id) || "default";
         $("#segment-actor option").filter(function() {
-            return $(this).val() === act;
+            return $(this).val() == act;
         }).attr('selected', true);
 
         $("#segment-duration").val(GraphState.currentLogicSegment.duration);
         $("#segment-description").val(GraphState.currentLogicSegment.description);
+
+        var behaviour = GraphState.currentLogicSegment.behaviour;
+        if (behaviour) {
+            if (behaviour.position) {
+                $("#segment-pos-to-x").val(behaviour.position.x);
+                $("#segment-pos-to-y").val(behaviour.position.y);
+                $("#segment-pos-to-z").val(behaviour.position.z);
+            }
+
+            if (behaviour.rotation) {
+                $("#segment-rot-to-a").val(behaviour.rotation.x);
+                $("#segment-rot-to-b").val(behaviour.rotation.y);
+                $("#segment-rot-to-g").val(behaviour.rotation.z);
+            }
+
+            if (behaviour.scale) {
+                $("#segment-scale-to-x").val(behaviour.scale.x);
+                $("#segment-scale-to-y").val(behaviour.scale.y);
+                $("#segment-scale-to-z").val(behaviour.scale.z);
+            }
+
+            $("#segment-easing option").filter(function () {
+                return $(this).val() === behaviour.easing;
+            }).attr('selected', true);
+        }
 
         $("#edit-segment-dialog-form").dialog("open");
     }
@@ -162,6 +188,23 @@ $("#error").dialog({
     autoOpen: false,
     modal: true
 });
+
+function clearEasingCanvas() {
+    var canvas = document.getElementById("segment-easing-canvas");
+    var context = canvas.getContext('2d');
+    context.fillStyle = "rgb(250,250,250)";
+    context.fillRect(0, 0, 180, 100);
+    context.lineWidth = 0.5;
+    context.strokeStyle = "rgb(230,230,230)";
+
+    context.beginPath();
+    context.moveTo(0, 20);
+    context.lineTo(180, 20);
+    context.moveTo(0, 80);
+    context.lineTo(180, 80);
+    context.closePath();
+    context.stroke();
+}
 
 function updateCanvas(f) {
 
@@ -393,7 +436,10 @@ $("#edit-segment-dialog-form").dialog({
         $(".validateTips").text("").removeClass("ui-state-highlight");
         $(".ui-state-error").removeClass("ui-state-error");
 
-        // $("#segment-actor").val("");
+        $("#segment-actor option").filter(function () {
+            return $(this).val() === "default";
+        }).attr('selected', true);
+
         $("#segment-duration").val("");
         $("#segment-description").val("");
 
@@ -408,6 +454,11 @@ $("#edit-segment-dialog-form").dialog({
         $("#segment-scale-to-x").val("");
         $("#segment-scale-to-y").val("");
         $("#segment-scale-to-z").val("");
+
+        $("#segment-easing option").filter(function () {
+            return $(this).val() === "default";
+        }).attr('selected', true);
+        clearEasingCanvas();
     }
 });
 
