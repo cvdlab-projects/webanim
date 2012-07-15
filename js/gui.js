@@ -657,12 +657,34 @@ $("#calculate").on("click.webGraph", function() {
         return;
     }
 
+    $("#Timeline").del();
     $("#Timeline").Timeline({
         data: storyboardController.populateTimeline(),
-        // TODO
-        slideWidth: 900
-    });
+        slideWidth: 900,
+        frame: [],
+        behavior: {
+                    onClick: function (data) { 
+                        var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
+                        $("#eventMessage").text(msg);
+                        // Qui facciamo il scene.remove () ...
+                    },
+                    onClick2: function (t) { 
+                        var msg = "You clicked on column: " + t;
+                        $("#eventMessage").text(msg);
+                        gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
+                    },
+                    onClick3: function (t) { 
+                        var msg = "You clicked on actor: " + t;
+                        $("#eventMessage").text(msg);
+                    },
+                    onClick4: function (t) { 
+                        var msg = "You deselect the actor " + t;
+                        $("#eventMessage").text(msg);
+                    }
+        }
 
+    });
+  
     storyboardController.processStoryboard();
 });
 

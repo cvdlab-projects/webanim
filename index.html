@@ -5,6 +5,7 @@
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
+            
     </head>
     <div id="container">
         <div id="header">
@@ -246,32 +247,13 @@
 
         $(function () {
             $("#Timeline").Timeline({ 
-                data: storyboardController.populateTimeline(), // TODO
-                    slideWidth: 900,
-
-                behavior: {
-                    onClick: function (data) { 
-                        var msg = "You clicked on segment " + data.name + ": { start: " + data.start + ", end: " + data.end + " }";
-                        $("#eventMessage").text(msg);
-                        // Qui facciamo il scene.remove () ...
-                    },
-                    onClick2: function (t) { 
-                        var msg = "You clicked on column: " + t;
-                        $("#eventMessage").text(msg);
-                        gotoFrame (t * 12000 / 100); // TODO: bisogna conoscere la durata totale
-                    },
-                    onClick3: function (t) { 
-                        var msg = "You clicked on actor: " + t;
-                        $("#eventMessage").text(msg);
-                    },
-                    onClick4: function (t) { 
-                        var msg = "You deselect the actor " + t;
-                        $("#eventMessage").text(msg);
-                    }
-                }
+                data: storyboardController.populateTimeline(),
+                slideWidth: 900,
+                frame: []
             });
 
         });
+
     </script>
 
     <script type="text/javascript" src="js/videoGenerator.js"></script>

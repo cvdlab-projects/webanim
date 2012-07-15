@@ -5,11 +5,13 @@
     	var args = Array.prototype.slice.call(arguments);
     	
     	if (args.length == 1 && typeof(args[0]) == "object") {
-        	buildInit.call(this, args[0]);
+        	InitBuild.call(this, args[0]);
     	}
     };
     
-    function buildInit(options) {
+    var opts;
+
+    function InitBuild(options) {
     	
     	var els = this;
         var defaults = {
@@ -24,11 +26,10 @@
 
 			start: null,
 			end: null,
-
 			focus: null
         };
         
-        var opts = jQuery.extend(true, defaults, options);
+        opts = jQuery.extend(true, defaults, options);
 
 		if (opts.data) {
 			build();
@@ -112,22 +113,36 @@
         }
 
         function addHzHeader(div, times, cellWidth) {
-          
+            var headerDiv = jQuery("<div>", { "class": "timeline-hzheader" });
             var msDiv = jQuery("<div>", { "class": "timeline-hzheader-ms" });
             var secsDiv = jQuery("<div>", { "class": "timeline-hzheader-secs" });
-            var totalW = 0;
-            var w = times.length * cellWidth;
-            totalW = totalW + w;
+
+            var minutes=0;
+            var w = 60 * cellWidth;
+
             msDiv.append(jQuery("<div>", {
                         "class": "timeline-hzheader-m",
                         "css": { "width": (w - 1) + "px" }
-            }));
+            }).append("minuto " + minutes));
+            
             for (var y in times) {
-                        secsDiv.append(jQuery("<div>", { "class": "timeline-hzheader-sec", "id" : "0" }).append(times[y]));                
+                        secsDiv.append(jQuery("<div>", { "class": "timeline-hzheader-sec", "id" : "0", "sec":y }).append(y%60));   
+
+                        if(y%60 ==0 && y!=0){
+                                minutes++;
+                                if(y-times.length<60){w = (times.length-y) * cellWidth; }
+                                else w = 40 * cellWidth;
+                                msDiv.append(jQuery("<div>", {
+                                    "class": "timeline-hzheader-m",
+                                    "css": { "width": (w - 1) + "px" }
+                                }).append("minuto " + minutes));
+                        }
             }
-            msDiv.css("width", totalW + "px");
-            secsDiv.css("width", totalW + "px");
-            div.append(msDiv.append(secsDiv));
+
+            msDiv.css("width", times.length * cellWidth + "px");
+            secsDiv.css("width", times.length * cellWidth + "px");
+            headerDiv.append(msDiv).append(secsDiv);
+            div.append(headerDiv);
         }
 
         function addGrid(div, data, times, cellWidth) {
@@ -201,11 +216,11 @@
 		};
 	}
 
-    /* memorizza i frame selezionati */
-    var frame = [];
+    
 
 	var Behavior = function (div, opts) {
-		
+		var frame = opts.frame;
+        //if(opts==null) return null;
 		function apply() {
             bindBlockEvent(div, "mouseover", opts.behavior.onMouseOver);
             bindBlockEvent(div, "mouseout", opts.behavior.onMouseOut);
@@ -213,7 +228,7 @@
 			if (opts.behavior.clickable) { 
             	bindBlockEvent(div, "click", opts.behavior.onClick);
                 bindColumnEvent(div, "click", opts.behavior.onClick2);
-                ActorSelection(opts.behavior.onClick3,opts.behavior.onClick4);
+                ActorSelection(opts.data, opts.behavior.onClick3,opts.behavior.onClick4);
         	}
 
 		}
@@ -228,28 +243,21 @@
         function bindColumnEvent(div, eventName, callback) {
             jQuery("div.timeline-hzheader-sec", div).live(eventName, function () {
                 
-                    // if(jQuery(this).attr('id') == "0"){
-                    //     selectColumn( jQuery(this).text() );
-                        
-                    //     $(this).attr('id','1'); 
-                    //     $(this).addClass('special');
-                    //     console.log($(this));
-                    // }
-                    // else {
-                    //     jQuery(this).attr('id','0'); 
-                    //     jQuery(this).removeClass('special');
+                    if(jQuery(this).attr('id') == "0"){
+                        selectColumn( jQuery(this).attr('sec') );
 
-                    //     deselectColumn( jQuery(this).text() );
-                    // }
-                    console.log($(this).attr("class").indexOf("special"));
-                    if($(this).attr("class").indexOf("special") === -1){
-                        $(this).addClass('special');
+                        jQuery(this).attr('id','1'); 
+                        jQuery(this).addClass('special');
+
                     }
-                    else{
-                        $(this).removeClass('special');
+                    else {
+                        jQuery(this).attr('id','0'); 
+                        jQuery(this).removeClass('special');
+
+                        deselectColumn( jQuery(this).attr('sec') );
                     }
 
-                if (callback) { callback(jQuery(this).text(), this); }
+                if (callback) { callback(jQuery(this).attr('sec'), this); }
             });
         }   
    
@@ -306,19 +314,19 @@
             jQuery('div.timeline-hzheader-sec[id = 1]', div).attr('id','0'); 
         }
 
-        function ActorSelection(callback, callback2){
+        function ActorSelection(data, callback, callback2){
             $(":checkbox").change(function(){
                 
                 if($(this).attr("checked"))
                 {
                     var id_check = jQuery(this).attr('id');
                     jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',true);
-                    if (callback) { callback(id_check); }
+                    if (callback) { callback(data[id_check].id); }
                 }
                 else
                 {   var id_check = jQuery(this).attr('id');
                     jQuery('div.timeline-vtheader-item[id='+id_check+']', div).attr('hide',false);
-                    if (callback2) { callback2(id_check); }
+                    if (callback2) { callback2(data[id_check].id); }
                 }
 
             });
@@ -329,7 +337,11 @@
         };
 	}
 
-
+    jQuery.fn.del = function () {
+        var container = jQuery(this);
+        container.unbind();
+        container.children().remove();
+    };
     
 
 })(jQuery);
