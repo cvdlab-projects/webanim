@@ -10,9 +10,80 @@
 	var ispaused = false;
 	var isstopped = false;
 	var startTime = 0;
-	var endTime = 0; //modify it
+	var endTime = 10000; //modify it
+	var isRunning = false;
 
 	var lookAtScene = true;
+	
+	
+	/*
+	        t0 = {id:1,t:"translate",t0: 0,t1: 6000,dxf:0,dyf:0,dzf:-500};
+			//var t = {id:1,t:"scale",t0: 0,t1: 2000,sxf:0.5,syf:1,szf:1};
+			t1 = {id:2,t:"scale",t0: 0,t1: 3000,sxf:0.5,syf:2,szf:2};
+			t2 = {id:3,t:"rotate",t0: 0,t1: 6000,dgx:-90,dgy:90,dgz:90};
+	        }
+			
+	        //t1 = {id:2,t:"scale",t0: 0,t1: 1000,sxf:2,syf:2,szf:2};
+			anim = {id:i*k+i,obj:mesh,transitions:[t0,t1,t2],x0:-500+(51*j),y0:-500+(51*i),z0:-500+(51*k),dx:0,dy:0,dz:						0,sx:1,sy:1,sz:1,rx:0,ry:0,rz:0};*/
+	
+	function stringToInt() {
+		
+		for(var i in animations){
+			var a = animations[i];
+			a.id = parseInt(a.id);
+			a.z0 = parseInt(a.z0);
+			a.x0 = parseInt(a.x0);
+			a.y0 = parseInt(a.y0);
+
+			a.dx = parseInt(a.dx);
+			a.dy = parseInt(a.dy);
+			a.dz = parseInt(a.dz);
+			
+			a.sx = parseInt(a.sx);
+			a.sy = parseInt(a.sy);
+			a.sz = parseInt(a.sz);
+			
+			a.rx = parseInt(a.rx);
+			a.ry = parseInt(a.ry);
+			a.rz = parseInt(a.rz);
+			
+			
+			for (var j in a.transitions) {
+			  	    		var tr = a.transitions[j];
+			  	    		
+			  	    		
+			  	    		tr.t0 = parseInt(tr.t0);
+			  	    		tr.t1 = parseInt(tr.t1);
+							tr.id = parseInt(tr.id);
+
+			  	    		if(tr.t === "translate"){
+			  	    			tr.dxf = parseInt(tr.dxf);
+			  	    			tr.dyf = parseInt(tr.dyf);
+			  	    			tr.dzf = parseInt(tr.dzf);
+			  	    		}
+
+			  	    		if(tr.t === "scale"){
+			  	    			tr.sxf = parseInt(tr.sxf);
+			  	    			tr.syf = parseInt(tr.syf);
+			  	    			tr.szf = parseInt(tr.szf);
+			  	    		}
+
+			  	    		if(tr.t === "rotate"){
+			  	    			tr.dgx = parseInt(tr.dgx);
+			  	    			tr.dgy = parseInt(tr.dgy);
+			  	    			tr.dgz = parseInt(tr.dgz);
+			  	    		}
+			  	    		
+			  	    		
+			  	    	}
+
+
+
+			
+		
+		}
+		
+	}
 
 
 	function backwardCalculationRotation(ts,t0){
@@ -100,11 +171,27 @@
 
 //			createMeshes();
 			//sovrapponiEffetti(animations);
-		    init(width, height, storyboard);
+			
+			animations = [];
+			tweens = [];
+			cameras = [];
+			
+		  	init(width, height, storyboard);
 
-		    saveOriginalState();
-		    meshesStartingState();
-		    renderingAnimate();
+		  saveOriginalState();
+		  
+			isanimating = false;
+			ispaused = false;
+			TWEEN.removeAll();
+		
+				if (!isRunning) {
+					renderingAnimate();
+					
+					isRunning = true;
+				}
+				
+			meshesStartingState();
+		    
 
 		}
 
@@ -239,6 +326,7 @@
 		
 
 		function createTweensFromTransitions(){
+			stringToInt();
 			for(var i in animations){
 				var anim = animations[i];
 				for (var j in anim.transitions ){
@@ -287,9 +375,9 @@
             id : actor.id,
             obj : undefined,
             transitions : [],
-            x0 : actor.startingConfiguration.tx,
-            y0 : actor.startingConfiguration.ty,
-            z0 : actor.startingConfiguration.tz,
+            x0 : parseFloat(actor.startingConfiguration.tx),
+            y0 : parseFloat(actor.startingConfiguration.ty),
+            z0 : parseFloat(actor.startingConfiguration.tz),
             dx : 0, dy : 0, dz : 0,
             rx : 0, ry : 0, rz : 0,
             sx : 1, sy : 1, sz : 1
@@ -301,7 +389,7 @@
             animation.obj = camera;
             cameras.push (camera);
           } else if (actor.model === "Cube")
-            animation.obj = new THREE.Mesh (new THREE.CubeGeometry (1, 1, 1)); // , new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
+            animation.obj = new THREE.Mesh (new THREE.CubeGeometry (50, 50, 50)); // , new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } )
           else if (actor.model === "Cylinder")
             animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
           else if (actor.model === "Icosahedron")
@@ -506,7 +594,7 @@
 					tween	= new TWEEN.Tween(currentT)
 						.to(tos, (t1 - t0))
 						.delay(t0)
-						.easing(TWEEN.Easing.Elastic.InOut)
+						.easing(TWEEN.Easing.Linear.None)
 						.onUpdate(updateTranslation);
 				}
 				
@@ -719,6 +807,7 @@
 
 
 	        var camera_buttons = $('#camera_buttons');
+				camera_buttons.empty();
 	        for (var i in cameras) {
 	          var i1 = parseInt (i) + 1;
 	          camera_buttons.append ('<button onClick="changeCamera (cameras[' + i + '])">Camera ' + i1 + '</button>');
@@ -819,7 +908,7 @@
 
 	    function renderingAnimate() {
 
-          console.log ("LOOP ...");
+          
 	        requestAnimationFrame( renderingAnimate );
 	        render();
 	        //stats.update();
