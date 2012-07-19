@@ -175,6 +175,7 @@
 			animations = [];
 			tweens = [];
 			cameras = [];
+			animationsCopy = [];
 			
 		  	init(width, height, storyboard);
 
