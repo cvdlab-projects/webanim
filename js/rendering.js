@@ -463,8 +463,8 @@
                 });
               }
 
-              if (segment.easing !== undefined) {
-                // TODO: da fare
+              if (segment.behaviour.easing !== undefined) {
+                animation["easing"] = eval("TWEEN.Easing."+segment.behaviour.easing);
               }
 
             }
@@ -546,6 +546,7 @@
 
 		   function setupTween(obj,transition){
 
+			var easing = obj.easing;
 				var updateTranslation	= function(){
 					obj.obj.position.x = currentT.x;
 					obj.obj.position.y = currentT.y;
@@ -595,7 +596,7 @@
 					tween	= new TWEEN.Tween(currentT)
 						.to(tos, (t1 - t0))
 						.delay(t0)
-						.easing(TWEEN.Easing.Linear.None)
+						.easing(easing)
 						.onUpdate(updateTranslation);
 				}
 				
@@ -621,7 +622,7 @@
 					tween	= new TWEEN.Tween(currentR)
 						.to(tos, (t1 - t0))
 						.delay(t0)
-						.easing(TWEEN.Easing.Elastic.InOut)
+						.easing(easing)
 						.onUpdate(updateRotation);
 				}
 
@@ -644,7 +645,7 @@
 					tween	= new TWEEN.Tween(currentS)
 						.to(tos, (t1 - t0))
 						.delay(t0)
-						.easing(TWEEN.Easing.Elastic.InOut)
+						.easing(easing)
 						.onUpdate(updateScale);
 				}
 
