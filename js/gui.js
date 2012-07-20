@@ -178,7 +178,6 @@ jsPlumb.importDefaults({
 
 var storyboardController = new StoryboardController(handler);
 
-
 $("#accordion").accordion({
     collapsible: false
 });
@@ -283,6 +282,20 @@ function checkRegexp(o, regexp, n) {
         updateTips(n);
         return false;
     } else {
+        o.removeClass("ui-state-error");
+        return true;
+    }
+}
+
+function checkCameraZ(o, n) {
+    var number = o.val();
+    if (number < 800) {
+        o.addClass("ui-state-error");
+        updateTips(n);
+
+        return false;
+    }
+    else {
         o.removeClass("ui-state-error");
         return true;
     }
@@ -493,6 +506,10 @@ $("#add-actor-dialog-form").dialog({
             check = check && checkDigits(pos_x, "This must be a number");
             check = check && checkDigits(pos_y, "This must be a number");
             check = check && checkDigits(pos_z, "This must be a number");
+            console.log(model.val());
+            if (model.val() === 'Camera') {
+                check = check && checkCameraZ(pos_z, "This value must be at least 800");
+            }
 
             check = check && checkDigits(rotate_a, "This must be a number");
             check = check && checkDigits(rotate_b, "This must be a number");

@@ -1,276 +1,325 @@
 <html>
+
     <head>
         <title>WebAnimation</title>
         <link href="css/reset.css" rel="stylesheet" />
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css" />
-            
     </head>
-    <div id="container">
-        <div id="header">
-            <h1>Graph WebAnimation</h1>
-        </div>
-        <div id="content">
-            <div id="menu">
-                <button id="addActor" style="display : block">
-                    Add Actor
-                </button>
-                <button id="insertEvt" style="display : block">
-                    Insert Event
-                </button>
-                <button id="moveEvt" style="display : block">
-                    <img src="media/images/move.png" />
-                </button>
-                <button id="addSegment" style="display : block">
-                    <img src="media/images/addArc.png" />
-                </button>
-                <button id="rm" style="display : block">
-                    <img src="media/images/remove.png" />
-                </button>
 
-                <button id="calculate" style="display : block">
-                    Process Storyboard
-                </button>
-            </div>
-            <div id="paper"></div>
-        </div>
-        <div id="footer"></div>
-    </div>
-
-    <div id="error">
-        <div>There are some error with the graph</div>
-    </div>
-
-    <div id="storyboard-tools">
-        <div id="Timeline"></div>
-        <br/><br/>
-        <div id="eventMessage">Click on timebar to select a frame or a frame range</div><br/><br/>
-    </div>
-
-    <div>
-        <div id="controlButtons">
-        </div>
-        <!--div id="stats"></div-->
-        <!--div id="container2"></div-->
-        <canvas id="canvas" width="640" height="480"></canvas>
-
-        <div id="camera_buttons"></div><br />
-
-        <button id="playBtn" type = "button">Play</button>
-        <button id="pauseBtn" type = "button">Pause</button>
-        <button id="stopBtn" type = "button">Stop</button>
-
-        <button id="ffAnimBtn" type = "button">FF</button>
-        <button id="rwAnimBtn" type = "button">RW</button>
-        <button id="lacBtn" type = "button">Look At Center</button>
-
-        <button id="recordButton" type = "button" >Record</button>
-    </div>
-
-    <div id="add-actor-dialog-form">
-        <p class="validateTips"></p>
-        <form>
-            <fieldset>
-                <label for="description">Description</label>
-                <input type="text" name="description" class="text ui-widget-content ui-corner-all" id="actor-description" />
-                <label for="type">Type</label>
-                <select name="type" id="actor-model">
-                    <option value="default">select a model</option>
-                    <option value="Camera">Camera</option>
-                    <option value="Cube">Cube</option>
-                    <option value="Cylinder">Cylinder</option>
-                    <option value="Icosahedron">Icosahedron</option>
-                    <option value="Octahedron">Octahedron</option>
-                    <option value="Plane">Plane</option>
-                    <option value="Sphere">Sphere</option>
-                    <option value="Tetrahedron">Tetrahedron</option>
-                    <option value="Torus">Torus</option>
-                    <option value="Head">Head</option>
-                </select>
-                <div style="margin:20px 0px">Starting configuration</div>
-                <p>Start position</p>
-                <div id="actor-start-pos">
-                    <label for="x">x</label>
-                    <input type="text" name="x" id="actor-start-pos-x" class="text ui-widget-content ui-corner-all" />
-                    <label for="y">y</label>
-                    <input type="text" name="y" id="actor-start-pos-y" class="text ui-widget-content ui-corner-all" />
-                    <label for="z">z</label>
-                    <input type="text" name="z" id="actor-start-pos-z" class="text ui-widget-content ui-corner-all" />
-                </div>
-                <p>Start rotate</p>
-                <div id="actor-start-rotate">
-                    <label for="x">a</label>
-                    <input type="text" name="x" id="actor-start-rotate-a" class="text ui-widget-content ui-corner-all" />
-                    <label for="y">b</label>
-                    <input type="text" name="y" id="actor-start-rotate-b" class="text ui-widget-content ui-corner-all" />
-                    <label for="x">g</label>
-                    <input type="text" name="z" id="actor-start-rotate-g" class="text ui-widget-content ui-corner-all" />
-                </div>
-                <p>Start scale</p>
-                <div id="actor-start-scale">
-                    <label for="x">x</label>
-                    <input type="text" name="x" id="actor-start-scale-x" class="text ui-widget-content ui-corner-all" />
-                    <label for="y">y</label>
-                    <input type="text" name="y" id="actor-start-scale-y" class="text ui-widget-content ui-corner-all" />
-                    <label for="x">z</label>
-                    <input type="text" name="z" id="actor-start-scale-z" class="text ui-widget-content ui-corner-all" />
-                </div>
-            </fieldset>
-        </form>
-    </div>
-
-    <div id="edit-segment-dialog-form" title="Edit Segment">
-        <form id="edit-segment-form">
-            <p class="validateTips"></p>
-            <fieldset>
-                <label for="actor">Actor</label>
-                <select name="actor" id="segment-actor">
-                    <option value="default">select an actor</option>
-                </select>
-
-                <label for="name" style="display : block">Duration</label>
-                <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all" />
-                <label for="name">Description</label>
-                <input type="text" name="description" id="segment-description" class="text ui-widget-content ui-corner-all" />
-
-                <div id="accordion">
-                    <h3><a href="#">Translate</a></h3>
-                    <div>
-                        <label for="x">x</label>
-                        <input type="text" name="x" id="segment-pos-to-x" class="text ui-widget-content ui-corner-all" />
-                        <label for="y">y</label>
-                        <input type="text" name="y" id="segment-pos-to-y" class="text ui-widget-content ui-corner-all" />
-                        <label for="z">z</label>
-                        <input type="text" name="z" id="segment-pos-to-z" class="text ui-widget-content ui-corner-all" />
+    <body>
+                <div id="container">
+                    <div id="header">
+                        <h1>Graph WebAnimation</h1>
                     </div>
-                    <h3><a href="#">Rotation</a></h3>
-                    <div>
-                        <label for="a">a</label>
-                        <input type="text" name="x" id="segment-rot-to-a" class="text ui-widget-content ui-corner-all" />
-                        <label for="b">b</label>
-                        <input type="text" name="y" id="segment-rot-to-b" class="text ui-widget-content ui-corner-all" />
-                        <label for="g">g</label>
-                        <input type="text" name="z" id="segment-rot-to-g" class="text ui-widget-content ui-corner-all" />
-                    </div>
-                    <h3><a href="#">Scale</a></h3>
-                    <div>
-                        <label for="x">x</label>
-                        <input type="text" name="x" id="segment-scale-to-x" class="text ui-widget-content ui-corner-all" />
-                        <label for="y">y</label>
-                        <input type="text" name="y" id="segment-scale-to-y" class="text ui-widget-content ui-corner-all" />
-                        <label for="x">z</label>
-                        <input type="text" name="z" id="segment-scale-to-z" class="text ui-widget-content ui-corner-all" />
-                    </div>
-                    <h3><a href="#">Easing</a></h3>
-                    <div>
-                        <select name="easing" id="segment-easing">
-                            <option value="default">Choose a function</option>
-                            <option value="Linear.None">Linear.None</option>
-                            <option value="Quadratic.In">Quadratic.In</option>
-                            <option value="Quadratic.Out">Quadratic.Out</option>
-                            <option value="Quadratic.InOut">Quadratic.InOut</option>
-                            <option value="Cubic.In">Cubic.In</option>
-                            <option value="Cubic.Out">Cubic.Out</option>
-                            <option value="Cubic.InOut">Cubic.InOut</option>
-                            <option value="Quartic.In">Quartic.In</option>
-                            <option value="Quartic.Out">Quartic.Out</option>
-                            <option value="Quartic.InOut">Quartic.InOut</option>
-                            <option value="Quintic.In">Quintic.In</option>
-                            <option value="Quintic.Out">Quintic.Out</option>
-                            <option value="Quintic.InOut">Quintic.InOut</option>
-                            <option value="Sinusoidal.In">Sinusoidal.In</option>
-                            <option value="Sinusoidal.Out">Sinusoidal.Out</option>
-                            <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
-                            <option value="Exponential.In">Exponential.In</option>
-                            <option value="Exponential.Out">Exponential.Out</option>
-                            <option value="Exponential.InOut">Exponential.InOut</option>
-                            <option value="Circular.In">Circular.In</option>
-                            <option value="Circular.Out">Circular.Out</option>
-                            <option value="Circular.InOut">Circular.InOut</option>
-                            <option value="Elastic.In">Elastic.In</option>
-                            <option value="Elastic.Out">Elastic.Out</option>
-                            <option value="Elastic.InOut">Elastic.InOut</option>
-                            <option value="Back.In">Back.In</option>
-                            <option value="Back.Out">Back.Out</option>
-                            <option value="Back.InOut">Back.InOut</option>
-                            <option value="Bounce.In">Bounce.In</option>
-                            <option value="Bounce.Out">Bounce.Out</option>
-                            <option value="Bounce.InOut">Bounce.InOut</option>
-                        </select>
-                        <label>easing function</label>
-                        <div id="segment-easing-display">
-                            <canvas id="segment-easing-canvas"></canvas>
+                    <div id="content">
+                        <div id="menu">
+                            <button id="addActor" style="display : block">Add Actor</button>
+                            <button id="insertEvt" style="display : block">Insert Event</button>
+                            <button id="moveEvt" style="display : block">
+                                <img src="media/images/move.png" />
+                            </button>
+                            <button id="addSegment" style="display : block">
+                                <img src="media/images/addArc.png" />
+                            </button>
+                            <button id="rm" style="display : block">
+                                <img src="media/images/remove.png" />
+                            </button>
+                            <button id="calculate" style="display : block">Process Storyboard</button>
                         </div>
+                        <div id="paper"></div>
                     </div>
+                    <!-- <div id="footer"></div> -->
+                </div>
+                <div id="add-actor-dialog-form">
+                    <p class="validateTips"></p>
+                    <form>
+                        <fieldset>
+                            <div>
+                                <label for="description">Description</label>
+                                <input type="text" name="description" class="text ui-widget-content ui-corner-all"
+                                id="actor-description" />
+                            </div>
+                            <div>
+                                <label for="type">Type</label>
+                                <select name="type" id="actor-model">
+                                    <option value="default">select a model</option>
+                                    <option value="Camera">Camera</option>
+                                    <option value="Cube">Cube</option>
+                                    <option value="Cylinder">Cylinder</option>
+                                    <option value="Icosahedron">Icosahedron</option>
+                                    <option value="Octahedron">Octahedron</option>
+                                    <option value="Plane">Plane</option>
+                                    <option value="Sphere">Sphere</option>
+                                    <option value="Tetrahedron">Tetrahedron</option>
+                                    <option value="Torus">Torus</option>
+                                    <option value="Head">Head</option>
+                                </select>
+                            </div>
+                            <div style="margin:20px 0px">Starting configuration</div>
+                            <p>Start position</p>
+                            <div id="actor-start-pos">
+                                <div>
+                                    <label for="x">x</label>
+                                    <input type="text" name="x" id="actor-start-pos-x" class="text ui-widget-content ui-corner-all"/>
+                                    <span>px</span>
+                                </div>
+                                <div>
+                                    <label for="y">y</label>
+                                    <input type="text" name="y" id="actor-start-pos-y" class="text ui-widget-content ui-corner-all"/>
+                                    <span>px</span>
+                                </div>
+                                <div>
+                                    <label for="z">z</label>
+                                    <input type="text" name="z" id="actor-start-pos-z" class="text ui-widget-content ui-corner-all"/>
+                                    <span>px</span>
+                                </div>
+                            </div>
+                            <p>Start rotate</p>
+                            <div id="actor-start-rotate">
+                                <div>
+                                    <label for="x">a</label>
+                                    <input type="text" name="x" id="actor-start-rotate-a" class="text ui-widget-content ui-corner-all"/>
+                                    <span>°</span>
+                                </div>
+                                <div>
+                                    <label for="y">b</label>
+                                    <input type="text" name="y" id="actor-start-rotate-b" class="text ui-widget-content ui-corner-all"/>
+                                    <span>°</span>
+                                </div>
+                                <div>
+                                    <label for="x">g</label>
+                                    <input type="text" name="z" id="actor-start-rotate-g" class="text ui-widget-content ui-corner-all"/>
+                                    <span>°</span>
+                                </div>
+                            </div>
+                            <p>Start scale</p>
+                            <div id="actor-start-scale">
+                                <div>
+                                    <label for="x">x</label>
+                                    <input type="text" name="x" id="actor-start-scale-x" class="text ui-widget-content ui-corner-all"/>
+                                </div>
+                                <div>
+                                    <label for="y">y</label>
+                                    <input type="text" name="y" id="actor-start-scale-y" class="text ui-widget-content ui-corner-all"/>
+                                </div>
+                                <div>
+                                    <label for="x">z</label>
+                                    <input type="text" name="z" id="actor-start-scale-z" class="text ui-widget-content ui-corner-all"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div id="edit-segment-dialog-form" title="Edit Segment">
+                    <form id="edit-segment-form">
+                        <p class="validateTips"></p>
+                        <fieldset>
+                            <label for="actor">Actor</label>
+                            <select name="actor" id="segment-actor">
+                                <option value="default">select an actor</option>
+                            </select>
+                            <div>
+                                <label for="name" style="display : block">Duration</label>
+                                <input type="text" name="duration" id="segment-duration" class="text ui-widget-content ui-corner-all"/>
+                                <span>ms</span>
+                            </div>
+                            <label for="name">Description</label>
+                            <input type="text" name="description" id="segment-description"
+                            class="text ui-widget-content ui-corner-all" />
+                            <div id="accordion">
+                                <h3>
+                                    <a href="#">Translate</a>
+                                </h3>
+                                <div>
+                                    <div>
+                                        <label for="x">x</label>
+                                        <input type="text" name="x" id="segment-pos-to-x" class="text ui-widget-content ui-corner-all"/>
+                                        <span>px</span>
+                                    </div>
+                                    <div>
+                                        <label for="y">y</label>
+                                        <input type="text" name="y" id="segment-pos-to-y" class="text ui-widget-content ui-corner-all"/>
+                                        <span>px</span>
+                                    </div>
+                                    <div>
+                                        <label for="z">z</label>
+                                        <input type="text" name="z" id="segment-pos-to-z" class="text ui-widget-content ui-corner-all"/>
+                                        <span>px</span>
+                                    </div>
+                                </div>
+                                <h3>
+                                    <a href="#">Rotation</a>
+                                </h3>
+                                <div>
+                                    <div>
+                                        <label for="a">a</label>
+                                        <input type="text" name="x" id="segment-rot-to-a" class="text ui-widget-content ui-corner-all"/>
+                                        <span>°</span>
+                                    </div>
+                                    <div>
+                                        <label for="b">b</label>
+                                        <input type="text" name="y" id="segment-rot-to-b" class="text ui-widget-content ui-corner-all"/>
+                                        <span>°</span>
+                                    </div>
+                                    <div>
+                                        <label for="g">g</label>
+                                        <input type="text" name="z" id="segment-rot-to-g" class="text ui-widget-content ui-corner-all"/>
+                                        <span>°</span>
+                                    </div>
+                                </div>
+                                <h3>
+                                    <a href="#">Scale</a>
+                                </h3>
+                                <div>
+                                    <div>
+                                        <label for="x">x</label>
+                                        <input type="text" name="x" id="segment-scale-to-x" class="text ui-widget-content ui-corner-all"/>
+                                    </div>
+                                    <div>
+                                        <label for="y">y</label>
+                                        <input type="text" name="y" id="segment-scale-to-y" class="text ui-widget-content ui-corner-all"/>
+                                    </div>
+                                    <div>
+                                        <label for="x">z</label>
+                                        <input type="text" name="z" id="segment-scale-to-z" class="text ui-widget-content ui-corner-all"/>
+                                    </div>
+                                </div>
+                                <h3>
+                                    <a href="#">Easing</a>
+                                </h3>
+                                <div>
+                                    <select name="easing" id="segment-easing">
+                                        <option value="default">Choose a function</option>
+                                        <option value="Linear.None">Linear.None</option>
+                                        <option value="Quadratic.In">Quadratic.In</option>
+                                        <option value="Quadratic.Out">Quadratic.Out</option>
+                                        <option value="Quadratic.InOut">Quadratic.InOut</option>
+                                        <option value="Cubic.In">Cubic.In</option>
+                                        <option value="Cubic.Out">Cubic.Out</option>
+                                        <option value="Cubic.InOut">Cubic.InOut</option>
+                                        <option value="Quartic.In">Quartic.In</option>
+                                        <option value="Quartic.Out">Quartic.Out</option>
+                                        <option value="Quartic.InOut">Quartic.InOut</option>
+                                        <option value="Quintic.In">Quintic.In</option>
+                                        <option value="Quintic.Out">Quintic.Out</option>
+                                        <option value="Quintic.InOut">Quintic.InOut</option>
+                                        <option value="Sinusoidal.In">Sinusoidal.In</option>
+                                        <option value="Sinusoidal.Out">Sinusoidal.Out</option>
+                                        <option value="Sinusoidal.InOut">Sinusoidal.InOut</option>
+                                        <option value="Exponential.In">Exponential.In</option>
+                                        <option value="Exponential.Out">Exponential.Out</option>
+                                        <option value="Exponential.InOut">Exponential.InOut</option>
+                                        <option value="Circular.In">Circular.In</option>
+                                        <option value="Circular.Out">Circular.Out</option>
+                                        <option value="Circular.InOut">Circular.InOut</option>
+                                        <option value="Elastic.In">Elastic.In</option>
+                                        <option value="Elastic.Out">Elastic.Out</option>
+                                        <option value="Elastic.InOut">Elastic.InOut</option>
+                                        <option value="Back.In">Back.In</option>
+                                        <option value="Back.Out">Back.Out</option>
+                                        <option value="Back.InOut">Back.InOut</option>
+                                        <option value="Bounce.In">Bounce.In</option>
+                                        <option value="Bounce.Out">Bounce.Out</option>
+                                        <option value="Bounce.InOut">Bounce.InOut</option>
+                                    </select>
+                                    <label>easing function</label>
+                                    <div id="segment-easing-display">
+                                        <canvas id="segment-easing-canvas"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div id="error">
+                    <div>There are some error with the graph</div>
                 </div>
 
-            </fieldset>
-        </form>
-    </div>
+                <div id="storyboard-tools">
+                    <div id="Timeline"></div>
+                    <br/>
+                    <br/>
+                    <div id="eventMessage">Click on timebar to select a frame or a frame range</div>
+                    <br/>
+                    <br/>
+                </div>
+                <div>
+                    <!--<div id="stats"></div>-->
+                    <!--<div id="container2"></div>-->
+                    <div>
+                        <div id="rendering-canvas">
+                            <canvas id="canvas" width="640" height="480"></canvas>
+                            <div id="camera_buttons"></div>
+                            <br />
+                            <button id="playBtn" type="button">Play</button>
+                            <button id="pauseBtn" type="button">Pause</button>
+                            <button id="stopBtn" type="button">Stop</button>
+                            <button id="ffAnimBtn" type="button">FF</button>
+                            <button id="rwAnimBtn" type="button">RW</button>
+                            <button id="lacBtn" type="button">Look At Center</button>
+                            <button id="recordButton" type="button">Record</button>
+                        </div>
+                        <div id="controlButtons"></div>
+                    </div>
+                </div>
+            </div>
+        <script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
+        <script type="text/javascript" src="lib/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="lib/Three.js"></script>
+        <script type="text/javascript" src="lib/Tween.js"></script>
+        <script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-util-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-defaults-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-connectors-statemachine-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-canvas-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="js/storyboard.js"></script>
+        <script type="text/javascript" src="js/controller.js"></script>
+        <script type="text/javascript" src="js/DAT.GUI.js"></script>
+        <script type="text/javascript" src="js/effects.js"></script>
+        <script type="text/javascript" src="js/startFrom.js"></script>
+        <script type="text/javascript" src="js/timeline.js"></script>
+        <script type="text/javascript" src="js/rendering.js"></script>
+        <script type="text/javascript" src="js/gui.js"></script>
+        <script type="text/javascript">
+            $("#playBtn").click (play);
+            $("#pauseBtn").click (pause);
+            $("#stopBtn").click (stop);
+            $("#ffAnimBtn").click (ffAnimation);
+            $("#rwAnimBtn").click (rwAnimation);
+            $("#lacBtn").click (lookAtCenter);
+        </script>
+        <script type="text/javascript" src="js/timeline.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#Timeline").Timeline({
+                    data: storyboardController.populateTimeline(),
+                    slideWidth: 900,
+                    frame: []
+                });
 
-    <script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
-    <script type="text/javascript" src="lib/jquery-ui-1.8.20.custom.min.js"></script>
-    <script type="text/javascript" src="lib/Three.js"></script>
-    <script type="text/javascript" src="lib/Tween.js"></script>
-    <script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
-
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-util-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-defaults-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-connectors-statemachine-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-canvas-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
-    <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
-
-    <script type="text/javascript" src="js/storyboard.js"></script>
-    <script type="text/javascript" src="js/controller.js"></script>
-
-    <script type="text/javascript" src="js/DAT.GUI.js"></script>
-    <script type="text/javascript" src="js/effects.js"></script>
-    <script type="text/javascript" src="js/startFrom.js"></script>
-    <script type="text/javascript" src="js/timeline.js"></script>
-    <script type="text/javascript" src="js/rendering.js"></script>
-    <script type="text/javascript" src="js/gui.js"></script>
-
-    <script type="text/javascript">
-      $("#playBtn").click (play);
-      $("#pauseBtn").click (pause);
-      $("#stopBtn").click (stop);
-      $("#ffAnimBtn").click (ffAnimation);
-      $("#rwAnimBtn").click (rwAnimation);
-      $("#lacBtn").click (lookAtCenter);
-    </script>
-
-    <script type="text/javascript" src="js/timeline.js"></script>
-    <script type="text/javascript">
-
-        $(function () {
-            $("#Timeline").Timeline({ 
-                data: storyboardController.populateTimeline(),
-                slideWidth: 900,
-                frame: []
             });
-
-        });
-
-    </script>
-
-    <script type="text/javascript" src="js/videoGenerator.js"></script>
-    <script type="text/javascript">
-        setRecordingCanvas('#canvas');
-        prependVideoControls($('#controlButtons'));
-        loadButtons();
-        var tempB = $("#recordButton");
-        tempB.on('click', function() {
-            if(self.f !== null && self.f !== undefined) {
-                stop();
-                self.f = undefined;
-            } else {
-                self.f = videoRecording;
-                play();
-            }
-        });
-    </script>
+        </script>
+        <script type="text/javascript" src="js/videoGenerator.js"></script>
+        <script type="text/javascript">
+            setRecordingCanvas('#canvas');
+            prependVideoControls($('#controlButtons'));
+            loadButtons();
+            var tempB = $("#recordButton");
+            tempB.on('click', function() {
+                if(self.f !== null && self.f !== undefined) {
+                    stop();
+                    self.f = undefined;
+                } else {
+                    self.f = videoRecording;
+                    play();
+                }
+            });
+        </script>
+    </body>
 </html>
