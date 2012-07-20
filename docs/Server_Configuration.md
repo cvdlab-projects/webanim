@@ -59,7 +59,34 @@ Now everything should go work, and test it running:
 	
 	$ node index.js
 
-More docs is coming :)
+`clucene` is required to indexing the recorded videos. This package requires the boost library and clucene libraries. To install these libraries follow ( **in this order!** ) the instruction in the following links:
 
+* <a href="http://www.boost.org/users/download/">Boost</a>
+* <a href="http://clucene.sourceforge.net/download.shtml">CLucene</a>
 
+After you've installed these libraries you have to install che `clucene` module through the following command:
+
+	$ npm install clucene
+	
+Now you have to open the `node_modules/clucene` folder and you've to modify the `clucene.js` replacing this row
+
+	var clucene = require("./build/default/clucene");
+
+with this row
+
+	var clucene = require("./build/Release/clucene.node");
+
+Starting the Server
+-------------------
+If you have successfully configured the server, you can start it with the following command:
+
+	$ node index.js
+	
+**BEWARE**: some Linux distributions call the `node.js` executable `nodejs` instead of `node`, so if the last command is not recognized, you can try with this one:
+
+	$ nodejs index.js
+	
+If everything went fine, you can read the message
+
+>**Server has starter.**
 
