@@ -1,41 +1,47 @@
 /**
- *Requiring http and url module of node.js
+ *	Http module of node.js.
+ *	@requires http
  */
-
 var http = require("http");
+ 
+ /**
+  *	Url module of node.js.
+  *	@requires url
+  */
 var url = require("url");
 
 
 
 /**
- *The function called on server's start. It takes some arguments:
- *		-the route function from the router module
- *		-the handle object
+ *	The function called on server's start.
+ *	It is listening on port 8080.
+ *	@param { function } route The routing function.
+ *	@param { function } handle An Object containing the request handler functions.
  *
- *It also define an onRequest(request, response) function wich is called at every request
- *which forward the request to the right requestHandler defined in the handle object
- *through the route function.
- *
- *The start function also create the server and makes it listen on the choosen port
  */
-
 function start(route, handle) {
+	
+	 /**	The function called at every request.
+	  *	It uses route function and handle object to elaborate request and produce the response.
+	  *	@param { Object } reqest The XMLHttpRequest Object.
+	  *	@param { Object } response XMLHttpResponse Object.
+	  *
+	  */	
 	function onRequest(request, response) {
 		var tmp = url.parse(request.url).pathname.split("/");
 		var pathname = (tmp.length > 2)? ("/"+tmp[1]):"/";
-		//var pathname = ("/" + url.parse(request.url).pathname.split("/")[1]) || "/";
 		console.log("Request for " + pathname + " received.");
 		route(handle, pathname, response, request);
 	}
 
 	http.createServer(onRequest).listen(8080);
 	console.log("Server has started.");
-}
+};
 
 
 
 /**
- *Exporting the start function outside the script, so the server can be started.
+ *	Allow the server to be started.
+ *	@exports start  as exports.start.
  */
-
 exports.start = start;

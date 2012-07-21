@@ -1,9 +1,24 @@
-var base64 = require("./base64"),
-    deflate = require("./deflate");
-
-/*
-    Credits by caliptus.eu
+/**
+ *	Credits by caliptus.eu
+ *	@author caliptus.eu
  */
+
+/**
+ *	Base64 module conversion.
+ *	@requires base64
+ */
+var base64 = require("./base64"),
+
+/**
+ *	Deflate module conversion.
+ *	@requires deflate
+ */
+var deflate = require("./deflate");
+
+ /** 
+  *	Function that rebuild a png from a byte buffer
+  *	@param { byte buffer[] } data A byte buffer containing the RGB encoding 
+  */
 function PNG(data) {
     var reader = new base64.Base64Reader(data);
     reader.skip(8);
