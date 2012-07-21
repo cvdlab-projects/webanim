@@ -125,18 +125,22 @@ var editSegment = function(label, evt) {
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
         //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
-        console.log(GraphState.currentLogicSegment);
         var segment = GraphState.currentLogicSegment;
+        console.log(segment);
 
         var act = (segment.actor && segment.actor.id) || "default";
         $("#segment-actor option").filter(function() {
             return $(this).val() == act;
         }).attr('selected', true);
 
-        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
-        $("#segment-description").val(GraphState.currentLogicSegment.description);
+        $("#segment-duration").val(segment.duration);
+        $("#segment-description").val(segment.description);
 
-        var behaviour = GraphState.currentLogicSegment.behaviour;
+        $("#segment-easing option").filter(function () {
+            return $(this).val() === "Linear.None";
+        }).attr('selected', true);
+
+        var behaviour = segment.behaviour;
         if (behaviour) {
             if (behaviour.position) {
                 $("#segment-pos-to-x").val(behaviour.position.x);
@@ -463,7 +467,7 @@ $("#edit-segment-dialog-form").dialog({
         }
     },
 
-    open: function (event, ui) {
+    beforeClose: function (event, ui) {
         $(".validateTips").text("").removeClass("ui-state-highlight");
         $(".ui-state-error").removeClass("ui-state-error");
 
@@ -487,7 +491,7 @@ $("#edit-segment-dialog-form").dialog({
         $("#segment-scale-to-z").val("");
 
         $("#segment-easing option").filter(function () {
-            return $(this).val() === "Linear.None";
+            return $(this).val() === "default";
         }).attr('selected', true);
         clearEasingCanvas();
     }
