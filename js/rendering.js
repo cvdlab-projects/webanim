@@ -938,7 +938,6 @@
 				if(lookAtScene){
 						camera.lookAt(scene.position);
 				}
-				checkEndAnimation();
 
 
 			var date = new Date();
