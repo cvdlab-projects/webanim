@@ -175,7 +175,7 @@
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[i].series.length; j++) {
                     var series = data[i].series[j];
-                    var size = series.end - series.start +1;
+                    var size = (series.end - series.start +1);
 					var offset = series.start - start;
                     var block = jQuery("<div>", {
                         "class": "timeline-block",
