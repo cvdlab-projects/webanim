@@ -586,6 +586,8 @@ $("#add-actor-dialog-form").dialog({
 
         var description = $("#actor-description");
 
+        description.val("");
+
         pos_x.val("0");
         pos_y.val("0");
         pos_z.val("0");
