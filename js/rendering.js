@@ -10,9 +10,11 @@
 	var ispaused = false;
 	var isstopped = false;
 	var startTime = 0;
-	var endTime = 10000; //modify it
+	var endTime = 6000; //modify it
 	var isRunning = false;
 	var loader;
+	var startRecTime;
+	var isRecording = false;
 
 	var lookAtScene = true;
 	
@@ -178,7 +180,15 @@
 			cameras = [];
 			animationsCopy = [];
 			
+			endTime = storyboard.TMax;
 		  	init(width, height, storyboard);
+
+		  	for(var i in storyboard.events){
+		  		var ev = storyboard.events[i];
+		  		if (ev.description === "End of the animation."){
+		  			endTime = ev.tMax;
+		  		}
+		  	}
 
 		  saveOriginalState();
 		  
@@ -928,6 +938,22 @@
 				if(lookAtScene){
 						camera.lookAt(scene.position);
 				}
+				checkEndAnimation();
+
+
+			var date = new Date();
+
+			if(isRecording){
+				if(startRecTime + endTime > date){
+
+				self.f = undefined;
+				stop();
+				isRecording = false;
+
+				}
+			}
+			
+				
 			if(self.f !== null && self.f !== undefined) {
 //				console.log(renderer);
 				self.f(renderer.context.canvas);
