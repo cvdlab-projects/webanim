@@ -360,7 +360,7 @@
                 } else {
                     self.f = videoRecording;
                     play();
-                    startRecTime = new Date();
+                    startRecTime = new Date().getTime();
                     isRecording = true;
                 }
             });

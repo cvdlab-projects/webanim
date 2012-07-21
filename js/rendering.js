@@ -940,10 +940,10 @@
 				}
 
 
-			var date = new Date();
+			var date = new Date().getTime();
 
 			if(isRecording){
-				if(startRecTime + endTime > date){
+				if(startRecTime + endTime < date){
 
 				self.f = undefined;
 				stop();
