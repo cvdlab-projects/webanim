@@ -90,7 +90,21 @@ var handler = {
         console.log("The storyboard is not valid");
         console.log(validityReport);
         console.log(JSON.stringify(validityReport));
-        //TODO
+        var message = "The storyboard is not valid<br><br>";
+
+        if (validityReport.cycles) {
+            message += "There are cycles in the graph<br><br>";
+        }
+        if (validityReport.reachability) {
+            message += "There are no paths from the source to the sink<br><br>";
+        }
+        if (validityReport.degrees.outgoing) {
+            message += "There are one or more Events with no outgoing segments<br><br>";
+        }
+        if (validityReport.degrees.incoming) {
+            message += "There are one or more Events with no incoming segments<br><br>";
+        }
+        error(message);
     },
 
     storyboardProcessingCompleted: function(storyboard) {
@@ -100,6 +114,10 @@ var handler = {
         window.api.next();
     }
 
+};
+
+var error = function (message) {
+    $("#error").html(message).dialog("open");
 };
 
 var editSegment = function(label, evt) {
@@ -669,7 +687,7 @@ $("#calculate").on("click.webGraph", function() {
     });
 
     if (!allValid) {
-        alert("not all segment are initialize! check the orange one!");
+        error("not all segment are initialize! check the orange one!");
 
         return;
     }

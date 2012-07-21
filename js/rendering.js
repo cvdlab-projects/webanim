@@ -811,7 +811,8 @@
 
 	        camera = cameras[0];
 	        if (camera === undefined)
-	          alert ("Si deve aggiungere almeno una camera!");
+	          // alert ("Si deve aggiungere almeno una camera!");
+	          error("At least one camera must be present in the scene!");
 	        scene.add (camera);
 	
 	        
