@@ -177,7 +177,7 @@ l1 {
     opacity: .65;
 }
 
-input.text { margin-bottom:12px; width:80%; padding: .4em; }
+input.text { margin-bottom:12px; width:75%; padding: .4em; }
 fieldset { padding:0; border:0; margin-top:25px; }
 h1 { font-size: 1.2em; margin: .6em 0; }
 div#users-contain { width: 350px; margin: 20px 0; }
