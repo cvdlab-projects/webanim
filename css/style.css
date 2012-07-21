@@ -219,11 +219,14 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 #items > div > div{
     margin: 0 auto;
 }
-#slide-1{
-    background-color:black;
-}
+
 #items > div > div{
     width: 1580px;
+}
+
+.content {
+    overflow: scroll;
+    height: 700px;
 }
 @media screen and (max-width: 1920px) {
     #items > div > div, #navigation-wrapper {
@@ -276,8 +279,8 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 }
 .left, #navigation li{float:left;}
 .right{float:right;}
-#navigation-wrapper,#navigation{margin:0 auto;}
-#navigation{clear:both;width:81px;}
+#navigation-wrapper, #navigation{ margin:0 auto;}
+#navigation{width:81px;}
 #navigation li{width:15px;height:15px;list-style:none;border-radius:8px;border:1px solid #ccc;margin: 5px;}
 #navigation li:hover, .left:hover, .right:hover{cursor:pointer;}
 .active{background-color:#ccc;cursor:default;}
