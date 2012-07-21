@@ -7,7 +7,7 @@
  *	Base64 module conversion.
  *	@requires base64
  */
-var base64 = require("./base64"),
+var base64 = require("./base64");
 
 /**
  *	Deflate module conversion.

@@ -20,31 +20,31 @@ var path = require("path");
  *	Node Video module of node.js.
  *	@requires video
  */
-var nodeVideo = require("video"),
+var nodeVideo = require("video");
 
 /**
  *	Formidable module of node.js.
  *	@requires formidable
  */
-var formidable = require("formidable"),
+var formidable = require("formidable");
 
 /**
  *	Buffer module of node.js.
  *	@requires buffer
  */
-var buffer = require("buffer"),
+var buffer = require("buffer");
 
 /**
  *	Png module for handling png images
  *	@requires http
  */
-var pngHandler = require("./png"),
+var pngHandler = require("./png");
 
 /**
  *	Url module of node.js.
  *	@requires url
  */
-var url = require('url'),
+var url = require('url');
 
 /**
  *	Clucene module of node.js.
