@@ -15,6 +15,7 @@
 	var loader;
 	var startRecTime;
 	var isRecording = false;
+	var startPlayTime;
 
 	var lookAtScene = true;
 	
@@ -220,6 +221,7 @@
 
 		function play(){
 		  console.log ("PLAY");
+		  startPlayTime = new Date();
 			playFrom();
 			
 			if(!isanimating || ispaused){
@@ -941,6 +943,18 @@
 
 
 			var date = new Date();
+
+			if(isanimating){
+				if(startPlayTime + endTime > date){
+
+				
+				stop();
+				
+
+				}
+
+
+			}
 
 			if(isRecording){
 				if(startRecTime + endTime > date){
