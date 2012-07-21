@@ -192,6 +192,10 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 /*     height: auto !important; */
 /* } */
 
+#controlButtons {
+    text-align: left;
+}
+
 #rendering-canvas {
     float: left;
 }
