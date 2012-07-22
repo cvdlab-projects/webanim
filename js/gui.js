@@ -140,6 +140,18 @@ var editSegment = function(label, evt) {
             return $(this).val() === "Linear.None";
         }).attr('selected', true);
 
+        $("#segment-pos-to-x").val("0");
+        $("#segment-pos-to-y").val("0");
+        $("#segment-pos-to-z").val("0");
+
+        $("#segment-rot-to-a").val("0");
+        $("#segment-rot-to-b").val("0");
+        $("#segment-rot-to-g").val("0");
+
+        $("#segment-scale-to-x").val("1");
+        $("#segment-scale-to-y").val("1");
+        $("#segment-scale-to-z").val("1");
+
         var behaviour = segment.behaviour;
         if (behaviour) {
             if (behaviour.position) {
