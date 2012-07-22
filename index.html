@@ -307,29 +307,28 @@
                 <!--SearchVideo-->
                 <div>
                     <div class="content">
-                    <div id="header">
-                            <div id="logo">
-                                <h1 id="header">Video Search:</h1>
-                            </div>
-                    </div>
-                    <div id="cercaDoc" class="ui-widget">
-                        <form method="get" action="">
-
-                        </form>
-                        <input size="55" type="search" id="searchBox" name="searchBox" placeholder="cerca tra i video..." />
-                        <input type="button" id="searchButton" value="Cerca"/> 
-                    </div>
-
-
-                    <div id="page_wrap">
-                        <div id="page_top"></div>
-                        <div id="page">
-                            <div id="videoPlayer"></div>
-                            <div id="results"></div>
+                        <div id="header">
+                                <div id="logo">
+                                    <h1 id="header">Video Search:</h1>
+                                </div>
                         </div>
-                        <div id="page_bottom"></div>
-                    </div>
-                    <script type="text/javascript" src="js/search.js"></script>
+                        <div id="cercaDoc" class="ui-widget">
+                            <form method="get" action="">
+
+                            </form>
+                            <input size="55" type="search" id="searchBox" name="searchBox" placeholder="cerca tra i video..." />
+                            <input type="button" id="searchButton" value="Cerca"/> 
+                        </div>
+
+
+                        <div id="page_wrap">
+                            <div id="page_top"></div>
+                            <div id="page">
+                                <div id="videoPlayer"></div>
+                                <div id="results"></div>
+                            </div>
+                            <div id="page_bottom"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -346,6 +345,8 @@
 
         <script type="text/javascript" src="lib/jquery-1.7.1-min.js"></script>
         <script type="text/javascript" src="lib/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.tools-1.2.7.min.js"  charset="utf-8"></script>
+        <script type="text/javascript" src="lib/jquery.easing.min.js"charset="utf-8"></script>
         <script type="text/javascript" src="lib/Three.js"></script>
         <script type="text/javascript" src="lib/Tween.js"></script>
         <script type="text/javascript" src="lib/jsBezier-0.3-min.js"></script>
@@ -366,9 +367,8 @@
         <script type="text/javascript" src="js/timeline.js"></script>
         <script type="text/javascript" src="js/rendering.js"></script>
         <script type="text/javascript" src="js/gui.js"></script>
+        <script type="text/javascript" src="js/search.js"></script>
 
-        <script src="lib/jquery.tools-1.2.7.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/jquery.easing.min.js" type="text/javascript" charset="utf-8"></script>
 
         <script type="text/javascript">
             $("#playBtn").click(play);
