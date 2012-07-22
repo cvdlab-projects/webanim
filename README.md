@@ -12,15 +12,15 @@ It is made by Events and Segments. A segment represents a piece of your animatio
 
 With the BioPlasm Storyboard Manager you can draw your storyboard by clicking (for events) and dragging (for segments) on an html5 canvas.
 
-![BioPlasm Storyboard Manager.](/media/screenshots/storyboard-manager-000.png "BioPlasm Storyboard Manager.")
+![BioPlasm Storyboard Manager.](https://github.com/cvdlab-bio/webanim/blob/feature/releasing/media/screenshots/storyboard-manager-001.png "BioPlasm Storyboard Manager.")
 
 You can also use the Storyboard Manager to add actors to your scene and define their behaviour within each of their segments.
 
-![Segment editing: Actor and Behaviour definition.](/media/screenshots/storyboard-manager-001.png "Segment editing: Actor and Behaviour definition.")
+![Segment editing: Actor and Behaviour definition.](https://github.com/cvdlab-bio/webanim/blob/feature/releasing/media/screenshots/storyboard-manager-001.png "Segment editing: Actor and Behaviour definition.")
 
 By clicking on Process Storyboard, you can run the PERT algorithm on your storyboard and have a proper start time for all your segments.
 
-![Process Storyboard button.](/media/screenshots/storyboard-manager-002.png "Process Storyboard button.")
+![Process Storyboard button.](https://github.com/cvdlab-bio/webanim/blob/feature/releasing/media/screenshots/storyboard-manager-001.png "Process Storyboard button.")
 
 You can then turn to the Movie Generator mode.
 
