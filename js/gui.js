@@ -435,8 +435,8 @@ $("#edit-segment-dialog-form").dialog({
                     easing: easing.val()
                 };
 
-                var allPosDef = pos.forEach(function (p) {
-                    return p.val() === "0";
+                var allPosDef = pos.every(function (p) {
+                    return p.val() == "0";
                 });
 
                 if (posCheck && !allPosDef) {
@@ -447,8 +447,8 @@ $("#edit-segment-dialog-form").dialog({
                         };
                 }
 
-                var allRotDef = rotate.forEach(function (r) {
-                    return r.val() === "0";
+                var allRotDef = rotate.every(function (r) {
+                    return r.val() == "0";
                 });
 
                 if (rotateCheck && !allRotDef) {
@@ -459,8 +459,8 @@ $("#edit-segment-dialog-form").dialog({
                     };
                 }
 
-                var allScalDef = rotate.forEach(function (r) {
-                    return r.val() === "1";
+                var allScalDef = scale.every(function (s) {
+                    return s.val() == "1";
                 });
 
                 if (scaleCheck && !allScalDef) {
