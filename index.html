@@ -5,8 +5,8 @@
         <link href="css/reset.css" rel="stylesheet" />
         <link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css"
-        />
+        <link rel="stylesheet" type="text/css" href="css/jquery.Timeline.css"/>
+        <link rel="stylesheet" href="css/searchPage.css" type="text/css" >
     </head>
     
     <body>
@@ -20,16 +20,20 @@
                             </div>
                             <div id="content">
                                 <div id="menu">
-                                    <button id="addActor" style="display : block">Add Actor</button>
-                                    <button id="insertEvt" style="display : block">Insert Event</button>
+                                    <button id="addActor" style="display : block">
+                                        <img src="media/images/icon_actor.png" />
+                                    </button>
+                                    <button id="insertEvt" style="display : block">
+                                        <img src="media/images/icon_new.png" />
+                                    </button>
                                     <button id="moveEvt" style="display : block">
-                                        <img src="media/images/move.png" />
+                                        <img src="media/images/icon_move.png" />
                                     </button>
                                     <button id="addSegment" style="display : block">
-                                        <img src="media/images/addArc.png" />
+                                        <img src="media/images/icon_add.png" />
                                     </button>
                                     <button id="rm" style="display : block">
-                                        <img src="media/images/remove.png" />
+                                        <img src="media/images/icon_delete.png" />
                                     </button>
                                     <button id="calculate" style="display : block">Process Storyboard</button>
                                 </div>
@@ -277,6 +281,35 @@
                         </div>
                     </div>
                 </div>
+
+                <!--SearchVideo-->
+                <div>
+                    <div class="content">
+                    <div id="header">
+                            <div id="logo">
+                                <h1 id="header">Video Search:</h1>
+                            </div>
+                    </div>
+                    <div id="cercaDoc" class="ui-widget">
+                        <form method="get" action="">
+
+                        </form>
+                        <input size="55" type="search" id="searchBox" name="searchBox" placeholder="cerca tra i video..." />
+                        <input type="button" id="searchButton" value="Cerca"/> 
+                    </div>
+
+
+                    <div id="page_wrap">
+                        <div id="page_top"></div>
+                        <div id="page">
+                            <div id="videoPlayer"></div>
+                            <div id="results"></div>
+                        </div>
+                        <div id="page_bottom"></div>
+                    </div>
+                    <script type="text/javascript" src="js/search.js"></script>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="navigation-wrapper">
@@ -284,6 +317,7 @@
             <span class="next right">Rendering &gt;</span>
             <ul id="navigation">
                 <li class="active"></li>
+                <li></li>
                 <li></li>
             </ul>
         </div>

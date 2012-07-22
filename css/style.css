@@ -3,7 +3,7 @@ div { margin:0; padding:0;}
 h1 {
     font-size: 32px;
     color: black;
-    margin: 4px;
+    /* margin: 4px; */
     padding: 8px 4px 8px 4px;
 }
 
@@ -111,6 +111,7 @@ input[type=button], button {
     padding: 5px 12px;
     color: #9fa8b0;
     font-weight: bold;
+    font-size: smaller;
     text-shadow: 1px 1px #1f272b;
     border: 1px solid #1c252b;
     border-radius: 3px;
@@ -138,6 +139,10 @@ input[type=button], button {
     -moz-box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* Firefox */
     -webkit-box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* Safari, Chrome */
     box-shadow: 1px 1px 1px rgba(255,255,255,0.1); /* CSS3 */
+}
+
+#calculate {
+    font-size: 9px;
 }
 
 .label {
@@ -179,7 +184,10 @@ l1 {
 
 input.text { margin-bottom:12px; width:75%; padding: .4em; }
 fieldset { padding:0; border:0; margin-top:25px; }
-h1 { font-size: 1.2em; margin: .6em 0; }
+h1 { 
+    font-size: 1.2em; 
+    /* margin: .6em 0;  */
+}
 div#users-contain { width: 350px; margin: 20px 0; }
 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
 div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
