@@ -1,3 +1,9 @@
+/**
+ *	Function that send a request for a video on the server
+ *	and handle the response showing the results of the search
+ */
+
+
 !(function(){
 	$('#searchButton').on('click',
 			function(e){ 
@@ -28,16 +34,6 @@
 									'<li class="resultVideoPreview">'+
 										'<img class="videoPreview" src='+ vprev +' style="width:20%; height:20%" / > '+
 									'</li>'+
-									/*
-									'<li class="resultVideoInfo">'+
-										'<div class="Name">Name: '+
-										'<a class="Link" href="' + item.videoPath.replace(/\/media\/video\//, "/downloadVideo/") + '" >' + 
-										item.videoName.substring(0,item.videoName.lastIndexOf('_')) + 
-										'</a>(right->Save as..)</div>' +
-										'<div class="Tag">Tag: ' + item.searchTag + '</div>' +
-										'<div class="Description">Description: ' + item.videoDescription + '</div>' +
-									'</li>' +
-									*/
 									'<li class="resultVideoInfo">'+
 										'<div class="Name">Name: ' + item.videoName.substring(0,item.videoName.lastIndexOf('_')) + '</div>' +
 										'<div class="Tag">Tag: ' + item.searchTag + '</div>' +
@@ -61,15 +57,6 @@
 									  '</video>';
 						$('#videoPlayer').append(vPlayer);					
 					});
-					/*					$('.resultVideoInfo').css('display','inline-block');
-					$('ul').css('list-style-type','none');
-					$('ul').css('margin','0');
-					$('ul').css('padding','0');
-					$('ul').css('float','left');
-					$('.resultVideoPreview').css('display','inline');
-					*/
-					
-					//alert('Service Message: "Black Magic here"');
 				}
 			});
 		});

@@ -5,23 +5,33 @@
  */
 
 /**
- *Importing server, router and requestHandlers script
+ *	Server module for node.js.
+ *	@requires server
  */
-
 var server = require("./server");
+
+/**
+ *	Router module for node.js.
+ *	@requires router
+ */
 var router = require("./router");
+
+/**
+ *	RequestHandler module for node.js.
+ *	@requires requestHandlers
+ */
 var requestHandlers = require("./requestHandlers");
 
 
 
 /**
- *An handle object is created (initially empty).
- *For any request handler that is going to be used, it must be added to 
- *the handle object in the following way:
+ *	An handle object is created (initially empty).
+ *	For any request handler that is going to be used, it must be added to 
+ *	the handle object in the following way:
  *
  *		handle["exampleRequestName"] = requestHandlers.exampleRequestName
  *
- *Of course in the requestHandlers script must be defined a function called:
+ *	Of course in the requestHandlers script must be defined a function called:
  * 
  *		function exampleRequestName(response [,request]){...}
  *
@@ -41,7 +51,7 @@ handle["/downloadVideo"] = requestHandlers.downloadVideo;
 
 
 /**
- *Starts the server passing the route function and the handle object
+ *	Starts the server
  */
 
 server.start(router.route, handle);

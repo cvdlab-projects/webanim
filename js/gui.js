@@ -125,18 +125,22 @@ var editSegment = function(label, evt) {
         GraphState.currentLabel = label;
         GraphState.currentLogicSegment = storyboardController.storyboard.getSegmentById(label.component.getParameter("storyboard_id"));
         //GraphState.currentSegmentId = label.component.getParameter("storyboard_id");
-        console.log(GraphState.currentLogicSegment);
         var segment = GraphState.currentLogicSegment;
+        console.log(segment);
 
         var act = (segment.actor && segment.actor.id) || "default";
         $("#segment-actor option").filter(function() {
             return $(this).val() == act;
         }).attr('selected', true);
 
-        $("#segment-duration").val(GraphState.currentLogicSegment.duration);
-        $("#segment-description").val(GraphState.currentLogicSegment.description);
+        $("#segment-duration").val(segment.duration);
+        $("#segment-description").val(segment.description);
 
-        var behaviour = GraphState.currentLogicSegment.behaviour;
+        $("#segment-easing option").filter(function () {
+            return $(this).val() === "Linear.None";
+        }).attr('selected', true);
+
+        var behaviour = segment.behaviour;
         if (behaviour) {
             if (behaviour.position) {
                 $("#segment-pos-to-x").val(behaviour.position.x);
@@ -605,9 +609,9 @@ $("#add-actor-dialog-form").dialog({
             check = check && checkDigits(pos_y, "This must be a number");
             check = check && checkDigits(pos_z, "This must be a number");
             console.log(model.val());
-            if (model.val() === 'Camera') {
-                check = check && checkCameraZ(pos_z, "This value must be at least 800");
-            }
+            // if (model.val() === 'Camera') {
+            //     check = check && checkCameraZ(pos_z, "This value must be at least 800");
+            // }
 
             check = check && checkDigits(rotate_a, "This must be a number");
             check = check && checkDigits(rotate_b, "This must be a number");
@@ -662,9 +666,21 @@ $("#add-actor-dialog-form").dialog({
 
         var description = $("#actor-description");
 
-        pos_x.val("0");
+        description.val("");
 
-        $([]).add(description).add(pos_x).add(pos_y).add(pos_z).add(rotate_a).add(rotate_b).add(rotate_g).add(scale_x).add(scale_y).add(scale_z).val("").removeClass("ui-state-error");
+        pos_x.val("0");
+        pos_y.val("0");
+        pos_z.val("0");
+
+        rotate_a.val("0");
+        rotate_b.val("0");
+        rotate_g.val("0");
+
+        scale_x.val("1");
+        scale_y.val("1");
+        scale_z.val("1");
+
+        $([]).add(description).add(pos_x).add(pos_y).add(pos_z).add(rotate_a).add(rotate_b).add(rotate_g).add(scale_x).add(scale_y).add(scale_z).removeClass("ui-state-error");
 
         $("#actor-model option").filter(function() {
             return $(this).val() === "default";

@@ -106,7 +106,7 @@ input {
 }
 
 
-button {
+input[type=button], button {
     outline: 0;
     padding: 5px 12px;
     color: #9fa8b0;
@@ -177,7 +177,7 @@ l1 {
     opacity: .65;
 }
 
-input.text { margin-bottom:12px; width:80%; padding: .4em; }
+input.text { margin-bottom:12px; width:75%; padding: .4em; }
 fieldset { padding:0; border:0; margin-top:25px; }
 h1 { font-size: 1.2em; margin: .6em 0; }
 div#users-contain { width: 350px; margin: 20px 0; }
@@ -191,6 +191,10 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 /*     margin-top: 0px; */
 /*     height: auto !important; */
 /* } */
+
+#controlButtons {
+    text-align: left;
+}
 
 #rendering-canvas {
     float: left;
