@@ -1,7 +1,7 @@
-window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder;
+//window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+//window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder;
 
-var dojox_json_ref = dojo.require ("dojox/json/ref");
+//var dojox_json_ref = dojo.require ("dojox/json/ref");
 
 var GraphState = {
     addArc: false,
@@ -546,7 +546,7 @@ function saveLoadGraphErrorHandler (error)
   }
 }
 
-$("#save-graph-dialog-form").dialog ({
+/*$("#save-graph-dialog-form").dialog ({
   autoOpen : false,
   modal : true,
   title : "Save Graph",
@@ -640,7 +640,7 @@ $("#load-graph-dialog-form").dialog ({
       $(this).dialog ("close");
     }
   }
-});
+});*/
 
 $("#add-actor-dialog-form").dialog({
     autoOpen: false,
@@ -884,13 +884,13 @@ $("#calculate").on("click.webGraph", function() {
     storyboardController.processStoryboard();
 });
 
-$("#saveGraph").on ("click.webGraph", function () {
+/*$("#saveGraph").on ("click.webGraph", function () {
   $("#save-graph-dialog-form").dialog("open");
 });
 
 $("#loadGraph").on ("click.webGraph", function () {
   $("#load-graph-dialog-form").dialog("open");
-});
+});*/
 
 var tool = {
     moveEvt: {
