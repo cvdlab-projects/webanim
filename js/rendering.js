@@ -221,7 +221,7 @@
 
 		function play(){
 		  console.log ("PLAY");
-		  startPlayTime = new Date();
+		  startPlayTime = new Date().getTime();
 			playFrom();
 			
 			if(!isanimating || ispaused){
@@ -945,11 +945,10 @@
 			var date = new Date().getTime();
 
 			if(isanimating){
-				if(startPlayTime + endTime > date){
+				if(startPlayTime + endTime < date){
 
 				
 				stop();
-				
 
 				}
 
