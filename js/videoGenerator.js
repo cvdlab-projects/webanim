@@ -146,9 +146,9 @@
 	exports.getRecordingCanvas = getRecordingCanvas;
 	exports.appendVideoControls = appendVideoControls;
 	exports.prependVideoControls = prependVideoControls;
-	exports.appendRecordingStatus = appendRecordingStatus;
-	exports.prependRecordingStatus = prependRecordingStatus;	
-	exports.removeRecordingStatus = removeRecordingStatus;
+	//exports.appendRecordingStatus = appendRecordingStatus;
+	//exports.prependRecordingStatus = prependRecordingStatus;	
+	//exports.removeRecordingStatus = removeRecordingStatus;
 	exports.removeControlsButton = removeControlsButton;
 	exports.loadButtons = loadButtons;
 	exports.setVideoContainer = setVideoContainer;
