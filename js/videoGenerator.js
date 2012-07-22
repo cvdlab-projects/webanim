@@ -1,6 +1,9 @@
 !(function(exports) {
+	
+	// An Object that will contains all video information that must be sent to the server
 	self = {};
-	//Templates
+	
+	//Templates buttons
 	var controls = '<div id="videoControls"><ul id="leftPanel">'+
 					'<li>File Name:<input id="videoName" class="textboxDefault" type="text" value="insert name"></input></li>'+
 					'<li>Tag:<input id="searchTag" class="textboxDefault" type="text" value="insert tag"></input></li>'+
@@ -8,33 +11,18 @@
 					'<li><input id="createVideo" type="button" value="Create Video"></input></li>'+
 					'<li><input id="emptyBuffer" type="button" value="Remove Recorded Frames"></input></li>'+
 					'</ul></div>';
-	var rStatus = '<div id="recordingStatus" class="recordingStatusOff"><p>Ready to record</p></div>';
-
-	function changeRecordingStatus() {
-		var on = "Recording";
-		var off ="Ready to record";
-
-		if($('#recordingStatus p:first-child').text() === on) {
-			$('#recordingStatus').append('<p>' + off + '</p>');
-		} else {
-			$('#recordingStatus').append('<p>' + on + '</p>');
-		}
-		
-		$('#recordingStatus p:first-child').remove();
-
-		$('#recordingStatus').toggleClass("recordingStatusOff recordingStatusOn");
-	}
 	
+
 	
 	var setRecordingCanvas = function(id){ self.recordingCanvas = $(id)[0]; };
 	var getRecordingCanvas = function() { return self.recordingCanvas; };
 	var appendVideoControls = function(container) { container.append(controls); };
 	var prependVideoControls = function(container) { container.prepend(controls); };
-	var appendRecordingStatus = function(container) { container.append(rStatus); loadButtons(); };
-	var prependRecordingStatus = function(container) { container.prepend(rStatus); loadButtons(); };	
 	var removeRecordingStatus = function(){ $('#recordingStatus').remove() };
 	var removeControlsButton = function() { $('#videoControls').remove() };
 	var setVideoContainer = function(id) { self.videoContainer = $(id); };
+	
+	//Load bottons and input text element to the page
 	var loadButtons = function(){
 		self.videoNameTextBox = $('#videoName');
 		self.searchTagTextBox = $('#searchTag');
@@ -45,7 +33,8 @@
 		self.startStopButton = $('#startStop');
 		self.createVideoButton = $('#createVideo');
 		self.emptyBufferButton = $('#emptyBuffer');
-
+		
+		//Object that contains the video informations
 		self.videoObject = {
 			width: self.recordingCanvas.width,
 			height: self.recordingCanvas.height,
@@ -55,7 +44,8 @@
 			frameNumber: 0,
 			capturedFrames: {}
 		};
-	
+		
+		//Update video name
 		self.videoNameTextBox.on('keyup', function() {
 			self.videoObject.videoName = $(this).val().replace(/ /g,"_"); // il nome non puo contenere spazi
 		});
@@ -156,9 +146,9 @@
 	exports.getRecordingCanvas = getRecordingCanvas;
 	exports.appendVideoControls = appendVideoControls;
 	exports.prependVideoControls = prependVideoControls;
-	exports.appendRecordingStatus = appendRecordingStatus;
-	exports.prependRecordingStatus = prependRecordingStatus;	
-	exports.removeRecordingStatus = removeRecordingStatus;
+	//exports.appendRecordingStatus = appendRecordingStatus;
+	//exports.prependRecordingStatus = prependRecordingStatus;	
+	//exports.removeRecordingStatus = removeRecordingStatus;
 	exports.removeControlsButton = removeControlsButton;
 	exports.loadButtons = loadButtons;
 	exports.setVideoContainer = setVideoContainer;

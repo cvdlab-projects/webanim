@@ -1,12 +1,10 @@
 /**
- *The router.js script define a route function, which forward the request to the 
- *right request handler (if it exist) or return a 404 not found error response.
+ *	Function that forward the request to the right handler (if it exist) or return a 404 not found error response.
  *
- *The function takes some arguments that are:
- *		-the handle object
- *		-the pathname to the resource to access
- *		-the response object
- *		-the request object
+ *	@param { Object } handle object
+ *	@param { String } pathname to the resource to access
+ *	@param { Object } reqest The XMLHttpRequest Object.
+ *	@param { Object } response XMLHttpResponse Object.
  */
 
 function route(handle, pathname, response, request) {
@@ -21,12 +19,11 @@ function route(handle, pathname, response, request) {
 		response.write("404 Not found");
 		response.end();
 	}
-}
-
-
+};
 
 /**
- *Exports the route function outside, so that it is accessible from the outside
+ * 	Allow the route function to be invoked.
+ *	@exports start  as exports.start.
  */
 
 exports.route = route;
