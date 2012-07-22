@@ -44,8 +44,17 @@
                           <form>
                             <p class="validateTips"></p>
                             <fieldset>
-                              <label>Path</label>
-                              <input id="graph-file" type="text" />
+                              <label>Name</label>
+                              <input id="save-graph-name" type="text" />
+                            </fieldset>
+                          </form>
+                        </div>
+                        <div id="load-graph-dialog-form">
+                          <form>
+                            <p class="validateTips"></p>
+                            <fieldset>
+                              <label>Name</label>
+                              <input id="load-graph-name" type="text" />
                             </fieldset>
                           </form>
                         </div>
@@ -313,6 +322,7 @@
         <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-svg-1.3.9-RC1.js"></script>
         <script type="text/javascript" src="lib/1.3.9/jsPlumb-renderers-vml-1.3.9-RC1.js"></script>
         <script type="text/javascript" src="lib/1.3.9/jquery.jsPlumb-1.3.9-RC1.js"></script>
+        <script type="text/javascript" src="lib/dojo/dojo.js"></script>
         <script type="text/javascript" src="js/storyboard.js"></script>
         <script type="text/javascript" src="js/controller.js"></script>
         <script type="text/javascript" src="js/DAT.GUI.js"></script>
@@ -344,7 +354,7 @@
 
             });
         </script>
-        <script type="text/javascript" src="js/videoGenerator.js"></script>
+        <!--<script type="text/javascript" src="js/videoGenerator.js"></script>
         <script type="text/javascript">
             setRecordingCanvas('#canvas');
             prependVideoControls($('#controlButtons'));
@@ -361,8 +371,8 @@
                     isRecording = true;
                 }
             });
-        </script>
-       <script>
+        </script>-->
+       <script>-
         /* 
          Full window width content slider by Karl Oskar Engdahl
          for more information visit:
