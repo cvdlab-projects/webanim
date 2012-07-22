@@ -493,6 +493,86 @@ $("#edit-segment-dialog-form").dialog({
     }
 });
 
+$("#save-graph-dialog-form").dialog ({
+  autoOpen : false,
+  modal : true,
+  title : "Save Graph",
+  buttons : {
+    "Save" : function () {
+      var filename;
+
+      filename = $("#graph-file").val ();
+
+      function saveGraphErrorHandler (error)
+      {
+        var msg;
+
+        switch (error.code) {
+          case FileError.NOT_FOUND_ERR:
+            msg = 'NOT_FOUND_ERR';
+            break;
+          case FileError.SECURITY_ERR:
+            msg = 'SECURITY_ERR';
+            break;
+          case FileError.ABORT_ERR:
+            msg = 'ABORT_ERR';
+            break;
+          case FileError.NOT_READABLE_ERR:
+            msg = 'NOT_READABLE_ERR';
+            break;
+          case FileError.ENCODING_ERR:
+            msg = 'ENCODING_ERR';
+            break;
+          case FileError.NO_MODIFICATION_ALLOWED_ERR:
+            msg = 'NO_MODIFICATION_ALLOWED_ERR';
+            break;
+          case FileError.INVALID_STATE_ERR:
+            msg = 'INVALID_STATE_ERR';
+            break;
+          case FileError.SYNTAX_ERR:
+            msg = 'SYNTAX_ERR';
+            break;
+          case FileError.INVALID_MODIFICATION_ERR:
+            msg = 'INVALID_MODIFICATION_ERR';
+            break;
+          case FileError.QUOTA_EXCEEDED_ERR:
+            msg = 'QUOTA_EXCEEDED_ERR';
+            break;
+          case FileError.TYPE_MISMATCH_ERR:
+            msg = 'TYPE_MISMATCH_ERR';
+            break;
+          case FileError.PATH_EXISTS_ERR:
+            msg = 'PATH_EXISTS_ERR';
+            break;
+        }
+      }
+
+      function saveGraphOpenFilesystem (filesystem)
+      {
+        console.log ("Initialized FileSystem API");
+        console.log ("FileSystem name: " + filesystem.name);
+
+        function saveGraphOpenFile (file)
+        {
+          console.log ("Requested File: " + file.name);
+        }
+
+        filesystem.root.getFile ('graph.json', {create : true}, saveGraphOpenFile, saveGraphErrorHandler);
+      }
+
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder;
+      // 10 MB
+      window.requestFileSystem (window.PERSISTENT, 10485760, saveGraphOpenFilesystem, saveGraphErrorHandler);
+
+      $(this).dialog ("close");
+    },
+    "Cancel" : function () {
+      $(this).dialog ("close");
+    }
+  }
+});
+
 $("#add-actor-dialog-form").dialog({
     autoOpen: false,
     width: 350,
@@ -723,6 +803,9 @@ $("#calculate").on("click.webGraph", function() {
     storyboardController.processStoryboard();
 });
 
+$("#saveGraph").on ("click.webGraph", function () {
+  $("#save-graph-dialog-form").dialog("open");
+});
 
 var tool = {
     moveEvt: {
