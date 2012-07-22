@@ -450,7 +450,7 @@
                   id : segment.id * 10 + 1,
                   t : "translate",
                   t0 : segment.tStart,
-                  t1 : segment.duration,
+                  t1 : (segment.duration) + (segment.tStart),
                   dxf : segment.behaviour.position.x,
                   dyf : segment.behaviour.position.y,
                   dzf : segment.behaviour.position.z
@@ -462,7 +462,7 @@
                   id : segment.id * 10 + 2,
                   t : "rotate",
                   t0 : segment.tStart,
-                  t1 : segment.duration,
+                  t1 : (segment.duration) + (segment.tStart),
                   dgx : segment.behaviour.rotation.x,
                   dgy : segment.behaviour.rotation.y,
                   dgz : segment.behaviour.rotation.z
@@ -474,7 +474,7 @@
                   id : segment.id * 10 + 3,
                   t : "scale",
                   t0 : segment.tStart,
-                  t1 : segment.duration,
+                  t1 : (segment.duration) + (segment.tStart),
                   sxf : segment.behaviour.scale.x,
                   syf : segment.behaviour.scale.y,
                   szf : segment.behaviour.scale.z
