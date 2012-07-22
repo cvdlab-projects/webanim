@@ -441,9 +441,9 @@ $("#edit-segment-dialog-form").dialog({
 
                 if (posCheck && !allPosDef) {
                         behaviour.position= {
-                            x: pos_x.val(),
-                            y: pos_y.val(),
-                            z: pos_z.val()
+                            x: parseInt(pos_x.val(), 10),
+                            y: parseInt(pos_y.val(), 10),
+                            z: parseInt(pos_z.val(), 10)
                         };
                 }
 
@@ -453,9 +453,9 @@ $("#edit-segment-dialog-form").dialog({
 
                 if (rotateCheck && !allRotDef) {
                     behaviour.rotation = {
-                        x: rotate_a.val(),
-                        y: rotate_b.val(),
-                        z: rotate_g.val()
+                        x: parseInt(rotate_a.val(), 10),
+                        y: parseInt(rotate_b.val(), 10),
+                        z: parseInt(rotate_g.val(), 10)
                     };
                 }
 
@@ -465,9 +465,9 @@ $("#edit-segment-dialog-form").dialog({
 
                 if (scaleCheck && !allScalDef) {
                     behaviour.scale = {
-                        x: scale_x.val(),
-                        y: scale_y.val(),
-                        z: scale_z.val()
+                        x: parseInt(scale_x.val(), 10),
+                        y: parseInt(scale_y.val(), 10),
+                        z: parseInt(scale_z.val(), 10)
                     };
                 }
 
@@ -573,15 +573,15 @@ $("#add-actor-dialog-form").dialog({
 
                 //TODO: pass the rotate and scaling information on the logic
                 storyboardController.addActor(model.val(), description.val(), {
-                    tx: pos_x.val(),
-                    ty: pos_y.val(),
-                    tz: pos_z.val(),
-                    rx: rotate_a.val(),
-                    ry: rotate_b.val(),
-                    rz: rotate_g.val(),
-                    sx: scale_x.val(),
-                    sy: scale_y.val(),
-                    sz: scale_z.val()
+                    tx: parseInt(pos_x.val(), 10),
+                    ty: parseInt(pos_y.val(), 10),
+                    tz: parseInt(pos_z.val(), 10),
+                    rx: parseInt(rotate_a.val(), 10),
+                    ry: parseInt(rotate_b.val(), 10),
+                    rz: parseInt(rotate_g.val(), 10),
+                    sx: parseInt(scale_x.val(), 10),
+                    sy: parseInt(scale_y.val(), 10),
+                    sz: parseInt(scale_z.val(), 10)
                 });
 
                 storyboardController.actors.forEach(function(actor) {
