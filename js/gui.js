@@ -434,21 +434,36 @@ $("#edit-segment-dialog-form").dialog({
                 var behaviour = {
                     easing: easing.val()
                 };
-                if (posCheck) {
-                    behaviour.position= {
-                        x: pos_x.val(),
-                        y: pos_y.val(),
-                        z: pos_z.val()
-                    };
+
+                var allPosDef = pos.forEach(function (p) {
+                    return p.val() === "0";
+                });
+
+                if (posCheck && !allPosDef) {
+                        behaviour.position= {
+                            x: pos_x.val(),
+                            y: pos_y.val(),
+                            z: pos_z.val()
+                        };
                 }
-                if (rotateCheck) {
+
+                var allRotDef = rotate.forEach(function (r) {
+                    return r.val() === "0";
+                });
+
+                if (rotateCheck && !allRotDef) {
                     behaviour.rotation = {
                         x: rotate_a.val(),
                         y: rotate_b.val(),
                         z: rotate_g.val()
                     };
                 }
-                if (scaleCheck) {
+
+                var allScalDef = rotate.forEach(function (r) {
+                    return r.val() === "1";
+                });
+
+                if (scaleCheck && !allScalDef) {
                     behaviour.scale = {
                         x: scale_x.val(),
                         y: scale_y.val(),
