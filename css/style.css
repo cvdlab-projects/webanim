@@ -87,12 +87,6 @@ input {
     border-radius: 25px;
 }
 
-#moveEvt {
-    color: #DDD;
-    border: 1px solid #DDD;
-    background-color: blue;
-}
-
 #addArc {
     color: #DDD;
     border: 1px solid #DDD;
@@ -237,7 +231,7 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 }
 
 .content {
-    overflow: scroll;
+    overflow: auto;
     height: 700px;
 }
 @media screen and (max-width: 1920px) {
