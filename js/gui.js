@@ -459,7 +459,7 @@ $("#edit-segment-dialog-form").dialog({
                 GraphState.currentLabel.component.setParameter("initialize", true);
 
                 storyboardController.setDescriptionForSegment(GraphState.currentLogicSegment.id, description.val());
-                storyboardController.setDurationForSegment(GraphState.currentLogicSegment.id, duration.val());
+                storyboardController.setDurationForSegment(GraphState.currentLogicSegment.id, parseInt(duration.val(),10));
                 storyboardController.setActorForSegment(GraphState.currentLogicSegment.id, parseInt(actor.val(), 10));
                 storyboardController.setBehaviourForSegment(GraphState.currentLogicSegment.id, behaviour);
 
