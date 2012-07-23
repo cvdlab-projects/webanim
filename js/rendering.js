@@ -48,9 +48,9 @@
 	var atomGOA;
 	var molecule;
 
-	var siteUrl = "http://www.marjenmedia.com/";
-  	var molfile = "moleculefiles/dna/DNA_1BNA.pdb";
-  	var _urlFile = 	"http://www.rcsb.org/pdb/files/4ins.pdb";
+
+  	//var _urlFile = 	"http://www.rcsb.org/pdb/files/4ins.pdb";
+	var _urlFile = 	"http://www.rcsb.org/pdb/files/4ins.pdb";
 
 	var lookAtScene = true;
 
@@ -457,7 +457,7 @@ function sendDOA(b, a) {
             animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
           else if (actor.model === "Icosahedron")
             animation.obj = new THREE.Mesh (new THREE.IcosahedronGeometry (5,4));
-        else if (actor.model === "Mol"){
+        else if (actor.model === "Insuline"){
         	molecule = new THREE.Object3D();
         	animation.obj = molecule;
         }else if (actor.model === "Octahedron")
@@ -818,7 +818,7 @@ function sendDOA(b, a) {
 
 	    
 
-			pdbParser.loadFile(_urlFile);
+			
 
 
 	        scene = new THREE.Scene();
@@ -842,6 +842,7 @@ function sendDOA(b, a) {
 	//        scene.add( camera );
 
         createMeshesFromStoryboard (storyboard, width, height);
+			pdbParser.loadFile(_urlFile);
 
 //	      if (_meshes === undefined) {
 
