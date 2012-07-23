@@ -22,6 +22,9 @@
                             </div>
                             <div id="content">
                                 <div id="menu">
+                                    <button id="editActor" style="display : block">
+                                        <img src="media/images/edit_actor.png" />
+                                    </button>
                                     <button id="addActor" style="display : block">
                                         <img src="media/images/icon_actor.png" />
                                     </button>
@@ -45,24 +48,7 @@
                             </div>
                             <!-- <div id="footer"></div> -->
                         </div>
-                        <!--div id="save-graph-dialog-form">
-                          <form>
-                            <p class="validateTips"></p>
-                            <fieldset>
-                              <label>Name</label>
-                              <input id="save-graph-name" type="text" />
-                            </fieldset>
-                          </form>
-                        </div>
-                        <div id="load-graph-dialog-form">
-                          <form>
-                            <p class="validateTips"></p>
-                            <fieldset>
-                              <label>Name</label>
-                              <input id="load-graph-name" type="text" />
-                            </fieldset>
-                          </form>
-                        </div-->
+
                         <div id="add-actor-dialog-form">
                             <p class="validateTips"></p>
                             <form>
@@ -143,6 +129,91 @@
                                 </fieldset>
                             </form>
                         </div>
+
+                        <div id="edit-actor-dialog-form">
+                            <p class="validateTips"></p>
+                            <select name="type" id="edit-actor-select">
+                                <option value="default">select an actor</option>
+                            </select>
+                            <form>
+                                <fieldset>
+                                    <div>
+                                        <label for="description">Description</label>
+                                        <input type="text" name="description" class="text ui-widget-content ui-corner-all"
+                                        id="edit-actor-description" />
+                                    </div>
+                                    <div>
+                                        <label for="type">Type</label>
+                                        <select name="type" id="edit-actor-model">
+                                            <option value="default">select a model</option>
+                                            <option value="Camera">Camera</option>
+                                            <option value="Cube">Cube</option>
+                                            <option value="Cylinder">Cylinder</option>
+                                            <option value="Icosahedron">Icosahedron</option>
+                                            <option value="Octahedron">Octahedron</option>
+                                            <option value="Plane">Plane</option>
+                                            <option value="Sphere">Sphere</option>
+                                            <option value="Tetrahedron">Tetrahedron</option>
+                                            <option value="Torus">Torus</option>
+                                            <option value="Head">Head</option>
+                                        </select>
+                                    </div>
+                                    <div style="margin:20px 0px">Starting configuration</div>
+                                    <p>Start position</p>
+                                    <div id="actor-start-pos">
+                                        <div>
+                                            <label for="x">x</label>
+                                            <input type="text" name="x" id="edit-actor-start-pos-x" class="text ui-widget-content ui-corner-all"/>
+                                            <span>px</span>
+                                        </div>
+                                        <div>
+                                            <label for="y">y</label>
+                                            <input type="text" name="y" id="edit-actor-start-pos-y" class="text ui-widget-content ui-corner-all"/>
+                                            <span>px</span>
+                                        </div>
+                                        <div>
+                                            <label for="z">z</label>
+                                            <input type="text" name="z" id="edit-actor-start-pos-z" class="text ui-widget-content ui-corner-all"/>
+                                            <span>px</span>
+                                        </div>
+                                    </div>
+                                    <p>Start rotate</p>
+                                    <div id="actor-start-rotate">
+                                        <div>
+                                            <label for="x">a</label>
+                                            <input type="text" name="x" id="edit-actor-start-rotate-a" class="text ui-widget-content ui-corner-all"/>
+                                            <span>degree</span>
+                                        </div>
+                                        <div>
+                                            <label for="y">b</label>
+                                            <input type="text" name="y" id="edit-actor-start-rotate-b" class="text ui-widget-content ui-corner-all"/>
+                                            <span>degree</span>
+                                        </div>
+                                        <div>
+                                            <label for="x">g</label>
+                                            <input type="text" name="z" id="edit-actor-start-rotate-g" class="text ui-widget-content ui-corner-all" />
+                                            <span>degree</span>
+                                        </div>
+                                    </div>
+                                    <p>Start scale</p>
+                                    <div id="actor-start-scale">
+                                        <div>
+                                            <label for="x">x</label>
+                                            <input type="text" name="x" id="edit-actor-start-scale-x" class="text ui-widget-content ui-corner-all"/>
+                                        </div>
+                                        <div>
+                                            <label for="y">y</label>
+                                            <input type="text" name="y" id="edit-actor-start-scale-y" class="text ui-widget-content ui-corner-all"/>
+                                        </div>
+                                        <div>
+                                            <label for="x">z</label>
+                                            <input type="text" name="z" id="edit-actor-start-scale-z" class="text ui-widget-content ui-corner-all"/>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
                         <div id="edit-segment-dialog-form" title="Edit Segment">
                             <form id="edit-segment-form">
                                 <p class="validateTips"></p>
