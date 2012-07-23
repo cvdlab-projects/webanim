@@ -2,7 +2,8 @@ var GraphState = {
     addArc: false,
     rmEvt: false,
     edit: false,
-    currentLabel: null
+    currentLabel: null,
+    currentActor: null
 };
 
 var handler = {
@@ -524,10 +525,11 @@ $("#edit-segment-dialog-form").dialog({
     }
 });
 
+
 $("#add-actor-dialog-form").dialog({
     autoOpen: false,
     width: 350,
-    height: 400,
+    height: 600,
     modal: true,
     buttons: {
         "Confirm": function() {
@@ -570,6 +572,7 @@ $("#add-actor-dialog-form").dialog({
 
             if (check) {
                 $("#segment-actor").append($('<option></option>').val(storyboardController.nextActorId).html(description.val()));
+                $("#edit-actor-select").append($('<option></option>').val(storyboardController.nextActorId).html(description.val()));
 
                 //TODO: pass the rotate and scaling information on the logic
                 storyboardController.addActor(model.val(), description.val(), {
@@ -640,6 +643,110 @@ $("#add-actor-dialog-form").dialog({
     }
 });
 
+$("#edit-actor-dialog-form").dialog({
+    autoOpen: false,
+    width: 350,
+    modal: true,
+    buttons: {
+        "Confirm": function() {
+            var check = true;
+
+            var pos_x = $("#edit-actor-start-pos-x");
+            var pos_y = $("#edit-actor-start-pos-y");
+            var pos_z = $("#edit-actor-start-pos-z");
+
+            var rotate_a = $("#edit-actor-start-rotate-a");
+            var rotate_b = $("#edit-actor-start-rotate-b");
+            var rotate_g = $("#edit-actor-start-rotate-g");
+
+            var scale_x = $("#edit-actor-start-scale-x");
+            var scale_y = $("#edit-actor-start-scale-y");
+            var scale_z = $("#edit-actor-start-scale-z");
+
+            var description = $("#edit-actor-description");
+
+            var model = $("#edit-actor-model");
+
+            check = check && checkRegexp(description, /^[0-9a-zA-Z_][0-9a-zA-Z_\s]+$/i, "This field is required");
+            check = check && checkSelect(model, "You must choose a model");
+
+            check = check && checkDigits(pos_x, "This must be a number");
+            check = check && checkDigits(pos_y, "This must be a number");
+            check = check && checkDigits(pos_z, "This must be a number");
+
+            check = check && checkDigits(rotate_a, "This must be a number");
+            check = check && checkDigits(rotate_b, "This must be a number");
+            check = check && checkDigits(rotate_g, "This must be a number");
+
+            check = check && checkDigits(scale_x, "This must be a number");
+            check = check && checkDigits(scale_y, "This must be a number");
+            check = check && checkDigits(scale_z, "This must be a number");
+
+            if (check) {
+
+                GraphState.currentActor.model = model.val();
+                GraphState.currentActor.description = description.val();
+                GraphState.currentActor.startingConfiguration = {
+                    tx: parseInt(pos_x.val(), 10),
+                    ty: parseInt(pos_y.val(), 10),
+                    tz: parseInt(pos_z.val(), 10),
+                    rx: parseInt(rotate_a.val(), 10),
+                    ry: parseInt(rotate_b.val(), 10),
+                    rz: parseInt(rotate_g.val(), 10),
+                    sx: parseInt(scale_x.val(), 10),
+                    sy: parseInt(scale_y.val(), 10),
+                    sz: parseInt(scale_z.val(), 10)
+                };
+
+
+                $("#segment-actor option").each(function () {
+                    if ($(this).val() == GraphState.currentActor.id) {
+                        $(this).html(description.val());
+                    }
+                });
+
+                $("#edit-actor-select option").each(function () {
+                    if ($(this).val() == GraphState.currentActor.id) {
+                        $(this).html(description.val());
+                    }
+                });
+
+                $(this).dialog("close");
+            }
+        },
+
+        Cancel: function() {
+            $(this).dialog("close");
+        }
+    },
+    open: function(event, ui) {
+
+        var pos_x = $("#edit-actor-start-pos-x");
+        var pos_y = $("#edit-actor-start-pos-y");
+        var pos_z = $("#edit-actor-start-pos-z");
+
+        var rotate_a = $("#edit-actor-start-rotate-a");
+        var rotate_b = $("#edit-actor-start-rotate-b");
+        var rotate_g = $("#edit-actor-start-rotate-g");
+
+        var scale_x = $("#edit-actor-start-scale-x");
+        var scale_y = $("#edit-actor-start-scale-y");
+        var scale_z = $("#edit-actor-start-scale-z");
+
+        var description = $("#edit-actor-description");
+
+        $([]).add(description).add(pos_x).add(pos_y).add(pos_z).add(rotate_a).add(rotate_b).add(rotate_g).add(scale_x).add(scale_y).add(scale_z).val("").removeClass("ui-state-error");
+
+        $("#edit-actor-select option").filter(function() {
+            return $(this).val() === "default";
+        }).attr('selected', true);
+
+        $("#edit-actor-model option").filter(function() {
+            return $(this).val() === "default";
+        }).attr('selected', true);
+    }
+
+});
 
 
 jsPlumb.bind("jsPlumbConnection", function(info) {
@@ -673,6 +780,32 @@ jsPlumb.bind("beforeDetach", function(conn) {
 
 $("#addActor").on("click.webGraph", function() {
     $("#add-actor-dialog-form").dialog("open");
+});
+
+$("#editActor").on("click.webGraph", function() {
+    $("#edit-actor-dialog-form").dialog("open");
+});
+
+$("#edit-actor-select").on("change", function () {
+    var curActor = GraphState.currentActor = storyboardController.getActorById(parseInt($('option:selected', this).val(), 10));
+
+    var pos_x = $("#edit-actor-start-pos-x").val(curActor.startingConfiguration.tx);
+    var pos_y = $("#edit-actor-start-pos-y").val(curActor.startingConfiguration.ty);
+    var pos_z = $("#edit-actor-start-pos-z").val(curActor.startingConfiguration.tz);
+
+    var rotate_a = $("#edit-actor-start-rotate-a").val(curActor.startingConfiguration.rx);
+    var rotate_b = $("#edit-actor-start-rotate-b").val(curActor.startingConfiguration.ry);
+    var rotate_g = $("#edit-actor-start-rotate-g").val(curActor.startingConfiguration.rz);
+
+    var scale_x = $("#edit-actor-start-scale-x").val(curActor.startingConfiguration.sx);
+    var scale_y = $("#edit-actor-start-scale-y").val(curActor.startingConfiguration.sy);
+    var scale_z = $("#edit-actor-start-scale-z").val(curActor.startingConfiguration.sz);
+
+    var description = $("#edit-actor-description").val(curActor.description);
+
+    $("#edit-actor-model option").filter(function() {
+        return $(this).val() === curActor.model;
+    }).attr('selected', true);
 });
 
 
