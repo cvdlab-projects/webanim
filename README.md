@@ -10,6 +10,6 @@ The project has been divided in three large parts: Storyboard, Rendering and Vid
 Each section has its own documentation. Follow these links to open the specific documentation:
 <br /><br />
 [Storyboard](./docs/Storyboard.md)<br /><br />
-[Rendering](docs/Rendering.md)<br /><br />
-[Video Recording](docs/VideoRecording.md)<br /><br />
-[Server Configuration](docs/ServerConfiguration.md)
+[Rendering](./docs/Rendering.md)<br /><br />
+[Video Recording](./docs/VideoRecording.md)<br /><br />
+[Server Configuration](./docs/ServerConfiguration.md)
