@@ -407,15 +407,15 @@
           else if (actor.model === "Cylinder")
             animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
           else if (actor.model === "Icosahedron")
-            animation.obj = new THREE.Mesh (new THREE.IcosahedronGeometry ());
+            animation.obj = new THREE.Mesh (new THREE.IcosahedronGeometry (5,4));
           else if (actor.model === "Octahedron")
-            animation.obj = new THREE.Mesh (new THREE.OctahedronGeometry ());
+            animation.obj = new THREE.Mesh (new THREE.OctahedronGeometry (5,3));
           else if (actor.model === "Plane")
-            animation.obj = new THREE.Mesh (new THREE.PlaneGeometry ());
+            animation.obj = new THREE.Mesh (new THREE.PlaneGeometry (5,2));
           else if (actor.model === "Sphere")
             animation.obj = new THREE.Mesh (new THREE.SphereGeometry ());
           else if (actor.model === "Tetrahedron")
-            animation.obj = new THREE.Mesh (new THREE.TetrahedronGeometry ());
+            animation.obj = new THREE.Mesh (new THREE.TetrahedronGeometry (50,10));
           else if (actor.model === "Torus")
             animation.obj = new THREE.Mesh (new THREE.TorusGeometry ());
 				else if (actor.model === "Head"){
