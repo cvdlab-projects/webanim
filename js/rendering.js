@@ -191,7 +191,7 @@
 		  		}
 		  	}
 
-		  saveOriginalState();
+		  	saveOriginalState();
 		  
 			isanimating = false;
 			ispaused = false;
