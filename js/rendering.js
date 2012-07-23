@@ -3,6 +3,29 @@
 
 	var cameras = [];
 
+
+
+	var _offsetX 	= -140;
+		var _offsetY	= -100;
+		var _offsetZ 	= -250;
+		
+		var	_moleculeX	= 0;
+		var	_moleculeY	= 0;
+		var	_moleculeZ	= 0;
+		var _cameraX 	= 0;
+		var _cameraY 	= 0;
+		var _cameraZ 	= 700;	
+		
+		var _offsetX 	= -140;
+		var _offsetY	= -100;
+		var _offsetZ 	= -250;
+		
+		var _atomScale = 15;
+		var _bondScale = 10;
+	
+		var _atomSegmentsWidth = 12;
+		var _atomSegmentsHeight = 12;	
+
 	var animations = [];
 	var animationsCopy = [];
 	var tweens = [];
@@ -17,7 +40,33 @@
 	var isRecording = false;
 	var startPlayTime;
 
+	var pdbParser = marjenmedia.util3d.PdbParser;
+	var SelectAtomDOs = marjenmedia.util3d.SelectAtomDOs;
+	var MoleculeMaker = marjenmedia.molecule.threejs.MoleculeMaker;
+
+	var atomDOA;
+	var atomGOA;
+	var molecule;
+
+	var siteUrl = "http://www.marjenmedia.com/";
+  	var molfile = "moleculefiles/dna/DNA_1BNA.pdb";
+  	var _urlFile = 	"http://www.rcsb.org/pdb/files/4ins.pdb";
+
 	var lookAtScene = true;
+
+	function makeMolecule() {
+    var a = new MoleculeMaker();
+    atomGOA = a.createAtoms(atomDOA, _bondScale, _atomScale, _offsetX, _offsetY, _offsetZ, _atomSegmentsWidth, _atomSegmentsHeight);
+    atomGOA = a.addAtoms(atomGOA, molecule);
+    scene.add(molecule)
+}
+
+function sendDOA(b, a) {
+    var c = new SelectAtomDOs();
+    atomDOA = c.selectMolType(b, "ATOM");
+    makeMolecule();
+
+}
 	
 	
 	/*
@@ -408,7 +457,10 @@
             animation.obj = new THREE.Mesh (new THREE.CylinderGeometry ());
           else if (actor.model === "Icosahedron")
             animation.obj = new THREE.Mesh (new THREE.IcosahedronGeometry (5,4));
-          else if (actor.model === "Octahedron")
+        else if (actor.model === "Mol"){
+        	molecule = new THREE.Object3D();
+        	animation.obj = molecule;
+        }else if (actor.model === "Octahedron")
             animation.obj = new THREE.Mesh (new THREE.OctahedronGeometry (5,3));
           else if (actor.model === "Plane")
             animation.obj = new THREE.Mesh (new THREE.PlaneGeometry (5,2));
@@ -765,6 +817,8 @@
 //	    	var meshes;
 
 	    
+
+			pdbParser.loadFile(_urlFile);
 
 
 	        scene = new THREE.Scene();
